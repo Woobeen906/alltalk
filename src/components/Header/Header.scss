@@ -1,0 +1,33 @@
+.Header {
+  height: 56px;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  .title {
+    font-family: "Inter";
+    font-style: normal;
+    font-weight: bold;
+    font-size: 1.25rem;
+    color: #4f4f4f;
+  }
+  nav {
+    ul {
+      display: flex;
+      justify-content: flex-start;
+      padding-left: 0;
+
+      li {
+        list-style-type: none;
+        font-family: "SUIT";
+        font-style: normal;
+        font-weight: bold;
+        font-size: 1rem;
+        color: #616269;
+      }
+      li:nth-child(-n + 2) {
+        margin-right: 48px;
+      }
+    }
+  }
+}
