@@ -4,7 +4,7 @@ import "./Header.scss";
 const Header = () => {
   return (
     <header className="Header">
-      <span className="title">ALL TALK</span>
+      <div className="title">ALL TALK</div>
       <nav>
         <ul>
           <li>콘텐츠</li>
@@ -12,8 +12,10 @@ const Header = () => {
           <li>기업소개</li>
         </ul>
       </nav>
-
-      <span className="login-container"></span>
+      <span className="login-container">
+        <div className="loginBtn">로그인</div>
+        <div className="signUpBtn">회원가입</div>
+      </span>
     </header>
   );
 };
