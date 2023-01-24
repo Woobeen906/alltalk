@@ -9,9 +9,9 @@
     font-family: "Inter";
     font-style: normal;
     font-weight: bold;
-    font-size: 1.25rem;
+    font-size: 1.04vw;
     color: #4f4f4f;
-    margin-right: 34.8vw;
+    padding-right: 34.8vw;
   }
   nav {
     ul {
@@ -24,15 +24,15 @@
         font-family: "SUIT";
         font-style: normal;
         font-weight: bold;
-        font-size: 1rem;
+        font-size: 0.84vw;
         color: #616269;
-        width: 60px;
+        width: 3.125vw;
       }
       li:nth-child(-n + 2) {
-        padding-right: 48px;
+        padding-right: 2.5vw;
       }
       li:last-child {
-        padding-right: 46px;
+        padding-right: 2.4vw;
       }
     }
   }
@@ -43,19 +43,19 @@
     font-family: "SUIT";
     font-style: normal;
     font-weight: 500;
-    font-size: 0.875rem;
+    font-size: 0.73vw;
     .loginBtn {
       border: 1px solid #e4e9ed;
       color: #616269;
-      margin-right: 8px;
+      margin-right: 0.416vw;
       border-radius: 19px;
-      padding: 6px 16px;
+      padding: 0.3125vw 0.833vw;
     }
     .signUpBtn {
       border: 1px solid #00cb8e;
       color: #00cb8e;
       border-radius: 19px;
-      padding: 6px 16px;
+      padding: 0.3125vw 0.833vw;
     }
   }
 }
