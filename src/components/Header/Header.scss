@@ -1,17 +1,17 @@
 .Header {
   width: 100vw;
   height: 56px;
+  overflow: hidden;
   background: #ffffff;
   display: flex;
   align-items: center;
-  padding: 0px 18.75vw;
   .title {
     font-family: "Inter";
     font-style: normal;
     font-weight: bold;
     font-size: 1.04vw;
     color: #4f4f4f;
-    padding-right: 34.8vw;
+    padding: 0px 34.8vw 0px 18.75vw;
   }
   nav {
     ul {
@@ -27,6 +27,7 @@
         font-size: 0.84vw;
         color: #616269;
         width: 3.125vw;
+        cursor: pointer;
       }
       li:nth-child(-n + 2) {
         padding-right: 2.5vw;
@@ -34,16 +35,23 @@
       li:last-child {
         padding-right: 2.4vw;
       }
+      li:hover {
+        color: #191919;
+      }
     }
   }
 
   .login-container {
     display: flex;
-    background: #ffffff;
-    font-family: "SUIT";
-    font-style: normal;
-    font-weight: 500;
-    font-size: 0.73vw;
+
+    button {
+      cursor: pointer;
+      background: #ffffff;
+      font-family: "SUIT";
+      font-style: normal;
+      font-weight: 500;
+      font-size: 0.73vw;
+    }
     .loginBtn {
       border: 1px solid #e4e9ed;
       color: #616269;
@@ -51,11 +59,19 @@
       border-radius: 19px;
       padding: 0.3125vw 0.833vw;
     }
+    .loginBtn:hover {
+      background: #eef1f4;
+      color: #191919;
+    }
     .signUpBtn {
       border: 1px solid #00cb8e;
       color: #00cb8e;
       border-radius: 19px;
       padding: 0.3125vw 0.833vw;
+    }
+    .signUpBtn:hover {
+      background: #00cb8e;
+      color: #ffffff;
     }
   }
 }

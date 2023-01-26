@@ -13,8 +13,8 @@ const Header = () => {
         </ul>
       </nav>
       <span className="login-container">
-        <div className="loginBtn">로그인</div>
-        <div className="signUpBtn">회원가입</div>
+        <button className="loginBtn">로그인</button>
+        <button className="signUpBtn">회원가입</button>
       </span>
     </header>
   );
