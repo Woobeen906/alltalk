@@ -9,9 +9,12 @@ const HashtagInput = ({ hashtags, setHashtags }) => {
   const [newTag, setNewTag] = useState("");
 
   const handleSubmit = (e) => {
-    e.preventDefault();
-    setHashtags([...hashtags, newTag]);
-    setNewTag("");
+    // 스페이스바 32 엔터 13
+    if (e.which === 32 || e.which === 13) {
+      e.preventDefault();
+      setHashtags([...hashtags, newTag]);
+      setNewTag("");
+    }
   };
 
   return (
@@ -20,6 +23,7 @@ const HashtagInput = ({ hashtags, setHashtags }) => {
         type="text"
         value={newTag}
         onChange={(e) => setNewTag(e.target.value)}
+        onKeyPress={handleSubmit}
         placeholder="원하는 태그 검색"
         className="hashtag-input"
       />
@@ -32,7 +36,7 @@ const Hashtag = ({ tag }) => {
   return <a href={`/hashtag/${tag.substring(1)}`}>{tag}</a>;
 };
 
-const HashtagList = ({ hashtags }) => {
+export const HashtagList = ({ hashtags }) => {
   return (
     <div>
       {hashtags.map((tag) => (
@@ -47,7 +51,7 @@ const HashtagManager = () => {
   return (
     <>
       <HashtagInput hashtags={hashtags} setHashtags={setHashtags} />
-      <HashtagList hashtags={hashtags} />
+      {/* <HashtagList hashtags={hashtags} /> */}
     </>
   );
 };
