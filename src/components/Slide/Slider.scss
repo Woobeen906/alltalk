@@ -17,7 +17,10 @@
   -ms-touch-action: pan-y;
   touch-action: pan-y;
   -webkit-tap-highlight-color: transparent;
+
+  overflow: hidden;
 }
+
 .slider-list {
   position: relative;
   overflow: hidden;
@@ -34,9 +37,6 @@
   flex-direction: row;
   text-align: left;
   width: fit-content;
-}
-
-.slider-auto {
 }
 
 .slider-item {
@@ -87,6 +87,3 @@
   -webkit-filter: none;
   filter: none;
 }
-// import image1 from "assets/imgs/image1.jpg";
-// import image2 from "assets/imgs/image2.jpg";
-// import image3 from "assets/imgs/image3.jpg";

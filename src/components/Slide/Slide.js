@@ -1,9 +1,9 @@
 import React, { useLayoutEffect, useRef, useEffect, useState } from "react";
-import SlideButton from "./SlideButton";
 
 import "./Slider.scss";
 import "./SliderItem.scss";
 
+import SlideButton from "./SlideButton";
 import image1 from "assets/imgs/image1.jpg";
 import image2 from "assets/imgs/image2.jpg";
 import image3 from "assets/imgs/image3.jpg";
@@ -38,14 +38,14 @@ function useInterval(callback, delay) {
   }, [delay]);
 }
 
-function Slider() {
+const Slider = () => {
   const [windowWidth, windowHeight] = useWindowSize();
   const items = [image1, image2, image3];
   const itemSize = items.length;
   const sliderPadding = 40;
   const sliderPaddingStyle = `0 ${sliderPadding}px`;
   const newItemWidth = getNewItemWidth();
-  const transitionTime = 500;
+  const transitionTime = 1500;
   const transitionStyle = `transform ${transitionTime}ms ease 0s`;
   const copyImageData = 2;
   const [currentIndex, setCurrentIndex] = useState(copyImageData);
@@ -126,9 +126,9 @@ function Slider() {
   }
 
   function getClientX(event) {
-    return event._reactName == "onTouchStart"
+    return event._reactName === "onTouchStart"
       ? event.touches[0].clientX
-      : event._reactName == "onTouchMove" || event._reactName == "onTouchEnd"
+      : event._reactName === "onTouchMove" || event._reactName === "onTouchEnd"
       ? event.changedTouches[0].clientX
       : event.clientX;
   }
@@ -201,6 +201,6 @@ function Slider() {
       </div>
     </div>
   );
-}
+};
 
 export default Slider;
