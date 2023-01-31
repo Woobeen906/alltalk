@@ -1,58 +1,53 @@
 import React, { useState } from "react";
 import "./Hashtag.scss";
 
-const extractHashtags = (text) => {
-  return text.match(/#\w+/g);
-};
+const HashtagManager = (props) => {
+  // const [hashtags, setHashtags] = useState([]);
 
-const HashtagInput = ({ hashtags, setHashtags }) => {
-  const [newTag, setNewTag] = useState("");
+  const HashtagInput = ({ hashtags, setHashtags }) => {
+    const [newTag, setNewTag] = useState("");
 
-  const handleSubmit = (e) => {
-    // 스페이스바 32 엔터 13
-    if (e.which === 32 || e.which === 13) {
-      e.preventDefault();
-      setHashtags([...hashtags, newTag]);
-      setNewTag("");
-    }
+    const handleSubmit = (e) => {
+      // 스페이스바 32 엔터 13
+      if (e.which === 32 || e.which === 13) {
+        e.preventDefault();
+        props.setHashtags([...props.hashtags, newTag]);
+        setNewTag("");
+      }
+    };
+
+    return (
+      <form onSubmit={handleSubmit}>
+        <input
+          type="text"
+          value={newTag}
+          onChange={(e) => setNewTag(e.target.value)}
+          onKeyPress={handleSubmit}
+          placeholder="원하는 태그 검색"
+          className="hashtag-input"
+        />
+      </form>
+    );
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input
-        type="text"
-        value={newTag}
-        onChange={(e) => setNewTag(e.target.value)}
-        onKeyPress={handleSubmit}
-        placeholder="원하는 태그 검색"
-        className="hashtag-input"
-      />
-      {/* <button type="submit">Add</button> */}
-    </form>
+    <>
+      <HashtagInput hashtags={props.hashtags} setHashtags={props.setHashtags} />
+      {/* <HashtagList hashtags={hashtags} /> */}
+    </>
   );
 };
-
-const Hashtag = ({ tag }) => {
-  return <a href={`/hashtag/${tag.substring(1)}`}>{tag}</a>;
-};
-
-export const HashtagList = ({ hashtags }) => {
+export const HashtagList = (props) => {
+  const Hashtag = ({ tag }) => {
+    // return <a href={`/hashtag/${tag.substring(1)}`}>{tag}</a>;
+    return <span className="hashtag">{tag}</span>;
+  };
   return (
     <div>
-      {hashtags.map((tag) => (
+      {props.hashtags.map((tag) => (
         <Hashtag key={tag} tag={tag} />
       ))}
     </div>
-  );
-};
-
-const HashtagManager = () => {
-  const [hashtags, setHashtags] = useState([]);
-  return (
-    <>
-      <HashtagInput hashtags={hashtags} setHashtags={setHashtags} />
-      {/* <HashtagList hashtags={hashtags} /> */}
-    </>
   );
 };
 
