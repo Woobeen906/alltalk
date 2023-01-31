@@ -7,9 +7,9 @@
   align-items: center;
   .title {
     font-family: "Inter";
-    font-style: normal;
     font-weight: bold;
-    font-size: 1.04vw;
+    // font-size: 1.04vw;
+    font-size: 1.25rem;
     color: #4f4f4f;
     padding: 0px 34.8vw 0px 18.75vw;
   }
@@ -19,21 +19,23 @@
       justify-content: flex-start;
       padding-left: 0;
 
+      list-style-type: none;
       li {
-        list-style-type: none;
         font-family: "SUIT";
-        font-style: normal;
         font-weight: bold;
-        font-size: 0.84vw;
+        // font-size: 0.84vw;
+        font-size: 1rem;
         color: #616269;
-        width: 3.125vw;
         cursor: pointer;
       }
+      .currentpath {
+        color: #00cb8e;
+      }
       li:nth-child(-n + 2) {
-        padding-right: 2.5vw;
+        margin-right: 2.5vw;
       }
       li:last-child {
-        padding-right: 2.4vw;
+        margin-right: 2.4vw;
       }
       li:hover {
         color: #191919;
@@ -48,15 +50,15 @@
       cursor: pointer;
       background: #ffffff;
       font-family: "SUIT";
-      font-style: normal;
       font-weight: 500;
-      font-size: 0.73vw;
+      // font-size: 0.73vw;
+      font-size: 0.875rem;
     }
     .loginBtn {
       border: 1px solid #e4e9ed;
       color: #616269;
-      margin-right: 0.416vw;
       border-radius: 19px;
+      margin-right: 0.416vw;
       padding: 0.3125vw 0.833vw;
     }
     .loginBtn:hover {
