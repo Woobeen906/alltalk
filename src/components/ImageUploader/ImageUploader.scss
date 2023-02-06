@@ -1,0 +1,14 @@
+.imageuploader {
+  // display: grid;
+  // grid-template-columns: repeat(auto-fit, minmax(131px, 1fr));
+  display: flex;
+
+  .imageuploader-top {
+    width: 131px;
+    height: 131px;
+    margin-right: 4.5px;
+  }
+  .imageuploader-bottom {
+    width: 100%;
+  }
+}
