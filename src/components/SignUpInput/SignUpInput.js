@@ -150,12 +150,11 @@ const SignUpInputStep1 = memo((props) => {
 });
 
 const SignUpInputStep2 = memo((props) => {
-  const { nickname, nicknameError, birth, birthError, tagsError } =
+  const { nickname, nicknameError, birth, birthError, tags, tagsError } =
     props.inputs;
 
-  const { onChangeInput, onClickJoin } = props;
+  const { onChangeInput, onClickJoin, onChangeTags, RemoveTags } = props;
 
-  const [hashtags, setHashtags] = useState([]);
   const [selectedGender, setSelectedGender] = useState("male");
 
   const onSelectGender = (e) => {
@@ -170,7 +169,8 @@ const SignUpInputStep2 = memo((props) => {
         // 스페이스바 32 엔터 13
         if (e.which === 32 || e.which === 13) {
           e.preventDefault();
-          setHashtags([...hashtags, newTag]);
+          onChangeTags(newTag);
+          console.log(tags);
           setNewTag("");
         }
       }
@@ -184,22 +184,17 @@ const SignUpInputStep2 = memo((props) => {
         onKeyPress={handleSubmit}
         placeholder={placeholder}
         className="signUpInputStep2-hashtag-input"
+        style={{ tagsError: tagsError || "#ee0909" }}
       />
     );
   };
 
   const HashtagList = memo((props) => {
-    const onRemove = (e) => {
-      e.preventDefault();
-      setHashtags(
-        hashtags.filter((hashtag) => hashtag !== e.currentTarget.value)
-      );
-    };
     const Hashtag = ({ tag }) => {
       return (
         <button
           className="signUpInputStep2-hashtag"
-          onClick={onRemove}
+          onClick={RemoveTags}
           value={tag}
         >
           {tag}
@@ -282,13 +277,18 @@ const SignUpInputStep2 = memo((props) => {
           관심사 태그 (3개 이상)*
           <Space size={16} />
           <HashtagInput
-            hashtags={hashtags}
-            setHashtags={setHashtags}
+            hashtags={tags}
+            setHashtags={onChangeTags}
             placeholder={"관심사 태그를 입력해주세요. (ex:스포츠)"}
           />
-          {hashtags.length !== 0 && (
+          {tags.length !== 0 && (
             <div>
-              <HashtagList hashtags={hashtags} setHashtags={setHashtags} />
+              <HashtagList hashtags={tags} setHashtags={onChangeTags} />
+            </div>
+          )}
+          {tagsError || (
+            <div className="signUpInputStep2-input-error">
+              관심사 태그를 3개 이상 입력해주세요.
             </div>
           )}
         </div>
@@ -329,6 +329,7 @@ const SignUpInput = () => {
     nicknameError: true,
     birth: "",
     birthError: true,
+    tags: [],
     tagsError: true,
   });
 
@@ -370,11 +371,12 @@ const SignUpInput = () => {
   };
 
   const onClickJoin = () => {
-    const { nicknameError, birthError, nickname, birth } = inputs;
+    const { nickname, birth, tags } = inputs;
     setInputs({
       ...inputs,
       nicknameError: nicknameError_check(nickname),
       birthError: birthError_check(birth),
+      tagsError: tagsError_check(tags),
     });
   };
 
@@ -407,6 +409,20 @@ const SignUpInput = () => {
       default:
         break;
     }
+  };
+
+  const onChangeTags = (newTag) => {
+    // console.log([...inputs.tags, newTag]);
+    setInputs({ ...inputs, tags: [...inputs.tags, newTag] });
+    console.log(inputs.tags);
+  };
+
+  const RemoveTags = (e) => {
+    e.preventDefault();
+    setInputs({
+      ...inputs,
+      tags: inputs.tags.filter((tag) => tag !== e.currentTarget.value),
+    });
   };
 
   const onClickbtnCheck = () => {
@@ -471,6 +487,8 @@ const SignUpInput = () => {
             prevButton={prevButton}
             onChangeInput={onChangeInput}
             onClickJoin={onClickJoin}
+            onChangeTags={onChangeTags}
+            RemoveTags={RemoveTags}
           />
         </div>
       </div>
