@@ -168,7 +168,6 @@
               padding: 4px 8px;
               min-width: 66px;
               height: 25px;
-
               background: #eef1f4;
               border-radius: 3px;
               border: 0;
@@ -179,8 +178,12 @@
             }
 
             .signUpInputStep2-hashtag-list {
-              display: flex;
+              width: 100%;
+              display: grid;
               margin-top: 12px;
+              row-gap: 8px;
+              grid-template-columns: repeat(auto-fill, minmax(66px, 1fr));
+              overflow: scroll;
             }
 
             .signUpInputStep2-input-error {

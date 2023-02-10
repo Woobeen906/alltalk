@@ -1,4 +1,4 @@
-import React, { memo, useState } from "react";
+import React, { memo, useEffect, useState } from "react";
 import "./SignUpInput.scss";
 
 import Input from "components/Input/Input";
@@ -203,11 +203,11 @@ const SignUpInputStep2 = memo((props) => {
       );
     };
     return (
-      <div className="signUpInputStep2-hashtag-list">
+      <>
         {props.hashtags.map((tag) => (
           <Hashtag key={tag} tag={tag} />
         ))}
-      </div>
+      </>
     );
   });
   return (
@@ -282,7 +282,7 @@ const SignUpInputStep2 = memo((props) => {
             placeholder={"관심사 태그를 입력해주세요. (ex:스포츠)"}
           />
           {tags.length !== 0 && (
-            <div>
+            <div className="signUpInputStep2-hashtag-list">
               <HashtagList hashtags={tags} setHashtags={onChangeTags} />
             </div>
           )}
@@ -310,7 +310,8 @@ const SignUpInputStep2 = memo((props) => {
 });
 
 const SignUpInput = () => {
-  const [step, setStep] = useState(1);
+  const [step, setStep] = useState(0);
+  const [nextBtnActive, setNextBtnActive] = useState(false);
 
   const [inputs, setInputs] = useState({
     id: "",
@@ -332,6 +333,37 @@ const SignUpInput = () => {
     tags: [],
     tagsError: true,
   });
+
+  useEffect(() => {
+    const {
+      idCheckError,
+      passwordCheckError,
+      passwordDoubleCheck,
+      nameError,
+      phoneNumberError,
+      emailCheckError,
+    } = inputs;
+    if (
+      !idCheckError ||
+      !passwordCheckError ||
+      !passwordDoubleCheck ||
+      !nameError ||
+      !phoneNumberError ||
+      !emailCheckError
+    )
+      setNextBtnActive(true);
+    else setNextBtnActive(false);
+  }, [
+    inputs.idCheckError,
+    inputs.passwordCheckError,
+    inputs.passwordDoubleCheckError,
+    inputs.nameError,
+    inputs.phoneNumberError,
+    inputs.emailCheckError,
+    inputs.nicknameError,
+    inputs.birthError,
+    inputs.tagsError,
+  ]);
 
   const nextButton = () => {
     const {
@@ -355,14 +387,7 @@ const SignUpInput = () => {
       emailCheckError: email_check(inputs.email),
     });
 
-    if (
-      !idCheckError ||
-      !passwordCheckError ||
-      !passwordDoubleCheck ||
-      !nameError ||
-      !phoneNumberError ||
-      !emailCheckError
-    ) {
+    if (nextBtnActive) {
       return;
     } else setStep(1);
   };
@@ -412,9 +437,7 @@ const SignUpInput = () => {
   };
 
   const onChangeTags = (newTag) => {
-    // console.log([...inputs.tags, newTag]);
     setInputs({ ...inputs, tags: [...inputs.tags, newTag] });
-    console.log(inputs.tags);
   };
 
   const RemoveTags = (e) => {
