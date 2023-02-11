@@ -5,75 +5,81 @@
   background: #ffffff;
   display: flex;
   align-items: center;
+  justify-content: space-around;
   .title {
+    box-sizing: border-box;
     font-family: "Inter";
     font-weight: bold;
-    // font-size: 1.04vw;
     font-size: 1.25rem;
     color: #4f4f4f;
-    padding: 0px 34.8vw 0px 18.75vw;
+    // padding: 0px 34.8vw 0px 18.75vw;
+    white-space: nowrap;
+    background-color: pink;
   }
-  nav {
-    ul {
-      display: flex;
-      justify-content: flex-start;
-      padding-left: 0;
+  .header-left {
+    display: flex;
+    align-items: center;
+    nav {
+      ul {
+        display: flex;
+        justify-content: flex-start;
+        padding-left: 0;
+        white-space: nowrap;
+        box-sizing: border-box;
+        list-style-type: none;
+        li {
+          font-family: "SUIT";
+          font-weight: bold;
+          font-size: 1rem;
+          color: #616269;
+          cursor: pointer;
+        }
+        .currentpath {
+          color: #00cb8e;
+        }
+        li:nth-child(-n + 2) {
+          margin-right: 2.5vw;
+        }
+        li:last-child {
+          margin-right: 2.4vw;
+        }
+        li:hover {
+          color: #191919;
+        }
+      }
+    }
 
-      list-style-type: none;
-      li {
-        font-family: "SUIT";
-        font-weight: bold;
-        // font-size: 0.84vw;
-        font-size: 1rem;
-        color: #616269;
+    .login-container {
+      button {
+        white-space: nowrap;
         cursor: pointer;
+        background: #ffffff;
+        font-family: "SUIT";
+        font-weight: 500;
+        // font-size: 0.73vw;
+        font-size: 0.875rem;
       }
-      .currentpath {
-        color: #00cb8e;
+      .loginBtn {
+        border: 1px solid #e4e9ed;
+        color: #616269;
+        border-radius: 19px;
+        margin-right: 0.416vw;
+        padding: 0.3125vw 0.833vw;
       }
-      li:nth-child(-n + 2) {
-        margin-right: 2.5vw;
-      }
-      li:last-child {
-        margin-right: 2.4vw;
-      }
-      li:hover {
+      .loginBtn:hover {
+        background: #eef1f4;
         color: #191919;
       }
-    }
-  }
-
-  .login-container {
-    display: flex;
-
-    button {
-      cursor: pointer;
-      background: #ffffff;
-      font-family: "SUIT";
-      font-weight: 500;
-      // font-size: 0.73vw;
-      font-size: 0.875rem;
-    }
-    .loginBtn {
-      border: 1px solid #e4e9ed;
-      color: #616269;
-      border-radius: 19px;
-      margin-right: 0.416vw;
-      padding: 0.3125vw 0.833vw;
-    }
-    .loginBtn:hover {
-      background: #eef1f4;
-      color: #191919;
-    }
-    .signUpBtn {
-      border: 1px solid #00cb8e;
-      color: #00cb8e;
-      border-radius: 19px;
-      padding: 0.3125vw 0.833vw;
-    }
-    .signUpBtn:hover {
-      background: #00cb8e;
-      color: #ffffff;
+      .signUpBtn {
+        border: 1px solid #00cb8e;
+        color: #00cb8e;
+        border-radius: 19px;
+        padding: 0.3125vw 0.833vw;
+      }
+      .signUpBtn:hover {
+        background: #00cb8e;
+        color: #ffffff;
+      }
     }
   }
 }
