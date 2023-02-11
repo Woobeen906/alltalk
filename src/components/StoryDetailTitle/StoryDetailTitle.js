@@ -17,16 +17,20 @@ const StoryDetailTitle = () => {
       </div>
 
       <div className="storyDetailTitle-userInfo">
-        <img src={require("../../assets/imgs/cat.jpg")} alt={"userimage"} />
-        <div className="storyDetailTitle-name">닉네임</div>
-        <div className="storyDetailTitle-date">2022.01.31</div>
+        <div className="storyDetailTitle-userInfo-left">
+          <img src={require("../../assets/imgs/cat.jpg")} alt={"userimage"} />
+          <div className="storyDetailTitle-name">닉네임</div>
+          <div className="storyDetailTitle-date">2022.01.31</div>
+        </div>
 
-        <div className="storyDetailTitle-btns">
-          <button className="storyDetailTitle-btn">수정</button>
-          <Space size={4} />
-          <button className="storyDetailTitle-btn" style={{ color: "red" }}>
-            삭제
-          </button>
+        <div className="storyDetailTitle-userInfo-right">
+          <div className="storyDetailTitle-btns">
+            <button className="storyDetailTitle-btn">수정</button>
+            <Space size={4} />
+            <button className="storyDetailTitle-btn" style={{ color: "red" }}>
+              삭제
+            </button>
+          </div>
         </div>
       </div>
     </div>
