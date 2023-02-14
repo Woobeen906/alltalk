@@ -4,6 +4,7 @@ import "./SignUpInput.scss";
 import Input from "components/Input/Input";
 import Space from "components/Space/Space";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const SignUpInputStep1 = memo((props) => {
   const {
@@ -34,7 +35,9 @@ const SignUpInputStep1 = memo((props) => {
           <Space size={16} />
           <div
             className={`signUpInputStep1-input-double-check ${
-              !idCheckError && "signUpInputStep1-input-double-check-error"
+              !idCheckError &&
+              errorCheck &&
+              "signUpInputStep1-input-double-check-error"
             }`}
           >
             <input
@@ -328,6 +331,8 @@ const SignUpInputStep2 = memo((props) => {
 });
 
 const SignUpInput = () => {
+  const navigate = useNavigate();
+
   const [step, setStep] = useState(0);
   const [nextBtnActive, setNextBtnActive] = useState(false);
 
@@ -372,7 +377,8 @@ const SignUpInput = () => {
       passwordDoubleCheck &&
       nameError &&
       phoneNumberError &&
-      emailCheckError
+      emailCheckError &&
+      nextBtnActive
     )
       setStep(1);
   }, [
@@ -382,6 +388,7 @@ const SignUpInput = () => {
     inputs.nameError,
     inputs.phoneNumberError,
     inputs.emailCheckError,
+    nextBtnActive,
   ]);
 
   const signUp = async () => {
@@ -400,7 +407,7 @@ const SignUpInput = () => {
       } = inputs;
 
       const frm = new FormData();
-      frm.append("id", name);
+      frm.append("id", id);
       frm.append("pw", password);
       frm.append("name", name);
       frm.append("phone", phoneNumber);
@@ -410,13 +417,18 @@ const SignUpInput = () => {
       frm.append("birthday", birth);
       frm.append("tag", tags);
       frm.append("admin", admin);
-
+      console.log(frm);
       await axios({
         method: "POST",
-        url: "http://ec2-13-125-123-39.ap-northeast-2.compute.amazonaws.com:5000/signin",
+        url: "http://ec2-13-125-123-39.ap-northeast-2.compute.amazonaws.com:5000/signup",
         data: frm,
       })
-        .then((res) => console.log(res))
+        .then((res) => {
+          console.log(res.data);
+          if (res.data.result) {
+            navigate("/");
+          }
+        })
         .catch((e) => console.log(e));
     } catch (e) {
       console.log(e);
@@ -441,6 +453,12 @@ const SignUpInput = () => {
   };
   const prevButton = () => {
     setStep(0);
+    setInputs({
+      ...inputs,
+      errorCheck: false,
+      signUpCehck: false,
+    });
+    setNextBtnActive(false);
   };
 
   const onClickJoin = () => {
@@ -561,7 +579,7 @@ const SignUpInput = () => {
       <div className="signUpInput-container">
         <div
           className="signUpInput-list"
-          style={{ transform: `translate(${-1 * 480}px)` }}
+          style={{ transform: `translate(${-step * 480}px)` }}
         >
           <SignUpInputStep1
             inputs={inputs}
