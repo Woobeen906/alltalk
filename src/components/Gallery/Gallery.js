@@ -15,9 +15,9 @@ const Gallery = () => {
     { id: 5, image: image5, title: "고양이" },
     { id: 6, image: image, title: "고양이" },
     { id: 7, image: image, title: "고양이" },
-    { id: 8, image: image, title: "고양이" },
-    { id: 9, image: image, title: "고양이" },
-    { id: 10, image: image, title: "고양이" },
+    // { id: 8, image: image, title: "고양이" },
+    // { id: 9, image: image, title: "고양이" },
+    // { id: 10, image: image, title: "고양이" },
   ]);
   const [currentItem, setCurrentItem] = useState(data[0]);
 
@@ -29,6 +29,7 @@ const Gallery = () => {
     <div className="gallery">
       <div className="gallery-view">
         <img src={currentItem.image} alt={currentItem.title} />
+        <div className="gallery-view-number">{`${currentItem.id}/${data.length}`}</div>
       </div>
       <div className="gallery-list">
         {data.map((item) => (
