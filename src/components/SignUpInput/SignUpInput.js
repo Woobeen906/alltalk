@@ -3,6 +3,7 @@ import "./SignUpInput.scss";
 
 import Input from "components/Input/Input";
 import Space from "components/Space/Space";
+import axios from "axios";
 
 const SignUpInputStep1 = memo((props) => {
   const {
@@ -18,6 +19,7 @@ const SignUpInputStep1 = memo((props) => {
     phoneNumberError,
     nameError,
     emailCheckError,
+    errorCheck,
   } = props.inputs;
   const { onChangeInput, onClickbtnCheck, nextButton } = props;
 
@@ -44,7 +46,7 @@ const SignUpInputStep1 = memo((props) => {
             />
             <button onClick={onClickbtnCheck}>중복확인</button>
           </div>
-          {idCheckError || (
+          {!idCheckError && errorCheck && (
             <div className="signUpInputStep1-input-error">
               5~16자의 영문 대 소문자, 숫자 특수문자 ‘-’,’_’ 를 사용해주세요.
             </div>
@@ -59,9 +61,9 @@ const SignUpInputStep1 = memo((props) => {
             onChange={onChangeInput}
             name={"password"}
             value={password}
-            error={!passwordCheckError}
+            error={!passwordCheckError && errorCheck}
           />
-          {passwordCheckError || (
+          {!passwordCheckError && errorCheck && (
             <div className="signUpInputStep1-input-error">
               {password.length === 0
                 ? "비밀번호를 입력해주세요."
@@ -75,9 +77,9 @@ const SignUpInputStep1 = memo((props) => {
             onChange={onChangeInput}
             name={"passwordDoubleCheck"}
             value={passwordDoubleCheck}
-            error={!passwordDoubleCheckError}
+            error={!passwordDoubleCheckError && errorCheck}
           />
-          {passwordDoubleCheckError || (
+          {!passwordDoubleCheckError && errorCheck && (
             <div className="signUpInputStep1-input-error">
               {passwordDoubleCheck.length === 0
                 ? "비밀번호를 한 번 더 입력해주세요."
@@ -94,9 +96,9 @@ const SignUpInputStep1 = memo((props) => {
             onChange={onChangeInput}
             name={"name"}
             value={name}
-            error={!nameError}
+            error={!nameError && errorCheck}
           />
-          {nameError || (
+          {!nameError && errorCheck && (
             <div className="signUpInputStep1-input-error">
               -2~8글자의 이름을 입력해주세요.
             </div>
@@ -111,9 +113,9 @@ const SignUpInputStep1 = memo((props) => {
             onChange={onChangeInput}
             name={"phoneNumber"}
             value={phoneNumber}
-            error={!phoneNumberError}
+            error={!phoneNumberError && errorCheck}
           />
-          {phoneNumberError || (
+          {!phoneNumberError && errorCheck && (
             <div className="signUpInputStep1-input-error">
               {phoneNumber.length === 0
                 ? "휴대폰번호를 입력해주세요."
@@ -130,9 +132,9 @@ const SignUpInputStep1 = memo((props) => {
             onChange={onChangeInput}
             name={"email"}
             value={email}
-            error={!emailCheckError}
+            error={!emailCheckError && errorCheck}
           />
-          {emailCheckError || (
+          {!emailCheckError && errorCheck && (
             <div className="signUpInputStep1-input-error">
               {email.length === 0
                 ? "이메일을 입력해주세요."
@@ -150,15 +152,32 @@ const SignUpInputStep1 = memo((props) => {
 });
 
 const SignUpInputStep2 = memo((props) => {
-  const { nickname, nicknameError, birth, birthError, tags, tagsError } =
-    props.inputs;
+  const {
+    nickname,
+    nicknameError,
+    birth,
+    birthError,
+    tags,
+    tagsError,
+    signUpCehck,
+  } = props.inputs;
 
-  const { onChangeInput, onClickJoin, onChangeTags, RemoveTags } = props;
+  const {
+    onChangeInput,
+    onClickJoin,
+    onChangeTags,
+    RemoveTags,
+    onChangeGender,
+    signUp,
+  } = props;
 
   const [selectedGender, setSelectedGender] = useState("male");
 
   const onSelectGender = (e) => {
     setSelectedGender(e.currentTarget.innerText === "남" ? "male" : "female");
+    onChangeGender(() => {
+      return selectedGender;
+    });
   };
 
   const HashtagInput = ({ hashtags, setHashtags, placeholder }) => {
@@ -170,7 +189,6 @@ const SignUpInputStep2 = memo((props) => {
         if (e.which === 32 || e.which === 13) {
           e.preventDefault();
           onChangeTags(newTag);
-          console.log(tags);
           setNewTag("");
         }
       }
@@ -225,9 +243,9 @@ const SignUpInputStep2 = memo((props) => {
             onChange={onChangeInput}
             name={"nickname"}
             value={nickname}
-            error={!nicknameError}
+            error={!nicknameError && signUpCehck}
           />
-          {nicknameError || (
+          {!nicknameError && signUpCehck && (
             <div className="signUpInputStep2-input-error">
               -이미 사용중인 닉네임입니다 (이름 중복 가능하면 X) -2~8글자의
               한글,영문,숫자를 사용해주세요. -닉네임을 입력해주세요.
@@ -265,9 +283,9 @@ const SignUpInputStep2 = memo((props) => {
             onChange={onChangeInput}
             name={"birth"}
             value={birth}
-            error={!birthError}
+            error={!birthError && signUpCehck}
           />
-          {birthError || (
+          {!birthError && signUpCehck && (
             <div className="signUpInputStep2-input-error">
               -생년월일을 8자리로 입력해주세요. -생년월일을 정확히 입력해주세요.
             </div>
@@ -286,7 +304,7 @@ const SignUpInputStep2 = memo((props) => {
               <HashtagList hashtags={tags} setHashtags={onChangeTags} />
             </div>
           )}
-          {tagsError || (
+          {tagsError && signUpCehck && (
             <div className="signUpInputStep2-input-error">
               관심사 태그를 3개 이상 입력해주세요.
             </div>
@@ -315,23 +333,27 @@ const SignUpInput = () => {
 
   const [inputs, setInputs] = useState({
     id: "",
-    idCheckError: true,
+    idCheckError: false,
     password: "",
-    passwordCheckError: true,
+    passwordCheckError: false,
     passwordDoubleCheck: "",
-    passwordDoubleCheckError: true,
+    passwordDoubleCheckError: false,
     name: "",
-    nameError: true,
+    nameError: false,
     phoneNumber: "",
-    phoneNumberError: true,
+    phoneNumberError: false,
     email: "",
-    emailCheckError: true,
+    emailCheckError: false,
     nickname: "",
-    nicknameError: true,
+    nicknameError: false,
     birth: "",
-    birthError: true,
+    birthError: false,
     tags: [],
-    tagsError: true,
+    tagsError: false,
+    gender: true,
+    admin: false,
+    errorCheck: false,
+    signUpCehck: false,
   });
 
   useEffect(() => {
@@ -343,37 +365,65 @@ const SignUpInput = () => {
       phoneNumberError,
       emailCheckError,
     } = inputs;
+
     if (
-      !idCheckError ||
-      !passwordCheckError ||
-      !passwordDoubleCheck ||
-      !nameError ||
-      !phoneNumberError ||
-      !emailCheckError
+      idCheckError &&
+      passwordCheckError &&
+      passwordDoubleCheck &&
+      nameError &&
+      phoneNumberError &&
+      emailCheckError
     )
-      setNextBtnActive(true);
-    else setNextBtnActive(false);
+      setStep(1);
   }, [
     inputs.idCheckError,
     inputs.passwordCheckError,
-    inputs.passwordDoubleCheckError,
+    inputs.passwordDoubleCheck,
     inputs.nameError,
     inputs.phoneNumberError,
     inputs.emailCheckError,
-    inputs.nicknameError,
-    inputs.birthError,
-    inputs.tagsError,
   ]);
 
+  const signUp = async () => {
+    try {
+      const {
+        id,
+        password,
+        name,
+        phoneNumber,
+        email,
+        nickname,
+        gender,
+        birth,
+        tags,
+        admin,
+      } = inputs;
+
+      const frm = new FormData();
+      frm.append("id", name);
+      frm.append("pw", password);
+      frm.append("name", name);
+      frm.append("phone", phoneNumber);
+      frm.append("email", email);
+      frm.append("nickname", nickname);
+      frm.append("sex", gender);
+      frm.append("birthday", birth);
+      frm.append("tag", tags);
+      frm.append("admin", admin);
+
+      await axios({
+        method: "POST",
+        url: "http://ec2-13-125-123-39.ap-northeast-2.compute.amazonaws.com:5000/signin",
+        data: frm,
+      })
+        .then((res) => console.log(res))
+        .catch((e) => console.log(e));
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   const nextButton = () => {
-    const {
-      idCheckError,
-      passwordCheckError,
-      passwordDoubleCheck,
-      nameError,
-      phoneNumberError,
-      emailCheckError,
-    } = inputs;
     setInputs({
       ...inputs,
       passwordCheckError: password_check(inputs.password),
@@ -385,24 +435,35 @@ const SignUpInput = () => {
         inputs.name.length >= 2 && inputs.name.length <= 8 ? true : false,
       phoneNumberError: phoneNumber_check(inputs.phoneNumber),
       emailCheckError: email_check(inputs.email),
+      errorCheck: true,
     });
-
-    if (nextBtnActive) {
-      return;
-    } else setStep(1);
+    setNextBtnActive(true);
   };
   const prevButton = () => {
     setStep(0);
   };
 
   const onClickJoin = () => {
-    const { nickname, birth, tags } = inputs;
+    const {
+      nickname,
+      birth,
+      tags,
+      nicknameError,
+      birthError,
+      tagsError,
+      gender,
+    } = inputs;
     setInputs({
       ...inputs,
       nicknameError: nicknameError_check(nickname),
       birthError: birthError_check(birth),
       tagsError: tagsError_check(tags),
     });
+
+    if (!nicknameError && !birthError && !tagsError) {
+      signUp();
+    } else {
+    }
   };
 
   const onChangeInput = (e) => {
@@ -452,6 +513,9 @@ const SignUpInput = () => {
     setInputs({ ...inputs, idCheckError: id_check(inputs.id) });
   };
 
+  const onChangeGender = (gender) => {
+    setInputs({ ...inputs, gender: gender });
+  };
   const email_check = (email) => {
     const regex =
       /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/;
@@ -486,18 +550,18 @@ const SignUpInput = () => {
   };
 
   const birthError_check = (birthError) => {
-    return birthError > 19000000;
+    return birthError < 19000000;
   };
 
   const tagsError_check = (tags) => {
-    return tags.length >= 3;
+    return tags.length < 3;
   };
   return (
     <div className="signUpInput">
       <div className="signUpInput-container">
         <div
           className="signUpInput-list"
-          style={{ transform: `translate(${-step * 480}px)` }}
+          style={{ transform: `translate(${-1 * 480}px)` }}
         >
           <SignUpInputStep1
             inputs={inputs}
@@ -512,6 +576,8 @@ const SignUpInput = () => {
             onClickJoin={onClickJoin}
             onChangeTags={onChangeTags}
             RemoveTags={RemoveTags}
+            onChangeGender={onChangeGender}
+            signUp={signUp}
           />
         </div>
       </div>
