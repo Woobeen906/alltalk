@@ -11,7 +11,7 @@ const Input = (props) => {
       onChange={onChange}
       name={name}
       value={value}
-      maxlength={maxlength}
+      maxLength={maxlength}
     />
   );
 };
