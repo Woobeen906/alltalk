@@ -2,8 +2,6 @@ import React, { useState } from "react";
 import "./Hashtag.scss";
 
 const HashtagManager = (props) => {
-  // const [hashtags, setHashtags] = useState([]);
-
   const HashtagInput = ({ hashtags, setHashtags }) => {
     const [newTag, setNewTag] = useState("");
 
@@ -23,8 +21,11 @@ const HashtagManager = (props) => {
           value={newTag}
           onChange={(e) => setNewTag(e.target.value)}
           onKeyPress={handleSubmit}
-          placeholder="원하는 태그 검색"
-          className="hashtag-input"
+          placeholder={props.placeholder}
+          className={`${
+            props.size === "large" ? "hashtag-input-large" : "hashtag-input"
+          }`}
+          style={{ background: props.background ? "none" : "" }}
         />
       </form>
     );
@@ -33,14 +34,20 @@ const HashtagManager = (props) => {
   return (
     <>
       <HashtagInput hashtags={props.hashtags} setHashtags={props.setHashtags} />
-      {/* <HashtagList hashtags={hashtags} /> */}
     </>
   );
 };
 export const HashtagList = (props) => {
   const Hashtag = ({ tag }) => {
-    // return <a href={`/hashtag/${tag.substring(1)}`}>{tag}</a>;
-    return <span className="hashtag">{tag}</span>;
+    return (
+      <button
+        className={`${props.default ? "hashtagDefault" : "hashtag"}`}
+        onClick={props.onClick}
+        value={tag}
+      >
+        {tag}
+      </button>
+    );
   };
   return (
     <div>
