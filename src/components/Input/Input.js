@@ -2,7 +2,7 @@ import React from "react";
 import "./Input.scss";
 
 const Input = (props) => {
-  const { type, placeholder, onChange, name, value, error } = props;
+  const { type, placeholder, onChange, name, value, error, maxlength } = props;
   return (
     <input
       className={` inputBox ${error && "inputBox-error"}`}
@@ -11,6 +11,7 @@ const Input = (props) => {
       onChange={onChange}
       name={name}
       value={value}
+      maxlength={maxlength}
     />
   );
 };
