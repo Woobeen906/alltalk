@@ -1,43 +1,65 @@
-import React, { useState } from "react";
-
+import React, { useEffect, useState } from "react";
 import "./ImageUploader.scss";
 
-import Preview from "./Preview";
-import Uploader from "./Uploader";
+import { debounce, throttle } from "lodash";
 
-const Imageuploader = () => {
-  const [imagesPreviewUrls, setImagesPreviewUrls] = useState([]);
+const ImageUploader = (props) => {
+  const { onChange, List, setlist } = props;
+  const [isDragging, setIsDragging] = useState(false);
+  const [isDragOver, setIsDragOver] = useState(false);
+  const [id, setId] = useState(0);
+  const [list, setList] = useState(List);
 
-  const imagesPreviewUrlsHandler = (result) => {
-    console.log(result);
-
-    setImagesPreviewUrls([...imagesPreviewUrls, result]);
+  const handleDragStart = (e) => {
+    setIsDragging(true);
+    e.dataTransfer.effectAllowed = "move";
   };
 
-  const deleteImage = (name) => {
-    if (imagesPreviewUrls.length > 0) {
-      const filteredImages = imagesPreviewUrls.filter(
-        (image) => image.name !== name
-      );
-      setImagesPreviewUrls(filteredImages);
-    }
+  const handleDragOver = throttle((e) => {
+    e.preventDefault();
+    setIsDragOver(true);
+    setId(e.target.id);
+  }, 500);
+
+  const handleDrop = (e) => {
+    e.preventDefault();
+    setIsDragging(false);
+    setIsDragOver(false);
+
+    List.splice(e.target.id, 1);
+    List.splice(id, 0, e.target.src);
+  };
+
+  const deleteImg = (e) => {
+    e.preventDefault();
+    setlist(List.filter((item) => item !== e.currentTarget.value));
   };
 
   return (
     <div className="imageuploader">
-      <div className="imageuploader-top">
-        <Uploader imagesPreviewUrlsHandler={imagesPreviewUrlsHandler} />
-      </div>
-      {imagesPreviewUrls.length > 0 && (
-        <div className="imageuploader-bottom">
-          <Preview
-            imagesPreviewUrls={imagesPreviewUrls}
-            deleteImage={deleteImage}
+      <input type={"file"} multiple onChange={onChange} />
+
+      {List.map((item, index) => (
+        <div className="imageuploader-box">
+          <img
+            src={item}
+            alt={`${item}`}
+            onDragStart={handleDragStart}
+            onDragOver={handleDragOver}
+            onDragEnd={handleDrop}
+            draggable
+            id={index}
           />
+          <button
+            className="imagedeleteBtn"
+            onClick={deleteImg}
+            value={item}
+          ></button>
+          {index === 0 && <div className="imageuploader-mainImg">대표사진</div>}
         </div>
-      )}
+      ))}
     </div>
   );
 };
 
-export default Imageuploader;
+export default ImageUploader;
