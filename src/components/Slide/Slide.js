@@ -3,7 +3,6 @@ import React, { useLayoutEffect, useRef, useEffect, useState } from "react";
 import "./Slider.scss";
 import "./SliderItem.scss";
 
-import SlideButton from "./SlideButton";
 import image1 from "assets/imgs/image1.jpg";
 import image2 from "assets/imgs/image2.jpg";
 import image3 from "assets/imgs/image3.jpg";
@@ -42,10 +41,7 @@ const Slider = () => {
   const [windowWidth, windowHeight] = useWindowSize();
   const items = [image1, image2, image3];
   const itemSize = items.length;
-  const sliderPadding = 40;
-  const sliderPaddingStyle = `0 ${sliderPadding}px`;
-  const newItemWidth = getNewItemWidth();
-  const transitionTime = 1500;
+  const transitionTime = 1000;
   const transitionStyle = `transform ${transitionTime}ms ease 0s`;
   const copyImageData = 2;
   const [currentIndex, setCurrentIndex] = useState(copyImageData);
@@ -68,12 +64,6 @@ const Slider = () => {
     return [...addedFront, ...items, ...addedLast];
   }
 
-  function getNewItemWidth() {
-    let itemWidth = windowWidth * 0.9 - sliderPadding * 2;
-    itemWidth = itemWidth > 1060 ? 1060 : itemWidth;
-    return itemWidth;
-  }
-
   useEffect(() => {
     isResizing.current = true;
     setIsSwiping(true);
@@ -88,7 +78,7 @@ const Slider = () => {
     () => {
       handleSlide(currentIndex + 1);
     },
-    !isSwiping && !prevSlideX ? 2000 : null
+    !isSwiping && !prevSlideX ? 3000 : null
   );
 
   function replaceSlide(index) {
@@ -108,11 +98,6 @@ const Slider = () => {
       replaceSlide(index);
     }
     setTransition(transitionStyle);
-  }
-
-  function handleSwipe(direction) {
-    setIsSwiping(true);
-    handleSlide(currentIndex + direction);
   }
 
   function getItemIndex(index) {
@@ -158,10 +143,29 @@ const Slider = () => {
 
   return (
     <div className="slider-area">
+      <div className="slider-btn">
+        <button
+          className="slider-btn-arrow"
+          onClick={() => handleSlide(currentIndex - 1)}
+        >
+          <img
+            src={require("../../assets/imgs/SlideArrowLeft.png")}
+            alt={`sliderBtnleft`}
+          />
+        </button>
+        {`${(currentIndex % itemSize) + 1}/${itemSize}`}
+        <button
+          className="slider-btn-arrow"
+          onClick={() => handleSlide(currentIndex + 1)}
+        >
+          <img
+            src={require("../../assets/imgs/SlideArrowRight.png")}
+            alt={`sliderBtnright`}
+          />
+        </button>
+      </div>
       <div className="slider">
-        <SlideButton direction="prev" onClick={() => handleSwipe(-1)} />
-        <SlideButton direction="next" onClick={() => handleSwipe(1)} />
-        <div className="slider-list" style={{ padding: sliderPaddingStyle }}>
+        <div className="slider-list">
           <div
             className="slider-track"
             onMouseOver={() => setIsSwiping(true)}
@@ -181,7 +185,6 @@ const Slider = () => {
                   className={`slider-item ${
                     currentIndex === slideIndex ? "current-slide" : ""
                   }`}
-                  style={{ width: newItemWidth || "auto" }}
                   onMouseDown={handleTouchStart}
                   onTouchStart={handleTouchStart}
                   onTouchMove={handleTouchMove}
@@ -190,9 +193,7 @@ const Slider = () => {
                   onTouchEnd={handleMouseSwipe}
                   onMouseLeave={handleMouseSwipe}
                 >
-                  <a>
-                    <img src={items[itemIndex]} alt={`banner${itemIndex}`} />
-                  </a>
+                  <img src={items[itemIndex]} alt={`banner${itemIndex}`} />
                 </div>
               );
             })}
