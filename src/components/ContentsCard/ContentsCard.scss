@@ -31,10 +31,12 @@
 
   .contentsCard-image {
     overflow: hidden;
+    border-radius: 10px;
 
     img {
       width: 100%;
       transition: all 0.1s linear;
+      border-radius: 10px;
     }
     img:hover {
       transform: scale(1.2);
