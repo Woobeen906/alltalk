@@ -9,6 +9,7 @@ import image from "../../assets/imgs/cat.jpg";
 import image2 from "../../assets/imgs/cat.jpg";
 import image3 from "../../assets/imgs/midbtn.jpg";
 import axios from "axios";
+import { getDayMinuteCounter } from "assets/utils/getDayCouter";
 
 const StoryDetail = ({ navigate }) => {
   const { state } = useLocation();
@@ -56,6 +57,8 @@ const StoryDetail = ({ navigate }) => {
     img: "",
     title: "",
   });
+  const [nextImg, setNextImg] = useState();
+  const [prevImg, setPrevImg] = useState();
 
   const loadData = () => {
     axios({
@@ -69,8 +72,29 @@ const StoryDetail = ({ navigate }) => {
         setContent(res.data.content);
         setNextContent(res.data.nextContent);
         setPreContent(res.data.preContent);
+        console.log(res.data);
       }
-      console.log(content, res.data.user);
+    });
+
+    axios({
+      method: "POST",
+      url: preContent.img,
+      responseType: "blob",
+    }).then((res) => {
+      const url = window.URL.createObjectURL(
+        new Blob([res.data], { type: res.headers["content-type"] })
+      );
+      setPrevImg(url);
+    });
+    axios({
+      method: "POST",
+      url: nextContent.img,
+      responseType: "blob",
+    }).then((res) => {
+      const url = window.URL.createObjectURL(
+        new Blob([res.data], { type: res.headers["content-type"] })
+      );
+      setNextImg(url);
     });
   };
 
@@ -96,7 +120,7 @@ const StoryDetail = ({ navigate }) => {
       <div className="storyDetail-bottom">
         {page.left && (
           <button className="storyDetail-btn-left">
-            <img src={image} />
+            <img src={prevImg} />
             <div className="storyDetail-btn-title">이전 스토리</div>
             <div className="storyDetail-btn-content">
               타이틀 최대 2줄 타이틀 최대 2줄 타이틀 최대 2줄...타이틀 최대 2줄
@@ -119,23 +143,21 @@ const StoryDetail = ({ navigate }) => {
           >
             <img src={image3} />
             <div className="storyDetail-btn-title">현재 스토리</div>
-            <div className="storyDetail-btn-content">
-              타이틀 최대 2줄 타이틀 최대 2줄 타이틀 최대 2줄...타이틀 최대 2줄
-              타이틀 최대 2줄 타이틀 최대 2줄...
+            <div className="storyDetail-btn-content">{preContent.title}</div>
+            <div className="storyDetail-btn-time">
+              {getDayMinuteCounter(preContent.day)}
             </div>
-            <div className="storyDetail-btn-time">3시간 전</div>
           </button>
         )}
         {page.right && (
           <button className="storyDetail-btn-right">
-            <img src={image2} />
+            <img src={nextImg} />
 
             <div className="storyDetail-btn-title">다음 스토리</div>
-            <div className="storyDetail-btn-content">
-              타이틀 최대 2줄 타이틀 최대 2줄 타이틀 최대 2줄 타이틀 최대 2줄
-              타이틀 최대 2줄 타이틀 최대 2줄...
+            <div className="storyDetail-btn-content">{nextContent.title}</div>
+            <div className="storyDetail-btn-time">
+              {getDayMinuteCounter(nextContent.day)}
             </div>
-            <div className="storyDetail-btn-time">3시간 전</div>
           </button>
         )}
       </div>

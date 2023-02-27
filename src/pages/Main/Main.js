@@ -102,17 +102,13 @@ const Main = () => {
     frm.append("start", start);
     frm.append("end", end);
 
-    const url = toggleActive
-      ? "http://ec2-13-125-123-39.ap-northeast-2.compute.amazonaws.com:5000/main/content/recruit/"
-      : "http://ec2-13-125-123-39.ap-northeast-2.compute.amazonaws.com:5000/main/content/end/";
-
     axios({
       method: "POST",
-      // url: `${url}${serverTag}`,
       url: "http://ec2-13-125-123-39.ap-northeast-2.compute.amazonaws.com:5000/main/content/end/all",
       data: frm,
     })
       .then((res) => {
+        console.log(res.data);
         // 받아온 데이터를 보여줄 전체 리스트에 concat으로 넣어준다
         setBeerList((beerList) => beerList.concat(res.data));
         // 다음 요청할 데이터 offset 정보

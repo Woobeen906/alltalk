@@ -14,6 +14,7 @@ const Header = (props) => {
   const { pathname } = location;
 
   const [headerCss, setHeaderCss] = useState(true);
+  const [modal, setModal] = useState(false);
 
   useEffect(() => {
     if (page === 0 || page === 2) setHeaderCss(true);
@@ -139,9 +140,9 @@ const Header = (props) => {
                     style={{
                       backgroundColor: headerCss && "transparent",
                     }}
-                    // onClick={() => navigate("/Mypage")}
+                    onClick={() => setModal(!modal)}
                   ></button>
-                  <ProfileCard />
+                  {modal && <ProfileCard />}
                 </>
               ) : (
                 <>

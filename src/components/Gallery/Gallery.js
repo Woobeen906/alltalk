@@ -11,39 +11,35 @@ const Gallery = (props) => {
   const [image, setImage] = useState([]);
   const [test, setTest] = useState(false);
 
-  const Image = async (img, id) => {
-    if (id < imgs.length) {
-      await axios({
-        method: "POST",
-        url: img,
-        responseType: "blob",
-      }).then((res) => {
-        const url = window.URL.createObjectURL(
-          new Blob([res.data], { type: res.headers["content-type"] })
-        );
-        if (id === 0)
-          setCurrentItem({ id: id, image: url, title: `${id}${url}` });
+  const Image = (img, id) => {
+    axios({
+      method: "POST",
+      url: img,
+      responseType: "blob",
+    }).then((res) => {
+      const url = window.URL.createObjectURL(
+        new Blob([res.data], { type: res.headers["content-type"] })
+      );
+      if (id === 0)
+        setCurrentItem({ id: id, image: url, title: `${id}${url}` });
 
-        setImage((prev) => [
-          ...prev,
-          { id: id, image: url, title: `${id}${url}` },
-        ]);
-      });
-    }
+      setImage((prev) => [
+        ...prev,
+        { id: id, image: url, title: `${id}${url}` },
+      ]);
+    });
   };
 
   useEffect(() => {
     setTimeout(() => {
       setTest(true);
-    }, 1000);
+    }, 1500);
   }, []);
 
   useEffect(() => {
     imgs.map((item, index) => Image(item, index));
-    image.sort((a, b) => a.id - b.id);
   }, [test]);
 
-  const [data, setData] = useState([{ id: 2, image: image2, title: "고양이" }]);
   const [currentItem, setCurrentItem] = useState({
     id: "",
     image: "",
@@ -64,19 +60,21 @@ const Gallery = (props) => {
         }`}</div>
       </div>
       <div className="gallery-list">
-        {image.map((item) => (
-          <>
-            <li onClick={() => currentView(item.id)}>
-              {
-                <img
-                  src={item.image}
-                  alt={item.title}
-                  className={`${item.id === currentItem.id && "currentimg"}`}
-                />
-              }
-            </li>
-          </>
-        ))}
+        {image
+          .sort((a, b) => a.id - b.id)
+          .map((item) => (
+            <>
+              <li onClick={() => currentView(item.id)}>
+                {
+                  <img
+                    src={item.image}
+                    alt={item.title}
+                    className={`${item.id === currentItem.id && "currentimg"}`}
+                  />
+                }
+              </li>
+            </>
+          ))}
       </div>
     </div>
   );

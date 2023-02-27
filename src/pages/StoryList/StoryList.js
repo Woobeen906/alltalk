@@ -102,7 +102,6 @@ const StoryList = () => {
       data: frm,
     })
       .then((res) => {
-        console.log(res.data);
         // 받아온 데이터를 보여줄 전체 리스트에 concat으로 넣어준다
         setBeerList((beerList) => beerList.concat(res.data));
         // 다음 요청할 데이터 offset 정보

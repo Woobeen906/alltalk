@@ -1,10 +1,29 @@
 import { getDayMinuteCounter } from "assets/utils/getDayCouter";
+import axios from "axios";
 import Space from "components/Space/Space";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./StoryDetailTitle.scss";
 
 const StoryDetailTitle = (props) => {
   const { story, user } = props;
+  const [profileImg, setProfileImg] = useState();
+
+  const loadImg = () => {
+    axios({
+      method: "POST",
+      url: user.profile,
+      responseType: "blob",
+    }).then((res) => {
+      const url = window.URL.createObjectURL(
+        new Blob([res.data], { type: res.headers["content-type"] })
+      );
+      setProfileImg(url);
+    });
+  };
+
+  useEffect(() => {
+    loadImg();
+  }, []);
 
   return (
     <div className="storyDetailTitle">
@@ -25,7 +44,8 @@ const StoryDetailTitle = (props) => {
 
       <div className="storyDetailTitle-userInfo">
         <div className="storyDetailTitle-userInfo-left">
-          <img src={require("../../assets/imgs/cat.jpg")} alt={"userimage"} />
+          {/* <img src={require("../../assets/imgs/cat.jpg")} alt={"userimage"} /> */}
+          <img src={profileImg} alt={"userimage"} />
           <div className="storyDetailTitle-name">{user.nickname}</div>
           <div className="storyDetailTitle-date">{`${new Date(
             story.day

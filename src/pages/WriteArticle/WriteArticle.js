@@ -6,6 +6,7 @@ import Calendar from "components/Calendar/Calendar";
 import Imageuploader from "components/ImageUploader/ImageUploader";
 import axios from "axios";
 import Header from "components/Header/Header";
+import Save from "./Save";
 
 const WriteArticle = () => {
   const [inputData, setInputData] = useState({
@@ -24,6 +25,7 @@ const WriteArticle = () => {
   const [duedate, setDuedate] = useState("7일 후");
   const [selectDate, setSelectDate] = useState(" ");
   const [activeCalendar, setActiveCalendar] = useState(false);
+  const [saveModal, setSaveModal] = useState(false);
 
   const onChangeInputs = (type, e) => {
     switch (type) {
@@ -86,20 +88,26 @@ const WriteArticle = () => {
     ) {
       try {
         let date = selectDate.split(".");
+
         const frm = new FormData();
-        console.log(postImages, detailImages);
-        frm.append("id", "user");
+
+        frm.append("id", "admin");
         frm.append("title", title);
-        frm.append("name", "user");
+        frm.append("name", "admin");
         frm.append("subtitle", subTitle);
         frm.append("content", contents);
         frm.append("file[]", detailImages);
         frm.append("maxMember", member.toString());
         frm.append("tag", hashtags);
-        frm.append("deadline", new Date(date[0], date[1] - 1, date[2]));
+        frm.append("deadline", new Date(selectDate).valueOf() % 1000);
+        // frm.append("deadline", new Date(1677855600000).valueOf());
+        // frm.append("deadline", 12312415);
+        // frm.append("deadline", 12312420);
+        // frm.append("deadline", );
+
         axios({
           method: "POST",
-          url: "http://ec2-13-125-123-39.ap-northeast-2.compute.amazonaws.com:5000/write/story",
+          url: "http://ec2-13-125-123-39.ap-northeast-2.compute.amazonaws.com:5000/write/content",
           data: frm,
         })
           .then((res) => {
@@ -117,7 +125,6 @@ const WriteArticle = () => {
   const saveBtn = async () => {
     try {
       const { title, subTitle, contents, member } = inputData;
-      console.log(postImages, detailImages);
 
       const frm = new FormData();
       frm.append("id", "user");
@@ -128,8 +135,8 @@ const WriteArticle = () => {
       frm.append("file[]", detailImages);
       frm.append("maxMember", member.toString());
       frm.append("tag", hashtags);
-      // frm.append("deadline", new Date(date[0], date[1] - 1, date[2]));
-      // frm.append("admin", true);
+      frm.append("deadline", new Date(selectDate).getTime());
+      frm.append("admin", true);
 
       await axios({
         method: "POST",
@@ -223,6 +230,7 @@ const WriteArticle = () => {
 
   return (
     <div className="writearticle">
+      <Save onClick={() => setSaveModal(!saveModal)} />
       <button onClick={uploadBtn}>aa</button>
       <button onClick={saveBtn}>save</button>
       <form className="writearticle-box">
@@ -235,6 +243,7 @@ const WriteArticle = () => {
                 placeholder="제목을 입력해주세요."
                 onChange={(e) => onChangeInputs("title", e)}
                 error={errorCheck.title}
+                maxlength={99999999}
               />
               {errorCheck.title && (
                 <div className="error-message">제목을 입력해주세요.</div>
@@ -248,6 +257,7 @@ const WriteArticle = () => {
                 type={"text"}
                 placeholder="내용을 요약하는 부제목을 입력해주세요."
                 onChange={(e) => onChangeInputs("subTitle", e)}
+                maxlength={99999999}
               />
             </span>
           </li>
@@ -307,7 +317,7 @@ const WriteArticle = () => {
           </li>
         </ul>
       </form>
-      {localStorage.getItem("admin") && (
+      {!localStorage.getItem("admin") && (
         <>
           <div
             className="writearticle-box"

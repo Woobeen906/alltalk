@@ -59,7 +59,11 @@ const ContentsCard = (props) => {
         className="contentsCard-image-dday"
         style={image ? {} : { margin: 0 }}
       >
-        {`D-${getDayMinuteCounter(deadline).slice(0, 1)}`}
+        {getDayMinuteCounter(deadline).slice(2, 4) === "시간"
+          ? getDayMinuteCounter(deadline).slice(1, -1)
+          : getDayMinuteCounter(deadline).slice(0, 1)}
+        {/* {`D-${getDayMinuteCounter(deadline).slice(0, 1)}`} */}
+        {/* {`D-${getDayMinuteCounter(deadline).slice(2, 4)}`} */}
       </div>
       {memberDeadline && (
         <div className="contentsCard-deadlie-message">마감임박</div>

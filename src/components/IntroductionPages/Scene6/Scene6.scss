@@ -34,8 +34,12 @@
 
   .scene6-btn {
     width: 16.3021vw;
-    height: 60px;
+    // height: 60px;
+    height: 6.046vh;
 
+    display: flex;
+
+    align-items: center;
     background: #191919;
     border-radius: 50px;
 
@@ -45,14 +49,16 @@
     font-size: 1.25vw;
     text-align: left;
     box-sizing: border-box;
-    padding: 20px 40px;
+    // padding: 20px 40px;
+    padding: 2.016vh 2.0833vw;
 
     color: #ffffff;
 
     background-image: url("../../../assets/imgs/Scene6/btnArrow.jpg");
     background-repeat: no-repeat;
-    // background-position: 83% 45%;
-    background-position: 85% 50%;
+    // background-position: 85% center;
+    // background-position: 2.016vh 2.0833vw;
+    background-position: 12.802vw 2.016vh;
     // background-size: 21.6px;
     background-size: 1.125vw;
   }

@@ -425,6 +425,7 @@ const SignUpInput = () => {
       })
         .then((res) => {
           if (res.data.result) {
+            alert("회원가입에 성공했습니다.");
             navigate("/");
           }
         })
@@ -537,9 +538,10 @@ const SignUpInput = () => {
       })
         .then((res) => {
           console.log(res.data);
-          // if (res.data.result) {
+          if (res.data.result) {
+            alert("사용 가능한 아이디 입니다.");
+          }
           setInputs({ ...inputs, idCheckError: res.data.result });
-          // }
         })
         .catch((e) => console.log(e));
     } catch (e) {

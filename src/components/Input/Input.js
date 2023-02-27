@@ -3,6 +3,7 @@ import "./Input.scss";
 
 const Input = (props) => {
   const { type, placeholder, onChange, name, value, error, maxlength } = props;
+
   return (
     <input
       className={` inputBox ${error && "inputBox-error"}`}

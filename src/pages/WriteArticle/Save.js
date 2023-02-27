@@ -3,13 +3,15 @@ import "./Save.scss";
 
 import axios from "axios";
 
-const Save = () => {
+const Save = (props) => {
+  const { onClick } = props;
   const [saveData, setSaveData] = useState([]);
   const [test, setTest] = useState();
 
   const loadSaveData = async () => {
     let frm = new FormData();
-    frm.append("id", "user");
+    console.log(localStorage.setItem("id"));
+    frm.append("id", "siugan");
     await axios({
       method: "POST",
       url: "http://ec2-13-125-123-39.ap-northeast-2.compute.amazonaws.com:5000/write/story/temp/list",
@@ -17,7 +19,7 @@ const Save = () => {
     })
       .then((res) => {
         if (res.data) setSaveData(res.data);
-        console.log(res.data);
+        // console.log(res.data);
       })
       .catch((e) => console.log(e));
   };
@@ -27,14 +29,16 @@ const Save = () => {
   }, []);
 
   const saveItem = (props) => {
-    console.log(props);
     const { day, idx, img, title } = props;
 
     axios({
       method: "POST",
       url: "http://ec2-13-125-123-39.ap-northeast-2.compute.amazonaws.com:5000/util/story/1/0",
     })
-      .then((res) => setTest(res.data))
+      .then((res) => {
+        setTest(res.data);
+        // console.log(res);
+      })
       .catch((e) => console.log(e));
     return (
       <div className="save-item">
@@ -46,7 +50,12 @@ const Save = () => {
   return (
     <div className="save">
       <div className="save-box">
-        <div className="save-box-top">임시저장 불러오기</div>
+        <div className="save-box-top">
+          임시저장 불러오기
+          <div className="save-box-btn">
+            <button onClick={onClick}>X</button>
+          </div>
+        </div>
         <div className="save-box-bottom">
           {saveData.map((item) => saveItem(item))}
         </div>
