@@ -1,13 +1,12 @@
 import React, { useState } from "react";
 import "./WriteArticle.scss";
+import { useNavigate } from "react-router-dom";
 
 import Input from "components/Input/Input";
 import Calendar from "components/Calendar/Calendar";
 import Imageuploader from "components/ImageUploader/ImageUploader";
 import axios from "axios";
-import Header from "components/Header/Header";
-import Save from "./Save";
-import { useNavigate } from "react-router-dom";
+import WriteHeader from "./WriteHeader";
 
 const WriteArticle = () => {
   const navigate = useNavigate();
@@ -82,39 +81,42 @@ const WriteArticle = () => {
       hashtags: tagsCheck(),
     });
 
-    if (
-      !errorCheck.contents &&
-      !errorCheck.hashtags &&
-      !errorCheck.member &&
-      !errorCheck.title
-    ) {
+    if (!errorCheck.contents && !errorCheck.hashtags && !errorCheck.title) {
       try {
-        let date = selectDate.split(".");
-
         const frm = new FormData();
 
-        detailImages.map((item) => {
-          frm.append("file[]", item);
-        });
+        for (let i = 0; i < detailImages.length; i++) {
+          frm.append("file[]", detailImages[i]);
+        }
 
-        frm.append("id", "admin");
+        console.log(
+          JSON.parse(localStorage.getItem("userdata")).nickname,
+          localStorage.getItem("id")
+        );
+        frm.append("id", localStorage.getItem("id"));
         frm.append("title", title);
-        frm.append("name", "admin");
+        frm.append(
+          "name",
+          JSON.parse(localStorage.getItem("userdata")).nickname
+        );
         frm.append("subtitle", subTitle);
         frm.append("content", contents);
         // frm.append("file[]", detailImages);
         frm.append("maxMember", member.toString());
         frm.append("tag", hashtags);
         frm.append("deadline", new Date(selectDate).valueOf() % 1000);
-
+        const url = localStorage.getItem("admin")
+          ? "http://ec2-13-125-123-39.ap-northeast-2.compute.amazonaws.com:5000/write/content"
+          : "http://ec2-13-125-123-39.ap-northeast-2.compute.amazonaws.com:5000/write/story";
         axios({
           method: "POST",
-          url: "http://ec2-13-125-123-39.ap-northeast-2.compute.amazonaws.com:5000/write/content",
+          url: url,
           data: frm,
         })
           .then((res) => {
-            if (res.data.result) {
-              // navigate("/");
+            console.log(res.data);
+            if (res.data.result === true) {
+              navigate("/");
               alert("글쓰기 성공!");
             }
           })
@@ -129,9 +131,7 @@ const WriteArticle = () => {
       const { title, subTitle, contents, member } = inputData;
 
       const frm = new FormData();
-      detailImages.map((item) => {
-        frm.append("file[]", item);
-      });
+      detailImages.map((item) => frm.append("file[]", item));
       frm.append("id", "user");
       frm.append("title", title);
       frm.append("name", "user");
@@ -241,8 +241,8 @@ const WriteArticle = () => {
     <div className="writearticle">
       {/* {saveModal && <Save onClick={() => Modal()} />} */}
 
-      <button onClick={uploadBtn}>업로드</button>
-      <button onClick={saveBtn}>save</button>
+      <WriteHeader uploadBtn={uploadBtn} saveBtn={saveBtn} />
+
       <form className="writearticle-box">
         <ul>
           <li style={{ marginTop: "60px" }}>
