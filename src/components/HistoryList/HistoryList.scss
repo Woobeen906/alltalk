@@ -61,19 +61,26 @@
       line-height: 20px;
 
       margin-bottom: 24px;
-
-      opacity: 0;
-      animation: titleAni 0.5s forwards;
-      animation-delay: 0.1s;
     }
     .historyList-right-content {
       font-weight: 600;
       font-size: 18px;
       color: #f8f9fb;
       line-height: 30px;
+    }
+  }
+}
 
+.historyList-animate {
+  .historyList-right {
+    .historyList-right-title {
       opacity: 0;
-      animation: contentAni 0.5s forwards;
+      animation: titleAni 0.5s forwards;
+      animation-delay: 0.5s;
+    }
+    .historyList-right-content {
+      opacity: 0;
+      animation: contentAni 0.9s forwards;
     }
   }
 }

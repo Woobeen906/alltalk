@@ -182,10 +182,16 @@ const Introduction = () => {
       ref7.current?.scrollIntoView({ behavior: "smooth" });
     }
   }, [page]);
+
+  const onTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    setPage(0);
+  };
+
   return (
     <div className="introduction" ref={root}>
       <div className="introduction-header">
-        <Header landing={true} page={page} />
+        <Header landing={true} page={page} onTop={onTop} />
       </div>
       <div className="introduction-main">
         <Scene1 ref={ref1} animate={page === 0} />

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { forwardRef } from "react";
 import InfoCard from "./InfoCard/InfoCard";
 import "./Scene3.scss";
 
@@ -6,9 +6,9 @@ import image1 from "assets/imgs/Scene3/Scene3-infocard-1.jpg";
 import image2 from "assets/imgs/Scene3/Scene3-infocard-2.jpg";
 import image3 from "assets/imgs/Scene3/Scene3-infocard-3.jpg";
 
-const Scene3 = () => {
+const Scene3 = forwardRef((props, ref) => {
   return (
-    <div className="scene3">
+    <div className="scene3" ref={ref}>
       <div className="scene3-textbox">
         <div className="scene3-title">사업 소개</div>
         <div className="scene3-content">
@@ -44,6 +44,6 @@ const Scene3 = () => {
       </div>
     </div>
   );
-};
+});
 
 export default Scene3;

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, forwardRef } from "react";
 import "./Scene5.scss";
 
 import MemberSelect from "components/MemberSelectBtn/MemberSelectBtn";
@@ -7,7 +7,7 @@ import ceo2 from "assets/imgs/Scene5/ceoImg2.jpg";
 import cto from "assets/imgs/Scene5/ctoImg.jpg";
 import Space from "components/Space/Space";
 
-const Scene5 = () => {
+const Scene5 = forwardRef((props, ref) => {
   const [selectMember, setSelectMember] = useState({
     name: "박소영",
     number: 0,
@@ -93,7 +93,7 @@ const Scene5 = () => {
     );
   };
   return (
-    <div className="scene5">
+    <div className="scene5" ref={ref}>
       <div className="scene5-top">
         <div className="scene5-title">
           대표자 및<br /> 팀원 역량 소개
@@ -123,6 +123,6 @@ const Scene5 = () => {
       </div>
     </div>
   );
-};
+});
 
 export default Scene5;

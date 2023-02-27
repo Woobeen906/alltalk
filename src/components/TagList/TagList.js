@@ -45,6 +45,7 @@ const TagList = (props) => {
         <HashtagManager
           hashtags={props.hashtags}
           setHashtags={props.setHashtags}
+          placeholder="원하는 태그 검색"
         />
       </ul>
     </div>

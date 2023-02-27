@@ -1,19 +1,18 @@
-import React, { useState } from "react";
+import React, { forwardRef, useState } from "react";
 import "./Footer.scss";
 
-const Footer = () => {
-  const [isFixed, setIsFixed] = useState(false);
+import { useLocation } from "react-router-dom";
 
-  const handlePageChange = (page) => {
-    if (page === "some-page") {
-      setIsFixed(true);
-    } else {
-      setIsFixed(false);
-    }
-  };
+const Footer = forwardRef((props, ref) => {
+  const { landing } = props;
+  const location = useLocation();
 
   return (
-    <footer className={`footer ${isFixed ? "fixed" : ""}`}>
+    <footer
+      className={`footer ${landing ? "fixed" : ""}`}
+      style={{ display: `${location.pathname === "/" && "none"}` }}
+      ref={ref}
+    >
       <div className="footer-title">ALL TALK</div>
       <div className="footer-content">
         <img src={require("assets/imgs/instagram.jpg")} alt="instagram" />
@@ -24,6 +23,6 @@ const Footer = () => {
       </div>
     </footer>
   );
-};
+});
 
 export default Footer;

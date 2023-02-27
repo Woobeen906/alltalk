@@ -1,38 +1,70 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./Gallery.scss";
-import image from "../../assets/imgs/cat.jpg";
-import image2 from "../../assets/imgs/image1.jpg";
-import image3 from "../../assets/imgs/image2.jpg";
-import image4 from "../../assets/imgs/image3.jpg";
-import image5 from "../../assets/imgs/calendar.jpg";
 
-const Gallery = () => {
-  const [data, setData] = useState([
-    { id: 1, image: image, title: "고양이" },
-    { id: 2, image: image2, title: "고양이" },
-    { id: 3, image: image3, title: "고양이" },
-    { id: 4, image: image4, title: "고양이" },
-    { id: 5, image: image5, title: "고양이" },
-    { id: 6, image: image, title: "고양이" },
-    { id: 7, image: image, title: "고양이" },
-    // { id: 8, image: image, title: "고양이" },
-    // { id: 9, image: image, title: "고양이" },
-    // { id: 10, image: image, title: "고양이" },
-  ]);
-  const [currentItem, setCurrentItem] = useState(data[0]);
+import axios from "axios";
+
+import image2 from "../../assets/imgs/image1.jpg";
+
+const Gallery = (props) => {
+  const { imgs } = props;
+
+  const [image, setImage] = useState([]);
+  const [test, setTest] = useState(false);
+
+  const Image = async (img, id) => {
+    if (id < imgs.length) {
+      await axios({
+        method: "POST",
+        url: img,
+        responseType: "blob",
+      }).then((res) => {
+        const url = window.URL.createObjectURL(
+          new Blob([res.data], { type: res.headers["content-type"] })
+        );
+        if (id === 0)
+          setCurrentItem({ id: id, image: url, title: `${id}${url}` });
+
+        setImage((prev) => [
+          ...prev,
+          { id: id, image: url, title: `${id}${url}` },
+        ]);
+      });
+    }
+  };
+
+  useEffect(() => {
+    setTimeout(() => {
+      setTest(true);
+    }, 1000);
+  }, []);
+
+  useEffect(() => {
+    imgs.map((item, index) => Image(item, index));
+    image.sort((a, b) => a.id - b.id);
+  }, [test]);
+
+  const [data, setData] = useState([{ id: 2, image: image2, title: "고양이" }]);
+  const [currentItem, setCurrentItem] = useState({
+    id: "",
+    image: "",
+    title: "",
+  });
 
   const currentView = (id) => {
-    setCurrentItem(data.find((item) => item.id === id));
+    setCurrentItem(image.find((item) => item.id === id));
   };
 
   return (
     <div className="gallery">
       <div className="gallery-view">
         <img src={currentItem.image} alt={currentItem.title} />
-        <div className="gallery-view-number">{`${currentItem.id}/${data.length}`}</div>
+
+        <div className="gallery-view-number">{`${currentItem.id + 1}/${
+          imgs.length
+        }`}</div>
       </div>
       <div className="gallery-list">
-        {data.map((item) => (
+        {image.map((item) => (
           <>
             <li onClick={() => currentView(item.id)}>
               {

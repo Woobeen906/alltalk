@@ -1,14 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "./ImageUploader.scss";
 
-import { debounce, throttle } from "lodash";
+import { throttle } from "lodash";
 
 const ImageUploader = (props) => {
-  const { onChange, List, setlist } = props;
+  const { onChange, List, setlist, setPostImages } = props;
   const [isDragging, setIsDragging] = useState(false);
   const [isDragOver, setIsDragOver] = useState(false);
   const [id, setId] = useState(0);
-  const [list, setList] = useState(List);
 
   const handleDragStart = (e) => {
     setIsDragging(true);

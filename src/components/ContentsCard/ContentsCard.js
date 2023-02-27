@@ -1,15 +1,60 @@
 import React, { useEffect, useState } from "react";
 import "./ContentsCard.scss";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 import Tag from "components/Tag/Tag";
 import { getDayMinuteCounter } from "assets/utils/getDayCouter";
 
 const ContentsCard = (props) => {
-  const { image, tags, title, content, member, maxMember, deadline } = props;
+  const {
+    image,
+    tags,
+    title,
+    content,
+    member,
+    maxMember,
+    deadline,
+    filter,
+    idx,
+  } = props;
+  const navigate = useNavigate();
+
   const memberDeadline = maxMember - member === 1;
 
+  const [img, setImage] = useState();
+  const Image = () => {
+    axios({
+      method: "POST",
+      url: image,
+      responseType: "blob",
+    }).then((res) => {
+      setImage(res.data);
+      const url = window.URL.createObjectURL(
+        new Blob([res.data], { type: res.headers["content-type"] })
+      );
+      setImage(url);
+    });
+  };
+
+  const onClickDetail = (idx) => {
+    navigate("/StoryDetail", { state: { idx: idx, root: "content" } });
+  };
+
+  useEffect(() => {
+    Image();
+  }, []);
   return (
-    <div className="contentsCard">
+    <div
+      className="contentsCard"
+      style={{
+        display:
+          tags.find((item) => item === filter) === undefined &&
+          filter !== "all" &&
+          "none",
+      }}
+      onClick={() => onClickDetail(idx)}
+    >
       <div
         className="contentsCard-image-dday"
         style={image ? {} : { margin: 0 }}
@@ -21,7 +66,7 @@ const ContentsCard = (props) => {
       )}
       {image && (
         <div className="contentsCard-image">
-          <img src={image} alt="cat" />
+          <img src={img} alt="cat" />
         </div>
       )}
       <div
@@ -35,7 +80,7 @@ const ContentsCard = (props) => {
             ))}
           </div>
         )}
-        {!title && <div className="contentsCard-title">{title}</div>}
+        {title && <div className="contentsCard-title">{title}</div>}
 
         {!image && <div className="contentsCard-content">{content}</div>}
         <div className="contentsCard-number">

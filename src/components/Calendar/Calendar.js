@@ -96,9 +96,9 @@ const Calendar = (props) => {
   const disabledCheck = (data, currentDate) => {
     if (data.year < currentDate.getFullYear()) {
       return true;
-    } else if (data.month < currentDate.getMonth() + 1) {
-      return true;
     } else if (data.date < currentDate.getDate()) {
+      return true;
+    } else if (data.month < currentDate.getMonth() + 1) {
       return true;
     }
     return false;
@@ -148,4 +148,4 @@ const Calendar = (props) => {
   );
 };
 
-export default Calendar;
+export default React.memo(Calendar);

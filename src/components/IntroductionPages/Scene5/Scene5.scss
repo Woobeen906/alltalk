@@ -20,8 +20,9 @@
 
 .scene5 {
   width: 100vw;
-
+  height: 100vh;
   box-sizing: border-box;
+  padding-top: 56px;
   .scene5-top {
     height: 295px;
     background: url("../../../assets/imgs/Scene1/Scene1_3.jpg") no-repeat;
@@ -42,7 +43,7 @@
       text-align: left;
 
       box-sizing: border-box;
-      padding: 80px 120px 0 360px;
+      padding: 80px 120px 0 18.75vw;
     }
     .scene5-title::before {
       content: "";
@@ -75,7 +76,7 @@
   .scene5-contents {
     box-sizing: border-box;
     height: 647px;
-    padding: 48px 360px 0 360px;
+    padding: 48px 18.75vw 0 18.75vw;
     display: flex;
 
     .scene5-content-img {
@@ -121,15 +122,18 @@
     }
     .scene5-content-textbox {
       margin-left: 127px;
+      // margin-left: 6.6146vw;
 
       text-align: left;
       font-family: "SUIT";
       font-weight: 600;
-      font-size: 22px;
+      // font-size: 22px;
+      font-size: 1.1458333333vw;
       line-height: 34px;
       color: #000000;
 
       .scene5-content-title {
+        word-break: break-word;
         animation: memberInfoList 0.4s forwards;
         animation-delay: 1s;
 
@@ -137,10 +141,12 @@
       }
       .scene5-content-history {
         font-weight: 500;
-        font-size: 16px;
+        // font-size: 16px;
+        font-size: 0.8333333333vw;
         line-height: 24px;
         color: #616269;
-        margin-top: 30px;
+        // margin-top: 30px;
+        margin-top: 1.5625vw;
         animation: memberInfoList 0.4s forwards;
         animation-delay: 1.5s;
         opacity: 0;

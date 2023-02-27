@@ -417,14 +417,13 @@ const SignUpInput = () => {
       frm.append("birthday", birth);
       frm.append("tag", tags);
       frm.append("admin", admin);
-      console.log(frm);
+
       await axios({
         method: "POST",
         url: "http://ec2-13-125-123-39.ap-northeast-2.compute.amazonaws.com:5000/signup",
         data: frm,
       })
         .then((res) => {
-          console.log(res.data);
           if (res.data.result) {
             navigate("/");
           }
@@ -527,8 +526,25 @@ const SignUpInput = () => {
     });
   };
 
-  const onClickbtnCheck = () => {
-    setInputs({ ...inputs, idCheckError: id_check(inputs.id) });
+  const onClickbtnCheck = async () => {
+    try {
+      const frm = new FormData();
+      frm.append("id", inputs.id);
+      await axios({
+        method: "POST",
+        url: "http://ec2-13-125-123-39.ap-northeast-2.compute.amazonaws.com:5000/signup/id",
+        data: frm,
+      })
+        .then((res) => {
+          console.log(res.data);
+          // if (res.data.result) {
+          setInputs({ ...inputs, idCheckError: res.data.result });
+          // }
+        })
+        .catch((e) => console.log(e));
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   const onChangeGender = (gender) => {

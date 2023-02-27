@@ -8,13 +8,14 @@
   justify-content: space-between;
   box-sizing: border-box;
   padding: 0px 19.115vw;
+  z-index: 10;
+
   .title {
     box-sizing: border-box;
     font-family: "Inter";
     font-weight: bold;
     font-size: 1.25rem;
     color: #4f4f4f;
-    // padding: 0px 34.8vw 0px 18.75vw;
     white-space: nowrap;
   }
   .header-left {
@@ -51,6 +52,8 @@
     }
 
     .login-container {
+      display: flex;
+      justify-content: center;
       button {
         white-space: nowrap;
         cursor: pointer;
@@ -59,9 +62,15 @@
         font-weight: 500;
         font-size: 0.875rem;
       }
+      .loadBtn {
+        border: 0;
+        font-size: 13px;
+        color: #00cb8e;
+        margin-right: 0.625vw;
+        padding: 0;
+      }
       .loginBtn {
         border: 1px solid #e4e9ed;
-        color: #616269;
         border-radius: 19px;
         margin-right: 0.416vw;
         padding: 0.3125vw 0.833vw;
@@ -79,6 +88,14 @@
       .signUpBtn:hover {
         background: #00cb8e;
         color: #ffffff;
+      }
+      .profileBtn {
+        box-sizing: border-box;
+        width: 32px;
+        height: 32px;
+
+        border: 1px solid #eef1f4;
+        border-radius: 50%;
       }
     }
   }

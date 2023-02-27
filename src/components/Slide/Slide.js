@@ -3,9 +3,9 @@ import React, { useLayoutEffect, useRef, useEffect, useState } from "react";
 import "./Slider.scss";
 import "./SliderItem.scss";
 
-import image1 from "assets/imgs/image1.jpg";
-import image2 from "assets/imgs/image2.jpg";
-import image3 from "assets/imgs/image3.jpg";
+import image1 from "assets/imgs/image1.png";
+import image2 from "assets/imgs/image2.png";
+import image3 from "assets/imgs/image3.jpeg";
 
 function useWindowSize() {
   const [size, setSize] = useState([0, 0]);

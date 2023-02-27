@@ -37,7 +37,7 @@ const ProfileBasciEdit = () => {
           <Input
             type="text"
             name="name"
-            maxlength={8}
+            maxLength={8}
             onChange={onChangeInput}
           />
           <div className="profileBasciEdit-input-box-nameCnt">{`${inputs.name.length}/8`}</div>

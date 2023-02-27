@@ -1,6 +1,7 @@
 .infoCard {
   position: relative;
-  width: 384px;
+  // width: 384px;
+  width: 20vw;
   height: 462px;
 
   background: #f8f9fb;
@@ -10,7 +11,8 @@
 
   font-family: "SUIT";
   font-weight: 800;
-  font-size: 24px;
+  // font-size: 24px;
+  font-size: 1.25vw;
   color: #191919;
 
   border: 2px solid transparent;
@@ -24,16 +26,17 @@
     display: flex;
     justify-content: center;
     align-items: center;
+
     img {
       border-radius: 10px 10px 0 0;
-      width: 384px;
+      width: 20vw;
       height: 284px;
     }
   }
 
   .infoCard-small {
     img {
-      width: 198px;
+      width: 10.3125vw;
       height: 187px;
     }
   }
@@ -47,7 +50,8 @@
     }
     .infoCard-content {
       font-weight: 400;
-      font-size: 15px;
+      // font-size: 15px;
+      font-size: 0.78125vw;
       line-height: 22px;
     }
   }

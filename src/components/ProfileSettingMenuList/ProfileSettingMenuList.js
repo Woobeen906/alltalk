@@ -2,8 +2,9 @@ import Space from "components/Space/Space";
 import React, { useState } from "react";
 import "./ProfileSettingMenuList.scss";
 
-const ProfileSettingMenuList = () => {
-  const [currentPage, setCurrentPage] = useState("정보 수정");
+const ProfileSettingMenuList = (props) => {
+  const { currentPage, onChangePage } = props;
+  // const [currentPage, setCurrentPage] = useState("정보 수정");
   return (
     <div className="profileSettingMenuList">
       <div className="profileSettingMenuList-title">프로필 설정</div>
@@ -12,6 +13,7 @@ const ProfileSettingMenuList = () => {
           className={`${
             currentPage === "정보 수정" && "profilesettingCurrent"
           }`}
+          onClick={onChangePage}
         >
           정보 수정
         </li>
@@ -20,6 +22,7 @@ const ProfileSettingMenuList = () => {
           className={`${
             currentPage === "비밀번호 변경" && "profilesettingCurrent"
           }`}
+          onClick={onChangePage}
         >
           비밀번호 변경
         </li>

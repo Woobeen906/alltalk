@@ -32,7 +32,6 @@ const ProfileSetting = () => {
             <Space size={16} />
             <ProfileDetailsEdit />
             <Space size={40} />
-
             <button className="profileSetting-save">저장</button>
           </>
         ) : (

@@ -7,13 +7,14 @@
   min-height: calc(100vh - 281px);
 
   .storylist-content {
+    margin-top: 50px;
     display: flex;
     flex-direction: column;
     align-items: center;
     width: 81.25vw;
 
     .storylist-line {
-      margin: 30px 0 23px 0;
+      margin: 30px 0 60px 0;
       border: 1px solid #eef1f4;
       width: 100%;
     }
@@ -34,7 +35,6 @@
       grid-template-columns: repeat(auto-fill, minmax(282px, 1fr));
       row-gap: 38px;
       column-gap: 24px;
-      //   overflow-y: scroll;
     }
   }
 }

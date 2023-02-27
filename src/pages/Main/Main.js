@@ -10,9 +10,10 @@ import ToggleBtn from "components/ToggleBtn/ToggleBtn";
 import { HashtagList } from "components/Hashtag/Hashtag";
 import TagList from "components/TagList/TagList";
 
-const DATA_LOAD_MAX_LENGTH = 8;
+const DATA_LOAD_MAX_LENGTH = 5;
 
 const Main = () => {
+  const [serverTag, setServerTag] = useState("all");
   const [toggleActive, setToggleActive] = useState(true);
   const [btnsListSelect, setBtnsListSelect] = useState(0);
   const [hashtags, setHashtags] = useState([]);
@@ -43,7 +44,7 @@ const Main = () => {
   useEffect(() => {
     // isLoaded가 true일 때 + 마지막 페이지가 아닌 경우 = 요청보내기
     if (isLoaded) {
-      loadContents(contentsCnt, contentsCnt + 8);
+      loadContents(contentsCnt, contentsCnt + DATA_LOAD_MAX_LENGTH);
     }
   }, [isLoaded]);
 
@@ -68,10 +69,31 @@ const Main = () => {
 
   const onClickList = (e) => {
     setBtnsListSelect(e.currentTarget.value);
+    switch (e.currentTarget.value) {
+      case 0:
+        setServerTag("all");
+
+        break;
+      case 1:
+        setServerTag("tag1");
+
+        break;
+      case 2:
+        setServerTag("tag2");
+
+        break;
+      case 3:
+        setServerTag("tag3");
+        break;
+      case 4:
+        setServerTag("tag4");
+        break;
+      default:
+        break;
+    }
   };
 
   const onClickToggle = () => {
-    console.log(document.getElementsByClassName("main-grid"));
     setToggleActive(!toggleActive);
   };
 
@@ -79,8 +101,14 @@ const Main = () => {
     let frm = new FormData();
     frm.append("start", start);
     frm.append("end", end);
+
+    const url = toggleActive
+      ? "http://ec2-13-125-123-39.ap-northeast-2.compute.amazonaws.com:5000/main/content/recruit/"
+      : "http://ec2-13-125-123-39.ap-northeast-2.compute.amazonaws.com:5000/main/content/end/";
+
     axios({
       method: "POST",
+      // url: `${url}${serverTag}`,
       url: "http://ec2-13-125-123-39.ap-northeast-2.compute.amazonaws.com:5000/main/content/end/all",
       data: frm,
     })
@@ -92,7 +120,7 @@ const Main = () => {
         // 다음 요청 전까지 요청 그만 보내도록 false로 변경
         setIsLoaded(false);
 
-        setContentsCnt((prev) => prev + 8);
+        setContentsCnt((prev) => prev + DATA_LOAD_MAX_LENGTH);
       })
       .catch((e) => console.log(e));
   }, 1500);
@@ -134,8 +162,7 @@ const Main = () => {
         <div className="main-grid">
           {beerList.map((item, index) => (
             <ContentsCard
-              // image={item.img}
-              image={require("assets/imgs/cat.jpg")}
+              image={item.img}
               tags={item.tag.split(",")}
               member={item.member}
               maxMember={item.maxMember}
@@ -145,6 +172,8 @@ const Main = () => {
               id={item.idx}
               deadline={item.deadline}
               key={`${item.title}index`}
+              filter={serverTag}
+              idx={item.idx}
             />
           ))}
         </div>

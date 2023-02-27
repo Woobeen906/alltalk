@@ -2,20 +2,18 @@ import Space from "components/Space/Space";
 import React from "react";
 import "./StoryDetailUserInfo.scss";
 
-const StoryDetailUserInfo = () => {
+const StoryDetailUserInfo = (props) => {
+  const { user } = props;
+
   return (
     <div className="storyDetailUserInfo">
       <img src={require("../../assets/imgs/cat.jpg")} alt={"userprofile"} />
       <div className="storyDetailUserInfo-user">
-        닉네임
+        {user.nickname}
         <Space size={8} />
         <button>프로필 수정</button>
       </div>
-      <div className="storyDetailUserInfo-text">
-        자기소개 멘트가 들어가는 자리입니다. 자기소개 멘트가 들어가는
-        자리입니다. 자기소개 멘트가 들어가는 자리입니다. 자기소개 멘트가
-        들어가는 자리입니다.
-      </div>
+      <div className="storyDetailUserInfo-text">{user.introduce}</div>
     </div>
   );
 };

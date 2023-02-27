@@ -1,6 +1,7 @@
 .contentsCard {
   max-width: 328px;
   max-height: 350px;
+  cursor: pointer;
   .contentsCard-image-dday {
     position: absolute;
     background: #000000;
@@ -67,6 +68,8 @@
       -webkit-box-orient: vertical;
 
       padding-top: 12px;
+
+      text-align: left;
     }
     .contentsCard-content {
       font-family: "SUIT";

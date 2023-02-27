@@ -4,6 +4,7 @@
   width: 282px;
   // height: 14.6875vw;
   height: 282px;
+  overflow: hidden;
 
   position: relative;
   img {
@@ -16,8 +17,11 @@
 .mypageCard-description {
   box-sizing: border-box;
   position: absolute;
-  width: 14.6875vw;
-  height: 6.3542vw;
+  // width: 14.6875vw;
+  width: 282px;
+  height: 122px;
+
+  // height: 6.3542vw;
   padding: 24px 1.042vw;
 
   background: #00cb8e;

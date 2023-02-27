@@ -1,11 +1,11 @@
-import React from "react";
+import React, { forwardRef } from "react";
 import "./Scene4.scss";
 
 import video from "assets/imgs/Scene4/play.mp4";
 
-const Scene4 = () => {
+const Scene4 = forwardRef((props, ref) => {
   return (
-    <div className="scene4">
+    <div className="scene4" ref={ref}>
       <div className="scene4-textbox">
         <div className="scene4-title">
           실시간 관리
@@ -28,6 +28,6 @@ const Scene4 = () => {
       </div>
     </div>
   );
-};
+});
 
 export default Scene4;
