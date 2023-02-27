@@ -228,10 +228,15 @@ const WriteArticle = () => {
     }
   };
 
+  const Modal = () => {
+    setSaveModal(!saveModal);
+    console.log("aa", saveModal);
+  };
   return (
     <div className="writearticle">
-      <Save onClick={() => setSaveModal(!saveModal)} />
-      <button onClick={uploadBtn}>aa</button>
+      {/* {saveModal && <Save onClick={() => Modal()} />} */}
+
+      <button onClick={uploadBtn}>업로드</button>
       <button onClick={saveBtn}>save</button>
       <form className="writearticle-box">
         <ul>

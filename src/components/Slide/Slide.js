@@ -3,9 +3,9 @@ import React, { useLayoutEffect, useRef, useEffect, useState } from "react";
 import "./Slider.scss";
 import "./SliderItem.scss";
 
-import image1 from "assets/imgs/banner.jpeg";
-import image2 from "assets/imgs/image2.jpeg";
-import image3 from "assets/imgs/test.jpeg";
+import image1 from "assets/imgs/image2.png";
+import image2 from "assets/imgs/banner.jpeg";
+import image3 from "assets/imgs/image2.jpeg";
 
 function useWindowSize() {
   const [size, setSize] = useState([0, 0]);
@@ -71,7 +71,7 @@ const Slider = () => {
     setTimeout(() => {
       isResizing.current = false;
       if (!isResizing.current) setIsSwiping(false);
-    }, 1000);
+    }, 2000);
   }, [windowWidth]);
 
   useInterval(
