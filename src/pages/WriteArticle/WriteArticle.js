@@ -248,7 +248,6 @@ const WriteArticle = () => {
                 placeholder="제목을 입력해주세요."
                 onChange={(e) => onChangeInputs("title", e)}
                 error={errorCheck.title}
-                maxlength={99999999}
               />
               {errorCheck.title && (
                 <div className="error-message">제목을 입력해주세요.</div>
@@ -262,7 +261,6 @@ const WriteArticle = () => {
                 type={"text"}
                 placeholder="내용을 요약하는 부제목을 입력해주세요."
                 onChange={(e) => onChangeInputs("subTitle", e)}
-                maxlength={99999999}
               />
             </span>
           </li>
@@ -322,7 +320,7 @@ const WriteArticle = () => {
           </li>
         </ul>
       </form>
-      {!localStorage.getItem("admin") && (
+      {localStorage.getItem("admin") && (
         <>
           <div
             className="writearticle-box"

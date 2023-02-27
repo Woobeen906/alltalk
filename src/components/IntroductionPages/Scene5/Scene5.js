@@ -4,7 +4,8 @@ import "./Scene5.scss";
 import MemberSelect from "components/MemberSelectBtn/MemberSelectBtn";
 import ceo from "assets/imgs/Scene5/ceoImg.jpg";
 import ceo2 from "assets/imgs/Scene5/ceoImg2.jpg";
-import cto from "assets/imgs/Scene5/ctoImg.jpg";
+import cto1 from "assets/imgs/Scene5/ctoImg.jpg";
+import cto2 from "assets/imgs/Scene5/ctoImg2.jpeg";
 import Space from "components/Space/Space";
 
 const Scene5 = forwardRef((props, ref) => {
@@ -33,7 +34,7 @@ const Scene5 = forwardRef((props, ref) => {
     },
     {
       name: "양강민",
-      title: `아무거나`,
+      title: `어려운 난관에 봉착했을 때 스스로 헤쳐나가는 과정이 즐겁고 그 속에서 성장하는 내 모습에 뿌듯함을 느낍니다.`,
       position: "기술개발(AI/Sercurity)",
       list: [
         "· 2020 동남권 LINC+ 창업노마드 FAIR 최우수상 수상",
@@ -59,7 +60,12 @@ const Scene5 = forwardRef((props, ref) => {
     return (
       <>
         <div className="scene5-content-img">
-          <img src={ceo2} alt="대표이미지" />
+          {selectMember.name === "박소영" ? (
+            <img src={ceo2} alt="대표이미지" />
+          ) : (
+            <img src={cto2} alt="대표이미지" />
+          )}
+
           <div className="scene5-content-img-text">
             <div className="scene5-content-img-name">
               {memberInfo[selectMember.number].name}
@@ -109,7 +115,7 @@ const Scene5 = forwardRef((props, ref) => {
           />
           <Space size={24} />
           <MemberSelect
-            img={cto}
+            img={cto1}
             position="기술개발(AI/Sercurity)"
             name="양강민"
             number={1}

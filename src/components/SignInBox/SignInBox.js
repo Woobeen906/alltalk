@@ -36,6 +36,18 @@ const SignInBox = () => {
     } catch (e) {}
   };
 
+  const userDataSave = () => {
+    const frm = new FormData();
+    frm.append("id", signInData.id);
+    axios({
+      method: "POST",
+      url: "http://ec2-13-125-123-39.ap-northeast-2.compute.amazonaws.com:5000/my/user",
+      data: frm,
+    }).then((res) => {
+      localStorage.setItem("userdata", JSON.stringify(res.data));
+    });
+  };
+
   const signinBtn = async () => {
     try {
       const frm = new FormData();
@@ -47,13 +59,14 @@ const SignInBox = () => {
         url: "http://ec2-13-125-123-39.ap-northeast-2.compute.amazonaws.com:5000/signin",
         data: frm,
       }).then((res) => {
-        console.log(res.data);
         if (res.data.result) {
           navigate("/");
           setLoggedIn();
+
           localStorage.setItem("login", res.data.result);
           localStorage.setItem("id", signInData.id);
           adminCheck();
+          userDataSave();
         } else {
           alert("아이디와 비밀번호를 확인해주세요.");
         }

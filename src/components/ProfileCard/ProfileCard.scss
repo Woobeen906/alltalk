@@ -3,7 +3,7 @@
 
   position: absolute;
   width: 249px;
-  height: 197px;
+  //   height: 197px;
   top: 56px;
   right: 18.75vw;
 
@@ -21,13 +21,15 @@
       flex-direction: column;
       font-family: "SUIT";
       font-weight: 600;
-      font-size: 19px;
+      //   font-size: 19px;
+      font-size: 0.9896vw;
       text-align: left;
       color: #191919;
       button {
         padding-left: 0;
         font-weight: 500;
-        font-size: 12px;
+        // font-size: 12px;
+        font-size: 0.625vw;
         color: #b1b5be;
         border: 0;
       }

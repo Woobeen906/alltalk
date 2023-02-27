@@ -15,7 +15,14 @@ const Scene6 = forwardRef((props, ref) => {
           alt="scene6img"
         />
       </div>
-      <button className="scene6-btn">wealltalk 둘러보기</button>
+      <button
+        className="scene6-btn"
+        onClick={() => {
+          window.open("https://wealltalk.co.kr/");
+        }}
+      >
+        wealltalk 둘러보기
+      </button>
     </div>
   );
 });

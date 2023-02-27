@@ -16,7 +16,7 @@ const ProfileCard = () => {
           <img src={require("../../assets/imgs/cat.jpg")} />
         </div>
         <div className="profileCard-text">
-          닉네임
+          {JSON.parse(localStorage.getItem("userdata")).nickname}
           <button>프로필 설정></button>
         </div>
       </div>
