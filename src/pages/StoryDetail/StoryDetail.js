@@ -143,9 +143,13 @@ const StoryDetail = ({ navigate }) => {
           >
             <img src={image3} />
             <div className="storyDetail-btn-title">현재 스토리</div>
-            <div className="storyDetail-btn-content">{preContent.title}</div>
+            {/* <div className="storyDetail-btn-content">{preContent.title}</div>
             <div className="storyDetail-btn-time">
               {getDayMinuteCounter(preContent.day)}
+            </div> */}
+            <div className="storyDetail-btn-content">타이틀</div>
+            <div className="storyDetail-btn-time">
+              {/* {getDayMinuteCounter(preContent.day)} */}
             </div>
           </button>
         )}
@@ -154,9 +158,13 @@ const StoryDetail = ({ navigate }) => {
             <img src={nextImg} />
 
             <div className="storyDetail-btn-title">다음 스토리</div>
-            <div className="storyDetail-btn-content">{nextContent.title}</div>
+            {/* <div className="storyDetail-btn-content">{nextContent.title}</div>
             <div className="storyDetail-btn-time">
               {getDayMinuteCounter(nextContent.day)}
+            </div> */}
+            <div className="storyDetail-btn-content">타이틀</div>
+            <div className="storyDetail-btn-time">
+              {/* {getDayMinuteCounter(nextContent.day)} */}
             </div>
           </button>
         )}

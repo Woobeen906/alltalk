@@ -61,9 +61,9 @@ const ContentsCard = (props) => {
       >
         {getDayMinuteCounter(deadline).slice(2, 4) === "시간"
           ? getDayMinuteCounter(deadline).slice(1, -1)
-          : getDayMinuteCounter(deadline).slice(0, 1)}
+          : `D-${getDayMinuteCounter(deadline).slice(0, 1)}`}
         {/* {`D-${getDayMinuteCounter(deadline).slice(0, 1)}`} */}
-        {/* {`D-${getDayMinuteCounter(deadline).slice(2, 4)}`} */}
+        {/* {`${getDayMinuteCounter(deadline)}`} */}
       </div>
       {memberDeadline && (
         <div className="contentsCard-deadlie-message">마감임박</div>

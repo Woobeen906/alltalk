@@ -1,9 +1,9 @@
 import React, { useState, forwardRef } from "react";
 import "./Scene1.scss";
 
-import image1 from "assets/imgs/Scene1/Scene1_1.jpg";
-import image2 from "assets/imgs/Scene1/Scene1_2.jpg";
-import image3 from "assets/imgs/Scene1/Scene1_3.jpg";
+import image1 from "assets/imgs/Scene1/Scene1_1.jpeg";
+import image2 from "assets/imgs/Scene1/Scene1_2.jpeg";
+import image3 from "assets/imgs/Scene1/Scene1_3.jpeg";
 
 const Scene1 = forwardRef((props, ref) => {
   const { animation } = props;

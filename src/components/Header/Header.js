@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useState } from "react";
 import "./Header.scss";
 
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import Save from "pages/WriteArticle/Save";
 import ProfileCard from "components/ProfileCard/ProfileCard";
 
 const Header = (props) => {
@@ -32,7 +31,7 @@ const Header = (props) => {
         backgroundColor: headerCss && "transparent",
         transition: "all 0.5s",
         borderBottom: "0.1px solid #EEF1F4",
-        display: landing ? "" : "flex",
+        display: pathname === "/WriteArticle" ? "none" : landing ? "" : "flex",
       }}
       onClick={onTopBtn}
     >
