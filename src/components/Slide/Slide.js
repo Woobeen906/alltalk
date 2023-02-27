@@ -3,7 +3,7 @@ import React, { useLayoutEffect, useRef, useEffect, useState } from "react";
 import "./Slider.scss";
 import "./SliderItem.scss";
 
-import image1 from "assets/imgs/image2.png";
+import image1 from "assets/imgs/banner.png";
 import image2 from "assets/imgs/banner.jpeg";
 import image3 from "assets/imgs/image2.jpeg";
 

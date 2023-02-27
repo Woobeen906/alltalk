@@ -7,8 +7,10 @@ import Imageuploader from "components/ImageUploader/ImageUploader";
 import axios from "axios";
 import Header from "components/Header/Header";
 import Save from "./Save";
+import { useNavigate } from "react-router-dom";
 
 const WriteArticle = () => {
+  const navigate = useNavigate();
   const [inputData, setInputData] = useState({
     title: "",
     subTitle: "",
@@ -91,19 +93,19 @@ const WriteArticle = () => {
 
         const frm = new FormData();
 
+        detailImages.map((item) => {
+          frm.append("file[]", item);
+        });
+
         frm.append("id", "admin");
         frm.append("title", title);
         frm.append("name", "admin");
         frm.append("subtitle", subTitle);
         frm.append("content", contents);
-        frm.append("file[]", detailImages);
+        // frm.append("file[]", detailImages);
         frm.append("maxMember", member.toString());
         frm.append("tag", hashtags);
         frm.append("deadline", new Date(selectDate).valueOf() % 1000);
-        // frm.append("deadline", new Date(1677855600000).valueOf());
-        // frm.append("deadline", 12312415);
-        // frm.append("deadline", 12312420);
-        // frm.append("deadline", );
 
         axios({
           method: "POST",
@@ -111,9 +113,9 @@ const WriteArticle = () => {
           data: frm,
         })
           .then((res) => {
-            console.log(res.data);
             if (res.data.result) {
               // navigate("/");
+              alert("글쓰기 성공!");
             }
           })
           .catch((e) => console.log(e));
@@ -127,16 +129,18 @@ const WriteArticle = () => {
       const { title, subTitle, contents, member } = inputData;
 
       const frm = new FormData();
+      detailImages.map((item) => {
+        frm.append("file[]", item);
+      });
       frm.append("id", "user");
       frm.append("title", title);
       frm.append("name", "user");
       frm.append("subtitle", subTitle);
       frm.append("content", contents);
-      frm.append("file[]", detailImages);
+
       frm.append("maxMember", member.toString());
       frm.append("tag", hashtags);
-      frm.append("deadline", new Date(selectDate).getTime());
-      frm.append("admin", true);
+      frm.append("deadline", new Date(selectDate).valueOf() % 1000);
 
       await axios({
         method: "POST",
@@ -147,6 +151,7 @@ const WriteArticle = () => {
           console.log(res.data);
           if (res.data.result) {
             // navigate("/");
+            alert("임시저장 성공!");
           }
         })
         .catch((e) => console.log(e));
