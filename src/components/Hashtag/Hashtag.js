@@ -9,7 +9,7 @@ const HashtagManager = (props) => {
       // 스페이스바 32 엔터 13
       if (e.which === 32 || e.which === 13) {
         e.preventDefault();
-        props.setHashtags([...props.hashtags, newTag]);
+        if (newTag.length > 0) props.setHashtags([...props.hashtags, newTag]);
         setNewTag("");
       }
     };
@@ -46,15 +46,16 @@ export const HashtagList = (props) => {
         value={tag}
       >
         {tag}
+        {props.default && <span>X</span>}
       </button>
     );
   };
   return (
-    <div>
+    <>
       {props.hashtags.map((tag) => (
         <Hashtag key={tag} tag={tag} />
       ))}
-    </div>
+    </>
   );
 };
 
