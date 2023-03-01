@@ -14,11 +14,13 @@ import Mypage from "pages/Mypage/Mypage";
 import ProfileSetting from "pages/ProfileSetting/ProfileSetting";
 
 import Introduction from "pages/Introduction/Introduction";
+import ScrollToTop from "assets/utils/ScrollToTop";
 
 function App() {
   return (
     <div className="App">
       <BrowserRouter>
+        <ScrollToTop />
         <Layout>
           <Routes>
             <Route path="/" element={<Main />}></Route>
@@ -30,7 +32,7 @@ function App() {
             <Route path="/SignUpInput" element={<SignUpInput />}></Route>
             <Route path="/Mypage" element={<Mypage />}></Route>
             <Route path="/ProfileSetting" element={<ProfileSetting />}></Route>
-            <Route path="/StoryDetail" element={<StoryDetail />}></Route>
+            <Route path="/StoryDetail/:no" element={<StoryDetail />}></Route>
           </Routes>
         </Layout>
       </BrowserRouter>
