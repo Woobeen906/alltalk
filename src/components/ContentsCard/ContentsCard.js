@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 import Tag from "components/Tag/Tag";
 import { getDayMinuteCounter } from "assets/utils/getDayCouter";
+import Space from "components/Space/Space";
 
 const ContentsCard = (props) => {
   const {
@@ -17,7 +18,9 @@ const ContentsCard = (props) => {
     deadline,
     filter,
     idx,
+    subtitle,
   } = props;
+
   const navigate = useNavigate();
 
   const memberDeadline = maxMember - member === 1;
@@ -38,32 +41,32 @@ const ContentsCard = (props) => {
   };
 
   const onClickDetail = (idx) => {
-    navigate("/StoryDetail", { state: { idx: idx, root: "content" } });
+    navigate(`/StoryDetail/${idx}`, { state: { idx: idx, root: "content" } });
   };
 
   useEffect(() => {
     Image();
   }, []);
+
   return (
     <div
       className="contentsCard"
-      style={{
-        display:
-          tags.find((item) => item === filter) === undefined &&
-          filter !== "all" &&
-          "none",
-      }}
+      style={
+        {
+          // display:
+          //   tags.find((item) => item === filter) === undefined &&
+          //   filter !== "all" &&
+          //   "none",
+        }
+      }
       onClick={() => onClickDetail(idx)}
     >
       <div
         className="contentsCard-image-dday"
         style={image ? {} : { margin: 0 }}
       >
-        {getDayMinuteCounter(deadline).slice(2, 4) === "시간"
-          ? getDayMinuteCounter(deadline).slice(1, -1)
-          : `D-${getDayMinuteCounter(deadline).slice(0, 1)}`}
-        {/* {`D-${getDayMinuteCounter(deadline).slice(0, 1)}`} */}
-        {/* {`${getDayMinuteCounter(deadline)}`} */}
+        {getDayMinuteCounter(new Date(deadline).valueOf() * 1000)}
+        {/* {new Date(deadline).valueOf() * 1000} */}
       </div>
       {memberDeadline && (
         <div className="contentsCard-deadlie-message">마감임박</div>
@@ -80,7 +83,10 @@ const ContentsCard = (props) => {
         {tags && (
           <div className="contentsCard-tag">
             {tags.map((tag, index) => (
-              <Tag text={tag} id={index} key={`${tag}index`} />
+              <>
+                <Tag text={tag} id={index} key={`${tag}index`} />
+                <Space size={"0.417vw"} />
+              </>
             ))}
           </div>
         )}

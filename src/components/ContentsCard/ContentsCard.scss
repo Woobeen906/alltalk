@@ -36,6 +36,9 @@
 
     img {
       width: 100%;
+      // width: 14.6875vw;
+      height: 10.833vw;
+
       transition: all 0.1s linear;
       border-radius: 10px;
     }
@@ -48,7 +51,8 @@
     flex-direction: column;
     align-items: flex-start;
     .contentsCard-tag {
-      display: inline-block;
+      // display: inline-block;
+      display: flex;
       margin-top: 10px;
     }
 
@@ -75,6 +79,7 @@
       font-family: "SUIT";
       font-weight: 400;
       font-size: 0.9375rem;
+      text-align: left;
       text-overflow: ellipsis;
       overflow: hidden;
 

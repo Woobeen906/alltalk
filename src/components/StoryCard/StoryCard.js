@@ -74,10 +74,11 @@ const StoryCard = (props) => {
   };
 
   const onClickDetail = (idx) => {
-    navigate("/StoryDetail", { state: { idx: idx, root: "story" } });
+    navigate(`/StoryDetail/${idx}`, { state: { idx: idx, root: "story" } });
   };
 
   useEffect(() => {
+    // console.log(props.item);
     Image();
     ProfileImg();
   }, []);
