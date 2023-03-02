@@ -10,11 +10,54 @@ import ProfilePwEdit from "components/ProfilePwEdit/ProfilePwEdit";
 
 const ProfileSetting = () => {
   const [currentPage, setCurrentPage] = useState("정보 수정");
+  const [tags, setTags] = useState([]);
 
-  const onChangePage = (e) => {
-    setCurrentPage(e.currentTarget.innerText);
+  const [inputs, setInputs] = useState({
+    introduce: "",
+    name: "",
+    phoneNumber: "",
+    email: "",
+    nickname: "",
+    sex: true,
+    birth: "",
+  });
+
+  const onChangePage = (e) => setCurrentPage(e.currentTarget.innerText);
+  const onChangeSex = (e) => {
+    e.currentTarget.innerText === "남"
+      ? setInputs({ ...inputs, sex: true })
+      : setInputs({ ...inputs, sex: false });
   };
 
+  const onChangeInput = (e) => {
+    switch (e.target.name) {
+      case "introduce":
+        setInputs({ ...inputs, introduce: e.target.value });
+        break;
+      case "name":
+        setInputs({ ...inputs, name: e.target.value });
+        break;
+      case "phoneNumber":
+        setInputs({ ...inputs, phoneNumber: e.target.value });
+        break;
+      case "email":
+        setInputs({ ...inputs, email: e.target.value });
+        break;
+      case "nickname":
+        setInputs({ ...inputs, nickname: e.target.value });
+        break;
+      case "sex":
+        setInputs({ ...inputs, sex: e.target.value });
+        break;
+      case "birth":
+        setInputs({ ...inputs, birth: e.target.value });
+        break;
+
+      default:
+        break;
+    }
+    console.log(inputs);
+  };
   return (
     <div className="profileSetting">
       <div className="profileSetting-menu">
@@ -26,11 +69,17 @@ const ProfileSetting = () => {
       <div className="profileSetting-content">
         {currentPage === "정보 수정" ? (
           <>
-            <ProfileEdit />
+            <ProfileEdit onChangeInput={onChangeInput} inputs={inputs} />
             <Space size={16} />
-            <ProfileBasciEdit />
+            <ProfileBasciEdit onChangeInput={onChangeInput} inputs={inputs} />
             <Space size={16} />
-            <ProfileDetailsEdit />
+            <ProfileDetailsEdit
+              onChangeInput={onChangeInput}
+              inputs={inputs}
+              tags={tags}
+              setTags={setTags}
+              onChangeSex={onChangeSex}
+            />
             <Space size={40} />
             <button className="profileSetting-save">저장</button>
           </>
