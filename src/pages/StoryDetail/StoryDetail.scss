@@ -2,7 +2,6 @@
   margin-bottom: 120px;
   .storyDetail-title {
     width: 100vw;
-    // height: 274px;
   }
 
   .storyDetail-content {
@@ -35,6 +34,7 @@
         padding: 24px 0 0 16px;
       }
       .storyDetail-btn-content {
+        text-align: left;
         font-weight: 600;
         font-size: 20px;
         word-break: break-word;

@@ -1,7 +1,7 @@
 .storyDetailUserInfo {
   box-sizing: border-box;
 
-  width: 384px;
+  width: 20vw; //384
   height: 211px;
   background: #f8f9fb;
   border: 1px solid #e4e9ed;
@@ -14,8 +14,8 @@
   flex-direction: column;
   img {
     float: left;
-    width: 42px;
-    height: 42px;
+    width: 2.1875vw; //42
+    height: 2.1875vw;
     border-radius: 50%;
   }
 
@@ -34,7 +34,8 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      padding: 6px 12px;
+      // padding: 6px 12px;
+      padding: 6px 0.625vw;
       height: 26px;
       border: 1px solid #e4e9ed;
       border-radius: 29px;

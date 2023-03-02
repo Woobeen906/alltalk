@@ -68,14 +68,14 @@
 
     .storyDetailContent-tagbox {
       box-sizing: border-box;
-      width: 384px;
+      width: 20vw; //384
       min-height: 142px;
       overflow-y: scroll;
       background: #ffffff;
       border: 1px solid #e4e9ed;
       border-radius: 10px;
 
-      padding: 24px 20px 0 20px;
+      padding: 24px 1.0417vw 0 1.0417vw; //20
 
       font-family: "SUIT";
       font-weight: 500;

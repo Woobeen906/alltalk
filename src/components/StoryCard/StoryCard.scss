@@ -99,6 +99,8 @@
       display: flex;
       color: #191919;
       padding: 0 0 16px 12px;
+      z-index: 10;
+
       span {
         padding-left: 5px;
         &.liked {
@@ -106,7 +108,8 @@
         }
       }
       button {
-        cursor: pointer;
+        // cursor: pointer;
+        cursor: grab;
         border: none;
         background: url("../../assets/imgs/like.jpg");
         background-size: contain;

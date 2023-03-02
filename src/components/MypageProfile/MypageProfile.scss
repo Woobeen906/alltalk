@@ -11,6 +11,7 @@
   border-radius: 10px;
 
   font-family: "SUIT";
+
   img {
     width: 8.23vw;
     height: 8.23vw;
@@ -21,14 +22,9 @@
 
   .mypageProfile-nickname {
     width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
 
     color: #191919;
     font-weight: 600;
-
-    margin-bottom: 24px;
   }
 
   .mypageProfile-profilesetting {
@@ -51,12 +47,11 @@
 
   .mypageProfile-description {
     width: 100%;
+
+    margin-top: 24px;
     font-size: 13px;
     font-weight: 400;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
+    text-align: left;
     color: #616269;
   }
 }
