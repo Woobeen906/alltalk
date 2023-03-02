@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./Main.scss";
 
 import axios from "axios";
+import { BASE_URL } from "config";
 import { throttle } from "lodash";
 
 import Slide from "components/Slide/Slide";
@@ -18,7 +19,9 @@ const Main = () => {
   const [btnsListSelect, setBtnsListSelect] = useState(0);
   const [hashtags, setHashtags] = useState([]);
 
-  const [beerList, setBeerList] = useState([]); // 보여줄 전체 리스트
+  const [recruitList, setRecruitList] = useState([]); // 보여줄 전체 리스트 모집중
+  const [dataList, setDataList] = useState([]); // 보여줄 전체 리스트 마감
+
   const [offset, setOffset] = useState(0); // back에 요청할 페이지 데이터 순서 정보
   // offset 이후 순서의 데이터부터 8개씩 데이터를 받아올 것임
   const [target, setTarget] = useState(null); // 관찰대상 target
@@ -104,13 +107,13 @@ const Main = () => {
 
     axios({
       method: "POST",
-      url: "http://ec2-13-125-123-39.ap-northeast-2.compute.amazonaws.com:5000/main/content/end/all",
+      url: `${BASE_URL}/main/content/all`,
       data: frm,
     })
       .then((res) => {
         console.log(res.data);
         // 받아온 데이터를 보여줄 전체 리스트에 concat으로 넣어준다
-        setBeerList((beerList) => beerList.concat(res.data));
+        setDataList((dataList) => dataList.concat(res.data));
         // 다음 요청할 데이터 offset 정보
         setOffset((offset) => offset + res.data.length);
         // 다음 요청 전까지 요청 그만 보내도록 false로 변경
@@ -156,7 +159,7 @@ const Main = () => {
           </div>
         )}
         <div className="main-grid">
-          {beerList.map((item, index) => (
+          {dataList.map((item, index) => (
             <ContentsCard
               image={item.img}
               tags={item.tag.split(",")}
