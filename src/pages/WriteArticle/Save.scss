@@ -1,28 +1,129 @@
+@keyframes mountSaveBox {
+  0% {
+    transform: translateX(25vw);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
 .save {
   width: 100vw;
-  height: 100vh;
+  height: 110vh;
   position: absolute;
-  top: -56px;
+  top: 0;
 
   z-index: 100;
   background: rgba(0, 0, 0, 0.4);
 
   display: flex;
   justify-content: flex-end;
+
   .save-box {
     width: 25vw;
-    height: 100vh;
+    height: 110vh;
     background: #ffffff;
 
+    animation: mountSaveBox 0.5s forwards;
     .save-box-top {
+      width: 100%;
       height: 7.6652vh;
       border-bottom: 1px solid #e4e9ed;
+
+      display: flex;
+      justify-content: space-between;
+      // padding: 0 1.25vw;
+      .save-box-load {
+        font-family: "SUIT";
+        font-weight: bold;
+        font-size: 20px;
+
+        color: #191919;
+
+        display: flex;
+        align-items: flex-end;
+        padding-left: 1.25vw;
+        padding-bottom: 18px;
+        span {
+          color: #00cb8e;
+          margin-left: 4px;
+        }
+      }
+
+      .save-box-btn {
+        display: flex;
+        align-items: flex-start;
+        justify-content: flex-end;
+
+        button {
+          border: 0;
+          background-color: #ffffff;
+
+          font-size: 17px;
+          font-weight: 900;
+          color: #616269;
+
+          padding-right: 1.25vw;
+          padding-top: 23.5px;
+        }
+      }
     }
 
     .save-box-bottom {
       .save-item {
         box-sizing: border-box;
         padding: 16px 24px;
+        display: flex;
+        align-items: center;
+
+        position: relative;
+
+        border-bottom: 1px solid #e4e9ed;
+
+        cursor: pointer;
+        .save-item-img {
+          // width: 2.083vw;
+          // height: 2.083vw;
+          width: 40px;
+          height: 40px;
+          border-radius: 10px;
+          margin-right: 0.83vw;
+          img {
+            width: 100%;
+            height: 100%;
+            border-radius: 10px;
+          }
+        }
+
+        .save-item-text {
+          font-family: "SUIT";
+          font-weight: 600;
+          font-size: 16px;
+          color: #191919;
+          text-align: left;
+          .save-item-date {
+            font-weight: 500;
+            font-size: 14px;
+            color: #b1b5be;
+          }
+        }
+
+        .save-item-delete {
+          position: absolute;
+          right: 1.3542vw;
+          width: 20px;
+          height: 20px;
+          border: 0;
+          background: url("../../assets/imgs/trash.png") no-repeat;
+          background-position: center;
+        }
+        .save-item-delete:hover {
+          background: url("../../assets/imgs/trashHover.png") no-repeat;
+          background-position: center;
+        }
+      }
+      .save-item:hover {
+        background: #f8f9fb;
       }
     }
   }

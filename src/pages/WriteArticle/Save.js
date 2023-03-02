@@ -2,47 +2,89 @@ import React, { useEffect, useState } from "react";
 import "./Save.scss";
 
 import axios from "axios";
+import { BASE_URL } from "config";
 
 const Save = (props) => {
-  const { onClick } = props;
-  const [saveData, setSaveData] = useState([]);
-  const [test, setTest] = useState();
+  const { onClick, hashtags, setHashtags, inputData, setInputData } = props;
+  const [saveDataList, setSaveDataList] = useState([]);
+  const [saveData, setSaveData] = useState();
 
-  const loadSaveData = async () => {
+  const loadSaveDataList = async () => {
     let frm = new FormData();
-    console.log(localStorage.setItem("id"));
-    frm.append("id", "siugan");
+
+    frm.append("id", localStorage.getItem("id"));
+
+    let url = localStorage.getItem("admin")
+      ? `${BASE_URL}/write/content/temp/list`
+      : `${BASE_URL}/write/story/temp/list`;
+
     await axios({
       method: "POST",
-      url: "http://ec2-13-125-123-39.ap-northeast-2.compute.amazonaws.com:5000/write/story/temp/list",
+      url: url,
       data: frm,
     })
       .then((res) => {
-        if (res.data) setSaveData(res.data);
-        // console.log(res.data);
+        if (res.data) setSaveDataList(res.data);
+      })
+      .catch((e) => console.log(e));
+  };
+
+  const loadSaveData = async (idx) => {
+    let frm = new FormData();
+    frm.append("idx", idx);
+
+    let url = localStorage.getItem("admin")
+      ? `${BASE_URL}/write/content/temp/load`
+      : `${BASE_URL}/write/story/temp/load`;
+    axios({
+      method: "POST",
+      url: url,
+      data: frm,
+    })
+      .then((res) => {
+        setSaveData(res.data);
+        if (res.data) {
+          setInputData({
+            ...inputData,
+            title: res.data.title,
+            subTitle: res.data.subtitle,
+            contents: res.data.content,
+          });
+          const tags = res.data.tag.split(",");
+          setHashtags([...hashtags, ...tags]);
+
+          onClick();
+        }
       })
       .catch((e) => console.log(e));
   };
 
   useEffect(() => {
-    loadSaveData();
+    loadSaveDataList();
   }, []);
 
   const saveItem = (props) => {
     const { day, idx, img, title } = props;
 
-    axios({
-      method: "POST",
-      url: "http://ec2-13-125-123-39.ap-northeast-2.compute.amazonaws.com:5000/util/story/1/0",
-    })
-      .then((res) => {
-        setTest(res.data);
-        // console.log(res);
-      })
-      .catch((e) => console.log(e));
+    const date = new Date(day);
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1;
+    const dday = date.getDate();
+    const hour = date.getHours();
+    const minute = date.getMinutes();
+
     return (
-      <div className="save-item">
-        <img src={test} />
+      <div className="save-item" onClick={() => loadSaveData(idx)}>
+        <div className="save-item-img">
+          <img src={saveData} />
+        </div>
+        <div className="save-item-text">
+          {title}
+          <div className="save-item-date">
+            {`${year}.${month}.${dday} ${hour}:${minute} `}저장
+          </div>
+        </div>
+        <button className="save-item-delete"></button>
       </div>
     );
   };
@@ -51,13 +93,15 @@ const Save = (props) => {
     <div className="save">
       <div className="save-box">
         <div className="save-box-top">
-          임시저장 불러오기
+          <div className="save-box-load">
+            임시저장 불러오기<span>{saveDataList.length}</span>
+          </div>
           <div className="save-box-btn">
             <button onClick={onClick}>X</button>
           </div>
         </div>
         <div className="save-box-bottom">
-          {saveData.map((item) => saveItem(item))}
+          {saveDataList.map((item) => saveItem(item))}
         </div>
       </div>
     </div>
