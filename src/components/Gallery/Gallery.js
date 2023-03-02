@@ -3,8 +3,6 @@ import "./Gallery.scss";
 
 import axios from "axios";
 
-import image2 from "../../assets/imgs/image1.jpg";
-
 const Gallery = (props) => {
   const { imgs } = props;
 
@@ -33,7 +31,7 @@ const Gallery = (props) => {
   useEffect(() => {
     setTimeout(() => {
       setTest(true);
-    }, 1500);
+    }, 500);
   }, []);
 
   useEffect(() => {
@@ -63,7 +61,7 @@ const Gallery = (props) => {
         {image
           .sort((a, b) => a.id - b.id)
           .map((item) => (
-            <>
+            <React.Fragment key={item.image}>
               <li onClick={() => currentView(item.id)}>
                 {
                   <img
@@ -73,7 +71,7 @@ const Gallery = (props) => {
                   />
                 }
               </li>
-            </>
+            </React.Fragment>
           ))}
       </div>
     </div>
