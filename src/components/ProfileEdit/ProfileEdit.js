@@ -1,17 +1,35 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./ProfileEdit.scss";
 
-const ProfileEdit = () => {
-  const [textLength, setTextLength] = useState("");
+import axios from "axios";
+import { BASE_URL } from "config";
 
-  const onChangeTextArea = (e) => {
-    setTextLength(e.target.value);
+const ProfileEdit = (props) => {
+  const { onChangeInput, inputs } = props;
+  const [profileImg, setProfileImg] = useState();
+
+  const loadImg = async () => {
+    await axios({
+      method: "POST",
+      url: `${BASE_URL}/util/${localStorage.getItem("id")}/profile`,
+      responseType: "blob",
+    }).then((res) => {
+      const url = window.URL.createObjectURL(
+        new Blob([res.data], { type: res.headers["content-type"] })
+      );
+      setProfileImg(url);
+    });
   };
+
+  useEffect(() => {
+    loadImg();
+  }, []);
+
   return (
     <div className="profileEdit">
       프로필 수정
       <div className="profileEdit-info">
-        <img src={require("../../assets/imgs/cat.jpg")} alt={"profileImg"} />
+        <img src={profileImg} alt={"profileImg"} />
         <div className="profileEdit-info-btns">
           <button className="profileEdit-info-imgchange">
             프로필사진 변경
@@ -21,11 +39,16 @@ const ProfileEdit = () => {
       </div>
       <div className="profileEdit-info-textarea">
         자기소개
-        <textarea type="text" maxLength={150} onChange={onChangeTextArea} />
-        <div className="profileEdit-info-textarea-length">{`${textLength.length}/150`}</div>
+        <textarea
+          type="text"
+          maxlength={150}
+          name="introduce"
+          onChange={onChangeInput}
+        />
+        <div className="profileEdit-info-textarea-length">{`${inputs.introduce.length}/150`}</div>
       </div>
     </div>
   );
 };
 
-export default ProfileEdit;
+export default React.memo(ProfileEdit);

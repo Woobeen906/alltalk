@@ -1,31 +1,11 @@
-import React, { useState } from "react";
+import React from "react";
 import "./ProfileBasciEdit.scss";
 
 import Input from "components/Input/Input";
 import Space from "components/Space/Space";
 
-const ProfileBasciEdit = () => {
-  const [inputs, setInputs] = useState({
-    name: "",
-    phoneNumber: "",
-    email: "",
-  });
-
-  const onChangeInput = (e) => {
-    switch (e.target.name) {
-      case "name":
-        setInputs({ ...inputs, name: e.target.value });
-        break;
-      case "phoneNumber":
-        setInputs({ ...inputs, phoneNumber: e.target.value });
-        break;
-      case "email":
-        setInputs({ ...inputs, email: e.target.value });
-        break;
-      default:
-        break;
-    }
-  };
+const ProfileBasciEdit = (props) => {
+  const { onChangeInput, inputs } = props;
 
   return (
     <div className="profileBasciEdit">
@@ -37,7 +17,8 @@ const ProfileBasciEdit = () => {
           <Input
             type="text"
             name="name"
-            maxLength={8}
+            maxlength={8}
+            placeholder="이름을 입력해주세요."
             onChange={onChangeInput}
           />
           <div className="profileBasciEdit-input-box-nameCnt">{`${inputs.name.length}/8`}</div>
@@ -46,13 +27,18 @@ const ProfileBasciEdit = () => {
         <div className="profileBasciEdit-input-box">
           휴대폰번호*
           <Space size={16} />
-          <Input type="number" name="phoneNumber" />
+          <Input
+            type="number"
+            name="phoneNumber"
+            placeholder="‘-’ 없이 입력 (ex:01012345678)"
+            onChange={onChangeInput}
+          />
           <Space size={24} />
         </div>
         <div className="profileBasciEdit-input-box">
           이메일*
           <Space size={16} />
-          <Input type="email" name="email" />
+          <Input type="email" name="email" onChange={onChangeInput} />
         </div>
       </div>
     </div>

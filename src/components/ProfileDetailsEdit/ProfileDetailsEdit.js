@@ -5,25 +5,14 @@ import Input from "components/Input/Input";
 import Space from "components/Space/Space";
 import HashtagManager, { HashtagList } from "components/Hashtag/Hashtag";
 
-const ProfileDetailsEdit = () => {
-  const [name, setName] = useState("");
-  const [tags, setTags] = useState([]);
+const ProfileDetailsEdit = (props) => {
+  const { onChangeInput, inputs, tags, setTags, onChangeSex } = props;
+
   const onRemove = (e) => {
     e.preventDefault();
     setTags(tags.filter((hashtag) => hashtag !== e.currentTarget.value));
   };
-  const onChangeInput = (e) => {
-    switch (e.target.name) {
-      case "name":
-        break;
-      case "name":
-        break;
-      case "name":
-        break;
-      default:
-        break;
-    }
-  };
+
   return (
     <div className="profileDetailsEdit">
       상세정보 수정
@@ -33,19 +22,33 @@ const ProfileDetailsEdit = () => {
           <Space size={16} />
           <Input
             type="text"
-            name="name"
+            name="nickname"
             maxlength={8}
             onChange={onChangeInput}
           />
-          <div className="profileDetailsEdit-input-box-nameCnt">{`${name.length}/8`}</div>
+          <div className="profileDetailsEdit-input-box-nameCnt">{`${inputs.nickname.length}/8`}</div>
           <Space size={24} />
         </div>
         <div className="profileDetailsEdit-input-box">
-          이름*
+          성별*
           <Space size={16} />
           <div className="profileDetailsEdit-input-box-btns">
-            <button className="profileDetailsEdit-btn-left">남</button>
-            <button className="profileDetailsEdit-btn-right">여</button>
+            <button
+              className={`profileDetailsEdit-btn-left  profileDetailsEdit-input-btn ${
+                inputs.sex && "profileDetailsEdit-input-active"
+              }`}
+              onClick={onChangeSex}
+            >
+              남
+            </button>
+            <button
+              className={`profileDetailsEdit-btn-right profileDetailsEdit-input-btn ${
+                !inputs.sex && "profileDetailsEdit-input-active"
+              }`}
+              onClick={onChangeSex}
+            >
+              여
+            </button>
           </div>
           <Space size={24} />
         </div>
@@ -54,7 +57,7 @@ const ProfileDetailsEdit = () => {
           <Space size={16} />
           <Input
             type="text"
-            name="name"
+            name="birth"
             maxLength={8}
             onChange={onChangeInput}
           />
@@ -71,7 +74,11 @@ const ProfileDetailsEdit = () => {
             size={"large"}
           />
           <Space size={12} />
-          <HashtagList hashtags={tags} default={true} onClick={onRemove} />
+          {tags.length !== 0 && (
+            <div className="profileDetailsEdit-hashtag-list">
+              <HashtagList hashtags={tags} default={true} onClick={onRemove} />
+            </div>
+          )}
         </div>
       </div>
     </div>

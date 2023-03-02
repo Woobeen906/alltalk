@@ -1,14 +1,27 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./ProfileCard.scss";
 
-const ProfileCard = () => {
+const ProfileCard = (props) => {
   const navigate = useNavigate();
+
+  const [nickname, setNickname] = useState(null);
 
   const onClickLogout = () => {
     localStorage.clear();
+    props.onHandleModal();
     navigate("/");
   };
+
+  const onClickProfileSetting = () => {
+    props.onHandleModal();
+    navigate("/ProfileSetting");
+  };
+
+  useEffect(() => {
+    if (JSON.parse(localStorage.getItem("userdata")))
+      setNickname(JSON.parse(localStorage.getItem("userdata")).nickname);
+  }, []);
   return (
     <div className="profileCard">
       <div className="profileCard-top">
@@ -16,10 +29,10 @@ const ProfileCard = () => {
           <img src={require("../../assets/imgs/cat.jpg")} />
         </div>
         <div className="profileCard-text">
-          {/* {JSON.parse(localStorage.getItem("userdata")).nickname &&
-            JSON.parse(localStorage.getItem("userdata")).nickname} */}
-          {JSON.parse(localStorage.getItem("userdata")).nickname}
-          <button>프로필 설정></button>
+          {nickname}
+          <button
+            onClick={() => onClickProfileSetting()}
+          >{`프로필 설정>`}</button>
         </div>
       </div>
       <div className="profileCard-bottom">
