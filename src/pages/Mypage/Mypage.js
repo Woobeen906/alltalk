@@ -1,87 +1,109 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./Mypage.scss";
 
 import MypageCard from "components/MypageCard/MypageCard";
 import MypageProfile from "components/MypageProfile/MypageProfile";
 
-import image from "assets/imgs/cat.jpg";
+import axios from "axios";
+import { BASE_URL } from "config";
+
 const Mypage = () => {
   const [selectMenu, setSelectMenu] = useState("스토리");
+  const [userData, setUserData] = useState({
+    nickname: "",
+    introduce: "",
+    profile: "",
+    story: [],
+    storyLike: [],
+    contentLike: [],
+  });
+  const [curList, setCurList] = useState(userData.story);
 
-  const onClickMenu = (e) => {
-    setSelectMenu(e.currentTarget.innerText);
+  const onClickMenu = (e) => setSelectMenu(e.currentTarget.id);
+
+  const loadData = async () => {
+    const frm = new FormData();
+    frm.append("id", localStorage.getItem("id"));
+
+    const url = localStorage.getItem("admin") ? "admin" : "user";
+
+    await axios({
+      method: "POST",
+      url: `${BASE_URL}/my/${url}`,
+      data: frm,
+    }).then((res) => {
+      if (res.data !== "error") {
+        setUserData({
+          ...userData,
+          nickname: res.data.nickname,
+          introduce: res.data.introduce,
+          profile: res.data.profile,
+          story: [...res.data.story],
+          storyLike: [...res.data.storyLike],
+          contentLike: [...res.data.contentLike],
+        });
+        setCurList(res.data.story);
+      }
+    });
   };
 
-  const dummydata = [
-    {
-      img: image,
-      title: "타이틀 최대 2줄 타이틀 최대 2줄 타이틀 최대 2줄...",
-      date: "어제",
-    },
-    {
-      img: image,
-      title: "타이틀 최대 2줄 타이틀 최대 2줄 타이틀 최대 2줄...",
-      date: "어제",
-    },
-    {
-      img: image,
-      title: "타이틀 최대 2줄 타이틀 최대 2줄 타이틀 최대 2줄...",
-      date: "어제",
-    },
-    {
-      img: image,
-      title: "타이틀 최대 2줄 타이틀 최대 2줄 타이틀 최대 2줄...",
-      date: "어제",
-    },
-    {
-      img: image,
-      title: "타이틀 최대 2줄 타이틀 최대 2줄 타이틀 최대 2줄...",
-      date: "어제",
-    },
-    {
-      img: image,
-      title: "타이틀 최대 2줄 타이틀 최대 2줄 타이틀 최대 2줄...",
-      date: "어제",
-    },
-    {
-      img: image,
-      title: "타이틀 최대 2줄 타이틀 최대 2줄 타이틀 최대 2줄...",
-      date: "어제",
-    },
-    {
-      img: image,
-      title: "타이틀 최대 2줄 타이틀 최대 2줄 타이틀 최대 2줄...",
-      date: "어제",
-    },
-  ];
+  useEffect(() => {
+    loadData();
+    setCurList(userData.story);
+  }, []);
+
+  useEffect(() => {
+    switch (selectMenu) {
+      case "스토리":
+        setCurList(userData.story);
+        break;
+      case "좋아요":
+        setCurList(userData.storyLike);
+        break;
+      case "신청":
+        setCurList(userData.contentLike);
+        break;
+
+      default:
+        break;
+    }
+  }, [selectMenu]);
   return (
     <div className="mypage">
-      <MypageProfile />
+      <MypageProfile item={userData} />
 
       <div className="mypage-list">
         <ul className="mypage-list-menu">
           <li
             className={`${selectMenu === "스토리" && "selectedMenu"}`}
             onClick={onClickMenu}
+            id={"스토리"}
           >
-            스토리
+            {`스토리 ${userData.story.length}`}
           </li>
           <li
             className={`${selectMenu === "좋아요" && "selectedMenu"} `}
             onClick={onClickMenu}
+            id={"좋아요"}
           >
-            좋아요
+            {`좋아요 ${userData.storyLike.length}`}
           </li>
           <li
             className={`${selectMenu === "신청" && "selectedMenu"}`}
             onClick={onClickMenu}
+            id={"신청"}
           >
-            신청
+            {`신청 ${userData.contentLike.length}`}
           </li>
         </ul>
         <div className="mypage-itemlist">
-          {dummydata.map((item) => (
-            <MypageCard img={item.img} title={item.title} date={item.date} />
+          {curList.map((item, index) => (
+            <MypageCard
+              img={item.img}
+              title={item.title}
+              day={item.day}
+              key={`${item}${index}`}
+            />
           ))}
         </div>
       </div>
