@@ -11,6 +11,7 @@ export const getDayMinuteCounter = (date) => {
   const dayDiff = postingDate.diff(today, "days");
   const hourDiff = postingDate.diff(today, "hours");
   const minutesDiff = postingDate.diff(today, "minutes");
+  let temp;
 
   if (dayDiff === 0 && hourDiff === 0) {
     // 작성한지 1시간도 안지났을때
@@ -24,5 +25,7 @@ export const getDayMinuteCounter = (date) => {
     return hour + "시간 전"; // '시간'으로 표시
   }
 
-  return -dayDiff + "일 전"; // '일'로 표시
+  if (dayDiff < 0) return "D+" + -dayDiff;
+
+  return `D-${dayDiff}`; // '일'로 표시
 };
