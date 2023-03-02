@@ -1,11 +1,14 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./WriteArticle.scss";
 import { useNavigate } from "react-router-dom";
 
+import axios from "axios";
+import { BASE_URL } from "config";
+
+import Save from "./Save";
 import Input from "components/Input/Input";
 import Calendar from "components/Calendar/Calendar";
 import Imageuploader from "components/ImageUploader/ImageUploader";
-import axios from "axios";
 import WriteHeader from "./WriteHeader";
 
 const WriteArticle = () => {
@@ -85,14 +88,8 @@ const WriteArticle = () => {
       try {
         const frm = new FormData();
 
-        for (let i = 0; i < detailImages.length; i++) {
-          frm.append("file[]", detailImages[i]);
-        }
+        Object.values(postImages).forEach((file) => frm.append("file[]", file));
 
-        console.log(
-          JSON.parse(localStorage.getItem("userdata")).nickname,
-          localStorage.getItem("id")
-        );
         frm.append("id", localStorage.getItem("id"));
         frm.append("title", title);
         frm.append(
@@ -101,23 +98,29 @@ const WriteArticle = () => {
         );
         frm.append("subtitle", subTitle);
         frm.append("content", contents);
-        // frm.append("file[]", detailImages);
+
         frm.append("maxMember", member.toString());
         frm.append("tag", hashtags);
-        frm.append("deadline", new Date(selectDate).valueOf() % 1000);
+        frm.append("deadline", new Date(selectDate).valueOf() / 1000);
+
         const url = localStorage.getItem("admin")
-          ? "http://ec2-13-125-123-39.ap-northeast-2.compute.amazonaws.com:5000/write/content"
-          : "http://ec2-13-125-123-39.ap-northeast-2.compute.amazonaws.com:5000/write/story";
+          ? `${BASE_URL}/write/content`
+          : `${BASE_URL}/write/story`;
         axios({
           method: "POST",
           url: url,
           data: frm,
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
         })
           .then((res) => {
-            console.log(res.data);
             if (res.data.result === true) {
-              navigate("/");
+              url ? navigate("/") : navigate("/Story");
+
               alert("글쓰기 성공!");
+            } else {
+              alert("false");
             }
           })
           .catch((e) => console.log(e));
@@ -132,26 +135,30 @@ const WriteArticle = () => {
 
       const frm = new FormData();
       detailImages.map((item) => frm.append("file[]", item));
-      frm.append("id", "user");
+      frm.append("id", localStorage.getItem("id"));
       frm.append("title", title);
-      frm.append("name", "user");
+      frm.append("name", "admin");
       frm.append("subtitle", subTitle);
       frm.append("content", contents);
-
       frm.append("maxMember", member.toString());
       frm.append("tag", hashtags);
       frm.append("deadline", new Date(selectDate).valueOf() % 1000);
 
+      const url = localStorage.getItem("admin")
+        ? `${BASE_URL}/write/content/temp`
+        : `${BASE_URL}/write/story/temp`;
       await axios({
         method: "POST",
-        url: "http://ec2-13-125-123-39.ap-northeast-2.compute.amazonaws.com:5000/write/story/temp",
+        url: url,
         data: frm,
       })
         .then((res) => {
           console.log(res.data);
-          if (res.data.result) {
+          if (res.data.result === true) {
             // navigate("/");
             alert("임시저장 성공!");
+          } else {
+            alert("임시저장에 실패했습니다.");
           }
         })
         .catch((e) => console.log(e));
@@ -215,33 +222,58 @@ const WriteArticle = () => {
   const [detailImages, setDetailImages] = useState([]); // 프리뷰 보여줄 이미지 데이터
 
   const uploadFile = (e) => {
+    e.preventDefault();
+    // let fileList = e.target.files; //  사용자가 선택한 파일들
     let fileArr = e.target.files; //  사용자가 선택한 파일들
-
-    setPostImages(Array.from(fileArr)); //
-    let fileURLs = [];
-    let filesLength = fileArr.length > 10 ? 10 : fileArr.length; // 최대 10개
-
-    // 프리뷰
-    for (let i = 0; i < filesLength; i++) {
-      let file = fileArr[i];
+    setPostImages(fileArr);
+    for (let i = 0; i < fileArr.length; i++) {
       let reader = new FileReader();
-      reader.onload = () => {
-        fileURLs[i] = reader.result;
-        setDetailImages([...detailImages, ...fileURLs]);
+      reader.readAsDataURL(fileArr[i]);
+
+      reader.onloadend = () => {
+        const base64 = reader.result;
+        if (base64) {
+          let base64Sub = base64.toString();
+          setDetailImages((detailImages) => [...detailImages, base64Sub]);
+        }
       };
-      reader.readAsDataURL(file);
     }
   };
 
   const Modal = () => {
     setSaveModal(!saveModal);
-    console.log("aa", saveModal);
   };
-  return (
-    <div className="writearticle">
-      {/* {saveModal && <Save onClick={() => Modal()} />} */}
 
-      <WriteHeader uploadBtn={uploadBtn} saveBtn={saveBtn} />
+  useEffect(() => {
+    let scrollPosition = 0;
+    if (saveModal) {
+      scrollPosition = window.pageYOffset;
+      document.body.style.overflow = "hidden";
+      document.body.style.position = "fixed";
+      document.body.style.top = `-${scrollPosition}px`;
+      document.body.style.width = "100%";
+    } else {
+      document.body.style.removeProperty("overflow");
+      document.body.style.removeProperty("position");
+      document.body.style.removeProperty("top");
+      document.body.style.removeProperty("width");
+      window.scrollTo(0, scrollPosition);
+    }
+  }, [saveModal]);
+
+  return (
+    <div className={`writearticle ${saveModal && "stop-scrolling"}`}>
+      {saveModal && (
+        <Save
+          onClick={() => Modal()}
+          hashtags={hashtags}
+          setHashtags={setHashtags}
+          inputData={inputData}
+          setInputData={setInputData}
+        />
+      )}
+
+      <WriteHeader uploadBtn={uploadBtn} saveBtn={saveBtn} setModal={Modal} />
 
       <form className="writearticle-box">
         <ul>
@@ -251,6 +283,7 @@ const WriteArticle = () => {
               <Input
                 type={"text"}
                 placeholder="제목을 입력해주세요."
+                value={inputData.title}
                 onChange={(e) => onChangeInputs("title", e)}
                 error={errorCheck.title}
               />
@@ -265,6 +298,7 @@ const WriteArticle = () => {
               <Input
                 type={"text"}
                 placeholder="내용을 요약하는 부제목을 입력해주세요."
+                value={inputData.subTitle}
                 onChange={(e) => onChangeInputs("subTitle", e)}
               />
             </span>
@@ -274,6 +308,7 @@ const WriteArticle = () => {
             <span className="writearticle-input">
               <textarea
                 placeholder="내용을 입력해주세요. (10글자 이상)"
+                value={inputData.contents}
                 onChange={(e) => onChangeInputs("contents", e)}
                 error={errorCheck.contents}
                 style={{ borderColor: errorCheck.contents && "red" }}
@@ -334,14 +369,16 @@ const WriteArticle = () => {
             <ul>
               <li>
                 <span className="writearticle-subtitle">참여인원*</span>
-                <span className="writearticle-input writearticle-manager">
-                  <Input
-                    type={"text"}
-                    placeholder="단위 없이 숫자만 입력해주세요."
-                    onChange={(e) => onChangeInputs("member", e)}
-                    error={errorCheck.member}
-                  />
-                  <span style={{ paddingLeft: "12px" }}>명</span>
+                <span className="writearticle-input writearticle-manager  ">
+                  <div className="writearticle-manager-member">
+                    <Input
+                      type={"text"}
+                      placeholder="단위 없이 숫자만 입력해주세요."
+                      onChange={(e) => onChangeInputs("member", e)}
+                      error={errorCheck.member}
+                    />
+                    <span style={{ paddingLeft: "12px" }}>명</span>
+                  </div>
                   {errorCheck.member && (
                     <div className="error-message">
                       참여인원을 입력해주세요.
