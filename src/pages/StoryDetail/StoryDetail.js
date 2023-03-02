@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import "./StoryDetail.scss";
-import { useLocation } from "react-router";
+
+import { useLocation, useNavigate } from "react-router";
+import axios from "axios";
+import { BASE_URL } from "config";
 
 import StoryDetailTitle from "components/StoryDetailTitle/StoryDetailTitle";
 import StoryDetailContent from "components/StoryDetailContent/StoryDetailContent";
@@ -8,16 +11,17 @@ import StoryDetailContent from "components/StoryDetailContent/StoryDetailContent
 import image from "../../assets/imgs/cat.jpg";
 import image2 from "../../assets/imgs/cat.jpg";
 import image3 from "../../assets/imgs/midbtn.jpg";
-import axios from "axios";
 import { getDayMinuteCounter } from "assets/utils/getDayCouter";
 
-const StoryDetail = ({ navigate }) => {
+const StoryDetail = () => {
   const { state } = useLocation();
+  const location = useLocation();
+  const navigate = useNavigate();
 
   const [page, setPage] = useState({
     left: state.idx - 1 > 0,
     mid: true,
-    right: true,
+    right: false,
   });
   const [imgs, setImgs] = useState([]);
   const [story, setStory] = useState({
@@ -45,38 +49,14 @@ const StoryDetail = ({ navigate }) => {
     title: "",
   });
 
-  const [nextContent, setNextContent] = useState({
-    day: "",
-    idx: "",
-    img: "",
-    title: "",
-  });
-  const [preContent, setPreContent] = useState({
-    day: "",
-    idx: "",
-    img: "",
-    title: "",
-  });
-  const [nextImg, setNextImg] = useState();
-  const [prevImg, setPrevImg] = useState();
+  const [nextContent, setNextContent] = useState({});
+  const [preContent, setPreContent] = useState({});
+  const [nextImg, setNextImg] = useState("");
+  const [curImg, setCurImg] = useState("");
+  const [prevImg, setPrevImg] = useState("");
 
-  const loadData = () => {
-    axios({
-      method: "POST",
-      url: `http://ec2-13-125-123-39.ap-northeast-2.compute.amazonaws.com:5000/${state.root}/${state.idx}`,
-    }).then((res) => {
-      if (!res.data.result) {
-        setImgs(res.data.img);
-        setUser(res.data.user);
-        setStory(res.data.story);
-        setContent(res.data.content);
-        setNextContent(res.data.nextContent);
-        setPreContent(res.data.preContent);
-        console.log(res.data);
-      }
-    });
-
-    axios({
+  const loadPrevData = async () => {
+    await axios({
       method: "POST",
       url: preContent.img,
       responseType: "blob",
@@ -86,7 +66,9 @@ const StoryDetail = ({ navigate }) => {
       );
       setPrevImg(url);
     });
-    axios({
+  };
+  const loadNextData = async () => {
+    await axios({
       method: "POST",
       url: nextContent.img,
       responseType: "blob",
@@ -97,10 +79,76 @@ const StoryDetail = ({ navigate }) => {
       setNextImg(url);
     });
   };
+  const loadCurImg = async () => {
+    await axios({
+      method: "POST",
+      url: imgs[0],
+      responseType: "blob",
+    }).then((res) => {
+      const url = window.URL.createObjectURL(
+        new Blob([res.data], { type: res.headers["content-type"] })
+      );
+      setCurImg(url);
+    });
+  };
+
+  const loadData = async () => {
+    await axios({
+      method: "POST",
+      url: `${BASE_URL}/${state.root}/${state.idx}`,
+    }).then((res) => {
+      if (!res.data.result) {
+        if (res.data.nextContent) {
+          setNextContent(res.data.nextContent);
+        } else if (res.data.nextStory) {
+          setNextContent(res.data.nextStory);
+        }
+        if (res.data.preContent) {
+          setPreContent(res.data.preContent);
+        }
+        if (res.data.preStory) {
+          setPreContent(res.data.preStory);
+        }
+        setImgs(res.data.img);
+        setUser(res.data.user);
+        setStory(res.data.story);
+        setContent(res.data.content);
+      }
+    });
+  };
 
   useEffect(() => {
     loadData();
   }, []);
+
+  useEffect(() => {
+    if (imgs.length !== 0) loadCurImg();
+  }, [imgs]);
+  useEffect(() => {
+    if (Object.keys(nextContent).length !== 0) {
+      loadNextData();
+      setPage({ ...page, right: true });
+    }
+  }, [nextContent]);
+  useEffect(() => {
+    if (Object.keys(preContent).length !== 0) {
+      loadPrevData();
+    }
+  }, [preContent]);
+
+  const onClickPrevPage = () => {
+    navigate(`/StoryDetail/${preContent.idx}`, {
+      state: { idx: preContent.idx, root: state.root },
+    });
+    window.location.reload();
+  };
+  const onClickNextPage = () => {
+    navigate(`/StoryDetail/${nextContent.idx}`, {
+      state: { idx: nextContent.idx, root: state.root },
+    });
+    window.location.reload();
+  };
+
   return (
     <div className="storyDetail">
       <div className="storyDetail-title">
@@ -119,14 +167,16 @@ const StoryDetail = ({ navigate }) => {
       </div>
       <div className="storyDetail-bottom">
         {page.left && (
-          <button className="storyDetail-btn-left">
-            <img src={prevImg} />
+          <button
+            className="storyDetail-btn-left"
+            onClick={() => onClickPrevPage()}
+          >
+            <img src={prevImg} alt={prevImg} />
             <div className="storyDetail-btn-title">이전 스토리</div>
-            <div className="storyDetail-btn-content">
-              타이틀 최대 2줄 타이틀 최대 2줄 타이틀 최대 2줄...타이틀 최대 2줄
-              타이틀 최대 2줄 타이틀 최대 2줄...
+            <div className="storyDetail-btn-content">{preContent.title}</div>
+            <div className="storyDetail-btn-time">
+              {preContent.day && getDayMinuteCounter(preContent.day)}
             </div>
-            <div className="storyDetail-btn-time">3시간 전</div>
           </button>
         )}
 
@@ -139,32 +189,32 @@ const StoryDetail = ({ navigate }) => {
                   ? "10px 0px 0px 10px"
                   : !page.right && "0px 10px 10px 0px"
               }`,
+              cursor: "default",
             }}
           >
-            <img src={image3} />
+            <img src={curImg} alt={curImg} />
             <div className="storyDetail-btn-title">현재 스토리</div>
-            {/* <div className="storyDetail-btn-content">{preContent.title}</div>
+            <div className="storyDetail-btn-content">
+              {state.root === "content" ? content.title : story.title}
+            </div>
             <div className="storyDetail-btn-time">
-              {getDayMinuteCounter(preContent.day)}
-            </div> */}
-            <div className="storyDetail-btn-content">타이틀</div>
-            <div className="storyDetail-btn-time">
-              {/* {getDayMinuteCounter(preContent.day)} */}
+              {getDayMinuteCounter(
+                state.root === "content" ? content.day : story.day
+              )}
             </div>
           </button>
         )}
         {page.right && (
-          <button className="storyDetail-btn-right">
-            <img src={nextImg} />
+          <button
+            className="storyDetail-btn-right"
+            onClick={() => onClickNextPage()}
+          >
+            <img src={nextImg} alt={nextImg} />
 
             <div className="storyDetail-btn-title">다음 스토리</div>
-            {/* <div className="storyDetail-btn-content">{nextContent.title}</div>
+            <div className="storyDetail-btn-content">{nextContent.title}</div>
             <div className="storyDetail-btn-time">
               {getDayMinuteCounter(nextContent.day)}
-            </div> */}
-            <div className="storyDetail-btn-content">타이틀</div>
-            <div className="storyDetail-btn-time">
-              {/* {getDayMinuteCounter(nextContent.day)} */}
             </div>
           </button>
         )}
