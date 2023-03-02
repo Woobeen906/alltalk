@@ -3,9 +3,11 @@ import "./StoryCard.scss";
 
 import Tag from "components/Tag/Tag";
 
-import { getDayMinuteCounter } from "assets/utils/getDayCouter";
 import axios from "axios";
+import { BASE_URL } from "config";
 import { useNavigate } from "react-router-dom";
+
+import { getDayMinuteCounter } from "assets/utils/getDayCouter";
 
 const StoryCard = (props) => {
   const {
@@ -34,7 +36,7 @@ const StoryCard = (props) => {
     frm.append("idx", idx);
     await axios({
       method: "POST",
-      url: "http://ec2-13-125-123-39.ap-northeast-2.compute.amazonaws.com:5000/util/story/like",
+      url: `${BASE_URL}/util/story/like`,
       data: frm,
     }).then((res) => {
       if (res.data.result) {
@@ -78,7 +80,6 @@ const StoryCard = (props) => {
   };
 
   useEffect(() => {
-    // console.log(props.item);
     Image();
     ProfileImg();
   }, []);

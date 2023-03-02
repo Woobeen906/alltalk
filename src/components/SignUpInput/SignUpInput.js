@@ -1,9 +1,11 @@
 import React, { memo, useEffect, useState } from "react";
 import "./SignUpInput.scss";
 
+import axios from "axios";
+import { BASE_URL } from "config";
+
 import Input from "components/Input/Input";
 import Space from "components/Space/Space";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 const SignUpInputStep1 = memo((props) => {
@@ -205,7 +207,9 @@ const SignUpInputStep2 = memo((props) => {
         onKeyPress={handleSubmit}
         placeholder={placeholder}
         className="signUpInputStep2-hashtag-input"
-        style={{ tagsError: tagsError || "#ee0909" }}
+        style={{
+          borderColor: tagsError && "red",
+        }}
       />
     );
   };
@@ -418,18 +422,19 @@ const SignUpInput = () => {
       frm.append("tag", tags);
       frm.append("admin", admin);
 
-      await axios({
-        method: "POST",
-        url: "http://ec2-13-125-123-39.ap-northeast-2.compute.amazonaws.com:5000/signup",
-        data: frm,
-      })
-        .then((res) => {
-          if (res.data.result) {
-            alert("회원가입에 성공했습니다.");
-            navigate("/");
-          }
+      if (birthError_check(birth))
+        await axios({
+          method: "POST",
+          url: `${BASE_URL}/signup`,
+          data: frm,
         })
-        .catch((e) => console.log(e));
+          .then((res) => {
+            if (res.data.result) {
+              alert("회원가입에 성공했습니다.");
+              // navigate("/");
+            }
+          })
+          .catch((e) => console.log(e));
     } catch (e) {
       console.log(e);
     }
@@ -478,9 +483,13 @@ const SignUpInput = () => {
       tagsError: tagsError_check(tags),
     });
 
-    if (!nicknameError && !birthError && !tagsError) {
+    console.log(nicknameError, !birthError, !tagsError, inputs.signUpCehck);
+
+    if (nicknameError && !birthError && !tagsError) {
       signUp();
     } else {
+      setInputs({ ...inputs, signUpCehck: true });
+      alert("다시 입력해주세요");
     }
   };
 
@@ -533,15 +542,18 @@ const SignUpInput = () => {
       frm.append("id", inputs.id);
       await axios({
         method: "POST",
-        url: "http://ec2-13-125-123-39.ap-northeast-2.compute.amazonaws.com:5000/signup/id",
+        url: `${BASE_URL}/signup/id`,
         data: frm,
       })
         .then((res) => {
-          console.log(res.data);
+          console.log(res.data.result);
           if (res.data.result) {
             alert("사용 가능한 아이디 입니다.");
+            setInputs({ ...inputs, idCheckError: true });
+          } else {
+            alert("사용할 수 없는 아이디입니다.");
+            setInputs({ ...inputs, idCheckError: false });
           }
-          setInputs({ ...inputs, idCheckError: res.data.result });
         })
         .catch((e) => console.log(e));
     } catch (e) {

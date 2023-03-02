@@ -3,6 +3,7 @@ import "./StoryList.scss";
 
 import { throttle } from "lodash";
 import axios from "axios";
+import { BASE_URL } from "config";
 
 import TagList from "components/TagList/TagList";
 import { HashtagList } from "components/Hashtag/Hashtag";
@@ -92,22 +93,24 @@ const StoryList = () => {
 
   const loadContents = throttle((start, end) => {
     let frm = new FormData();
-    frm.append("id", "siugan");
+    frm.append("id", localStorage.getItem("id"));
     frm.append("start", start);
     frm.append("end", end);
 
     axios({
       method: "POST",
-      url: "http://ec2-13-125-123-39.ap-northeast-2.compute.amazonaws.com:5000/story/list/all",
+      url: `${BASE_URL}/story/list/all`,
       data: frm,
     })
       .then((res) => {
+        console.log(res.data, "aa");
         // 받아온 데이터를 보여줄 전체 리스트에 concat으로 넣어준다
         setBeerList((beerList) => beerList.concat(res.data));
         // 다음 요청할 데이터 offset 정보
         setOffset((offset) => offset + res.data.length);
         // 다음 요청 전까지 요청 그만 보내도록 false로 변경
         setIsLoaded(false);
+
         setContentsCnt((prev) => prev + DATA_LOAD_MAX_LENGTH);
       })
       .catch((e) => console.log(e));

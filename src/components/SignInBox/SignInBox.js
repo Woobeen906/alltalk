@@ -4,6 +4,7 @@ import "./SignInBox.scss";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Context } from "context/ContextProvider";
+import { BASE_URL } from "config";
 
 import Input from "components/Input/Input";
 import Space from "components/Space/Space";
@@ -26,7 +27,7 @@ const SignInBox = () => {
     try {
       axios({
         method: "POST",
-        url: "http://ec2-13-125-123-39.ap-northeast-2.compute.amazonaws.com:5000/util/admin",
+        url: `${BASE_URL}/util/admin`,
         data: frm,
       }).then((res) => {
         if (res.data.result) {
@@ -41,7 +42,7 @@ const SignInBox = () => {
     frm.append("id", signInData.id);
     axios({
       method: "POST",
-      url: "http://ec2-13-125-123-39.ap-northeast-2.compute.amazonaws.com:5000/my/user",
+      url: `${BASE_URL}/my/user`,
       data: frm,
     }).then((res) => {
       localStorage.setItem("userdata", JSON.stringify(res.data));
@@ -56,7 +57,7 @@ const SignInBox = () => {
 
       await axios({
         method: "POST",
-        url: "http://ec2-13-125-123-39.ap-northeast-2.compute.amazonaws.com:5000/signin",
+        url: `${BASE_URL}/signin`,
         data: frm,
       }).then((res) => {
         if (res.data.result) {
