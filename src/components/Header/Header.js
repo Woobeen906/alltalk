@@ -23,6 +23,14 @@ const Header = (props) => {
   const onTopBtn = (e) => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
+
+  useEffect(() => {
+    setModal(false);
+  }, []);
+
+  const handleModal = () => {
+    setModal(!modal);
+  };
   return (
     <header
       className="Header"
@@ -139,9 +147,9 @@ const Header = (props) => {
                     style={{
                       backgroundColor: headerCss && "transparent",
                     }}
-                    onClick={() => setModal(!modal)}
+                    onClick={() => handleModal()}
                   ></button>
-                  {modal && <ProfileCard />}
+                  {modal && <ProfileCard onHandleModal={handleModal} />}
                 </>
               ) : (
                 <>
