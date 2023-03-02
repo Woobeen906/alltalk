@@ -29,13 +29,13 @@ const ContentsCard = (props) => {
   const Image = () => {
     axios({
       method: "POST",
-      url: image,
+      url: image[0],
       responseType: "blob",
     }).then((res) => {
-      setImage(res.data);
       const url = window.URL.createObjectURL(
         new Blob([res.data], { type: res.headers["content-type"] })
       );
+
       setImage(url);
     });
   };
@@ -49,31 +49,19 @@ const ContentsCard = (props) => {
   }, []);
 
   return (
-    <div
-      className="contentsCard"
-      style={
-        {
-          // display:
-          //   tags.find((item) => item === filter) === undefined &&
-          //   filter !== "all" &&
-          //   "none",
-        }
-      }
-      onClick={() => onClickDetail(idx)}
-    >
+    <div className="contentsCard" onClick={() => onClickDetail(idx)}>
       <div
         className="contentsCard-image-dday"
         style={image ? {} : { margin: 0 }}
       >
-        {getDayMinuteCounter(new Date(deadline).valueOf() * 1000)}
-        {/* {new Date(deadline).valueOf() * 1000} */}
+        {getDayMinuteCounter(new Date(deadline).valueOf())}
       </div>
       {memberDeadline && (
         <div className="contentsCard-deadlie-message">마감임박</div>
       )}
       {image && (
         <div className="contentsCard-image">
-          <img src={img} alt="cat" />
+          <img src={img} alt={`${img}`} />
         </div>
       )}
       <div
@@ -83,10 +71,10 @@ const ContentsCard = (props) => {
         {tags && (
           <div className="contentsCard-tag">
             {tags.map((tag, index) => (
-              <>
+              <React.Fragment key={`${tag}${index}`}>
                 <Tag text={tag} id={index} key={`${tag}index`} />
                 <Space size={"0.417vw"} />
-              </>
+              </React.Fragment>
             ))}
           </div>
         )}
