@@ -2,7 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 
 const WriteHeader = (props) => {
-  const { uploadBtn, saveBtn } = props;
+  const { uploadBtn, saveBtn, setModal } = props;
   const navigate = useNavigate();
   return (
     <header
@@ -22,7 +22,9 @@ const WriteHeader = (props) => {
 
       <div className="header-left">
         <span className="login-container">
-          <button className="loadBtn">불러오기</button>
+          <button className="loadBtn" onClick={setModal}>
+            불러오기
+          </button>
           <button className="loginBtn" onClick={saveBtn}>
             임시저장
           </button>
