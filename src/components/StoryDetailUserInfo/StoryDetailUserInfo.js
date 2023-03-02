@@ -1,13 +1,34 @@
+import React, { useEffect, useState } from "react";
 import Space from "components/Space/Space";
-import React from "react";
+
+import axios from "axios";
 import "./StoryDetailUserInfo.scss";
 
 const StoryDetailUserInfo = (props) => {
   const { user } = props;
 
+  const [profileImg, setProfileImg] = useState();
+
+  const loadImg = async () => {
+    await axios({
+      method: "POST",
+      url: user.profile,
+      responseType: "blob",
+    }).then((res) => {
+      const url = window.URL.createObjectURL(
+        new Blob([res.data], { type: res.headers["content-type"] })
+      );
+
+      setProfileImg(url);
+    });
+  };
+
+  useEffect(() => {
+    loadImg();
+  }, []);
   return (
     <div className="storyDetailUserInfo">
-      <img src={require("../../assets/imgs/cat.jpg")} alt={"userprofile"} />
+      <img src={profileImg} alt={""} />
       <div className="storyDetailUserInfo-user">
         {user.nickname}
         <Space size={8} />

@@ -8,8 +8,8 @@ const StoryDetailTitle = (props) => {
   const { story, user } = props;
   const [profileImg, setProfileImg] = useState();
 
-  const loadImg = () => {
-    axios({
+  const loadImg = async () => {
+    await axios({
       method: "POST",
       url: user.profile,
       responseType: "blob",
@@ -30,7 +30,7 @@ const StoryDetailTitle = (props) => {
       {localStorage.getItem("admin") && (
         <div className="storyDetailTitle-cards">
           <span className="dday-card">
-            {`D-${getDayMinuteCounter(story.day).slice(0, 1)}`}
+            {getDayMinuteCounter(story.deadline)}
           </span>
           <Space size={8} />
           <span className="deadline-card">마감임박</span>

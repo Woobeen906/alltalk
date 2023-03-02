@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import "./StoryDetailContent.scss";
 
 import axios from "axios";
@@ -9,17 +9,28 @@ import Space from "components/Space/Space";
 
 import calendar from "assets/imgs/calendar.jpg";
 import memberNumber from "assets/imgs/memberNumber2x.jpg";
+import { getDayMinuteCounter } from "assets/utils/getDayCouter";
 
 const StoryDetailContent = (props) => {
   const { story, imgs, user } = props;
 
-  const ManagerInfo = ({ img, text, number, dday = "" }) => {
+  const ManagerInfo = ({ img, text, number, member, dday = "" }) => {
+    const date = new Date(number);
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1;
+    const day = date.getDate();
+
     return (
       <div className="storyDetailContent-managerInfo">
         <img src={img} />
         <Space size={8} />
-        <div className="storyDetailContent-managerInfo-text">{text}</div>
-        <span>{`${number} ${dday && `· ${dday}`}`}</span>
+        <div
+          className="storyDetailContent-managerInfo-text"
+          style={{ color: story.member + 1 >= story.maxMember && "red" }}
+        >
+          {member >= 0 ? member : `${year}.${month}.${day}`}
+        </div>
+        {dday && <span>{dday}</span>}
       </div>
     );
   };
@@ -31,19 +42,21 @@ const StoryDetailContent = (props) => {
       <div className="storyDetailContent-contents">
         <Gallery imgs={imgs} />
         <div className="storyDetailContent-contents-textarea">
-          {story.content.split("\n").map((line) => {
+          {story.content.split("\n").map((line, index) => {
             return (
-              <>
+              <React.Fragment key={index}>
                 {line}
                 <br />
-              </>
+              </React.Fragment>
             );
           })}
         </div>
         <Line />
         <div className="storyDetailContent-taglist">
           {story.tag.split(",").map((tag) => (
-            <div className="storyDetailContent-tag">{tag}</div>
+            <div key={tag} className="storyDetailContent-tag">
+              {tag}
+            </div>
           ))}
         </div>
       </div>
@@ -53,15 +66,23 @@ const StoryDetailContent = (props) => {
             <ManagerInfo
               img={calendar}
               text="마감일"
-              number={"2023.01.30"}
-              dday={"D-1"}
+              number={story.day}
+              dday={getDayMinuteCounter(story.deadline)}
             />
             <Space size={25} />
 
-            <ManagerInfo img={memberNumber} text="모집인원" number={15} />
+            <ManagerInfo
+              img={memberNumber}
+              text="모집인원"
+              member={story.maxMember}
+            />
             <Space size={25} />
 
-            <ManagerInfo img={memberNumber} text="신청인원" number={13} />
+            <ManagerInfo
+              img={memberNumber}
+              text="신청인원"
+              member={story.member}
+            />
           </div>
         )}
         <StoryDetailUserInfo user={user} />
@@ -69,8 +90,13 @@ const StoryDetailContent = (props) => {
         <div className="storyDetailContent-tagbox">
           <div className="storyDetailContent-tagbox-title">태그</div>
           <div className="storyDetailContent-tagbox-list">
-            {story.tag.split(",").map((tag) => (
-              <div className="storyDetailContent-tagbox-tag">{tag}</div>
+            {story.tag.split(",").map((tag, index) => (
+              <div
+                key={`${tag}${index}`}
+                className="storyDetailContent-tagbox-tag"
+              >
+                {tag}
+              </div>
             ))}
           </div>
         </div>
