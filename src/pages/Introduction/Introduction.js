@@ -102,14 +102,6 @@ const Introduction = () => {
         ) {
           setPage(pageIndex.current + 1);
         }
-        // else if (
-        //   (e.touches[0].clientY - lastY.current > 10 &&
-        //     pageIndex.current === 5 &&
-        //     e.touches[0].target.className === "scene7-content") ||
-        //   e.touches[0].target.className === "scene7-content-card animate"
-        // ) {
-        //   setPage(pageIndex.current - 1);
-        // }
       }
       lastY.current = e.touches[0].clientY;
     }, 35);

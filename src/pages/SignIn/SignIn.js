@@ -16,16 +16,16 @@ const SignIn = () => {
       <div className="signIn-title">로그인</div>
       <SignInBox />
       <Space size={36} />
-      <div className="signIn-sns">sns 로그인</div>
+      {/* <div className="signIn-sns">sns 로그인</div> */}
 
-      <Space size={17} />
+      {/* <Space size={17} />
       <div className="signIn-socialBtns">
         <SignInKaKao />
         <Space size={10} />
         <SignInNaver />
         <Space size={10} />
         <SignInGoogle />
-      </div>
+      </div> */}
     </div>
   );
 };
