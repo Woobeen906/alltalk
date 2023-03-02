@@ -6,6 +6,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  overflow: hidden;
 
   padding-bottom: 100px;
 
@@ -47,6 +48,9 @@
         background: #eef1f4;
         border-radius: 3px;
         margin-right: 8px;
+        span {
+          margin-left: 0.573vw;
+        }
 
         cursor: pointer;
       }
@@ -138,12 +142,15 @@
         }
         .writearticle-manager {
           max-width: 282px;
-          display: flex;
-          align-items: center;
 
           font-family: "SUIT";
           font-weight: 600;
           font-size: 0.9375rem;
+        }
+        .writearticle-manager-member {
+          display: flex;
+          align-items: center;
+          max-width: 282px;
         }
 
         textarea {
@@ -181,4 +188,8 @@
   margin-top: 12px;
   color: #ee0909;
   text-align: left;
+}
+
+.stop-scrolling {
+  overflow: hidden;
 }
