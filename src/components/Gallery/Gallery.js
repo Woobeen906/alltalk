@@ -2,12 +2,35 @@ import React, { useEffect, useState } from "react";
 import "./Gallery.scss";
 
 import axios from "axios";
+import { useMediaQuery } from "react-responsive";
 
 const Gallery = (props) => {
   const { imgs } = props;
 
+  let images = document.getElementsByClassName("gallery-list");
+
+  const isMobile = useMediaQuery({
+    query: "(min-width:960px)",
+  });
+
+  const [step, setStep] = useState(0);
+  const [curPos, setCurPos] = useState(0);
+  const [position, setPosition] = useState(0);
+  const [pageWidth, setPageWidth] = useState(
+    document.getElementsByClassName("gallery-li")
+  );
+
   const [image, setImage] = useState([]);
-  const [test, setTest] = useState(false);
+  const [mount, setMount] = useState(false);
+  const [currentItem, setCurrentItem] = useState({
+    id: "",
+    image: "",
+    title: "",
+  });
+
+  const currentView = (id) => {
+    setCurrentItem(image.find((item) => item.id === id));
+  };
 
   const Image = (img, id) => {
     axios({
@@ -28,41 +51,92 @@ const Gallery = (props) => {
     });
   };
 
+  const resizeWidth = () => {
+    const stepPage = document.getElementsByClassName("gallery-li");
+
+    const str = window.getComputedStyle(stepPage[0], null).width;
+    let regex = /[^0-9]/g;
+    let result = str.replace(regex, "");
+    setPageWidth(result);
+  };
+
+  function prev() {
+    if (curPos > 0) {
+      const newPosition = step + pageWidth[0].scrollWidth;
+
+      images[0].style.transform = `translateX(${newPosition}px)`;
+      setCurPos(curPos - 1);
+      setStep(newPosition);
+    }
+  }
+
+  function next() {
+    if (curPos < image.length - 1) {
+      const newPosition = step - pageWidth[0].scrollWidth;
+
+      images[0].style.transform = `translateX(${newPosition}px)`;
+      setCurPos(curPos + 1);
+      setStep(newPosition);
+    }
+  }
+
+  function touchStart(event) {
+    const startX = event.touches[0].pageX;
+    setPosition(startX);
+  }
+
+  function touchEnd(event) {
+    const endX = event.changedTouches[0].pageX;
+
+    if (position > endX) {
+      next();
+    } else {
+      prev();
+    }
+  }
+
   useEffect(() => {
     setTimeout(() => {
-      setTest(true);
+      setMount(true);
     }, 500);
+
+    window.addEventListener("resize", resizeWidth);
+
+    return () => {
+      window.removeEventListener("resize", resizeWidth);
+    };
   }, []);
 
   useEffect(() => {
     imgs.map((item, index) => Image(item, index));
-  }, [test]);
-
-  const [currentItem, setCurrentItem] = useState({
-    id: "",
-    image: "",
-    title: "",
-  });
-
-  const currentView = (id) => {
-    setCurrentItem(image.find((item) => item.id === id));
-  };
+  }, [mount]);
 
   return (
     <div className="gallery">
-      <div className="gallery-view">
-        <img src={currentItem.image} alt={currentItem.title} />
+      {isMobile && (
+        <div className="gallery-view">
+          <img src={currentItem.image} alt={currentItem.title} />
 
-        <div className="gallery-view-number">{`${currentItem.id + 1}/${
+          <div className="gallery-view-number">{`${currentItem.id + 1}/${
+            imgs.length
+          }`}</div>
+        </div>
+      )}
+      {!isMobile && (
+        <div className="gallery-view-number">{`${curPos + 1}/${
           imgs.length
         }`}</div>
-      </div>
-      <div className="gallery-list">
+      )}
+      <div
+        className="gallery-list"
+        onTouchStart={touchStart}
+        onTouchEnd={touchEnd}
+      >
         {image
           .sort((a, b) => a.id - b.id)
           .map((item) => (
             <React.Fragment key={item.image}>
-              <li onClick={() => currentView(item.id)}>
+              <li onClick={() => currentView(item.id)} className="gallery-li">
                 {
                   <img
                     src={item.image}
