@@ -56,7 +56,6 @@ const ProfileSetting = () => {
       default:
         break;
     }
-    console.log(inputs);
   };
   return (
     <div className="profileSetting">

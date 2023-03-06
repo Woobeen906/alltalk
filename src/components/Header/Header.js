@@ -37,6 +37,7 @@ const Header = (props) => {
   const handleModal = () => {
     setModal(!modal);
   };
+
   return (
     <header
       className="Header"
@@ -56,6 +57,7 @@ const Header = (props) => {
             onClick={() => navigate("/")}
             style={{ cursor: "pointer", color: headerCss && "#ffffff" }}
           >
+            <img src={require("../../assets/imgs/defaultNoword.jpeg")} />
             ALL TALK
           </div>
           <div className="header-content">
@@ -155,7 +157,9 @@ const Header = (props) => {
                           backgroundColor: headerCss && "transparent",
                         }}
                         onClick={() => handleModal()}
-                      ></button>
+                      >
+                        <img src={require("../../assets/imgs/default.png")} />
+                      </button>
                       {modal && <ProfileCard onHandleModal={handleModal} />}
                     </>
                   ) : (
@@ -194,13 +198,14 @@ const Header = (props) => {
               onClick={() => navigate("/")}
               style={{ cursor: "pointer", color: headerCss && "#ffffff" }}
             >
+              <img src={require("../../assets/imgs/defaultNoword.jpeg")} />
               ALL TALK
             </div>
             <div className="header-content">
               <span className="login-container">
                 {pathname === "/WriteArticle" ? (
                   <>
-                    <button className="loadBtn">불러오기</button>
+                    <button className="loadBtn">불오기</button>
                     <button
                       className="loginBtn"
                       style={{
@@ -241,7 +246,9 @@ const Header = (props) => {
                             backgroundColor: headerCss && "transparent",
                           }}
                           onClick={() => handleModal()}
-                        ></button>
+                        >
+                          <img src={require("../../assets/imgs/default.png")} />
+                        </button>
                         {modal && <ProfileCard onHandleModal={handleModal} />}
                       </>
                     ) : (

@@ -78,8 +78,8 @@ const Save = (props) => {
         <div className="save-item-img">
           <img src={saveData} />
         </div>
-        <div className="save-item-text">
-          {title}
+        <div className="save-item-text-box">
+          <div className="save-item-text">{title}</div>
           <div className="save-item-date">
             {`${year}.${month}.${dday} ${hour}:${minute} `}저장
           </div>

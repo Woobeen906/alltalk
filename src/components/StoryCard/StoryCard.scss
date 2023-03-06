@@ -1,8 +1,6 @@
 .storycard {
-  //   min-width: 200px;
   max-width: 328px;
   height: 430px;
-  // max-height: 430px;
   background: #ffffff;
   box-shadow: 0px 4px 20px rgba(17, 17, 18, 0.03);
   border-radius: 10px;
@@ -22,8 +20,6 @@
       border-radius: 25px;
       width: 28px;
       height: 28px;
-      // width: 1.4583vw;
-      // height: 1.4583vw;
     }
 
     .storycard-info {
@@ -51,13 +47,19 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    width: 100%;
     height: 100%;
     .storycard-contents {
       padding: 12px 12px 0 12px;
       text-align: left;
-      //   height: 138px;
       .storycard-tag {
-        display: inline-block;
+        width: 100%;
+        display: grid;
+
+        grid-template-columns: repeat(auto-fill, minmax(37px, 1fr));
+        column-gap: 8px;
+        row-gap: 4px;
+
         margin-bottom: 10px;
       }
       .storycard-title {
@@ -99,7 +101,6 @@
       display: flex;
       color: #191919;
       padding: 0 0 16px 12px;
-      z-index: 10;
 
       span {
         padding-left: 5px;
@@ -108,8 +109,7 @@
         }
       }
       button {
-        // cursor: pointer;
-        cursor: grab;
+        cursor: pointer;
         border: none;
         background: url("../../assets/imgs/like.jpg");
         background-size: contain;
@@ -117,6 +117,7 @@
         width: 14px;
         height: 13px;
         padding-right: 5px;
+
         &.liked {
           background-image: url("../../assets/imgs/liked.jpg");
         }
@@ -128,4 +129,16 @@
 .storycard:hover {
   border: 1px solid #00cb8e;
   transform: translateY(-20px);
+}
+
+@media screen and (max-width: 960px) {
+  .storycard {
+    // max-width: 328px;
+    height: auto;
+    .storycard-profile {
+      .storycard-info {
+        font-size: 0.8125rem;
+      }
+    }
+  }
 }

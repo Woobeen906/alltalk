@@ -2,9 +2,10 @@ import React, { useEffect, useState } from "react";
 import "./Main.scss";
 
 import axios from "axios";
-import { BASE_URL } from "config";
 import { throttle } from "lodash";
+import { useMediaQuery } from "react-responsive";
 
+import { BASE_URL } from "config";
 import Slide from "components/Slide/Slide";
 import ContentsCard from "components/ContentsCard/ContentsCard";
 import ToggleBtn from "components/ToggleBtn/ToggleBtn";
@@ -14,6 +15,10 @@ import TagList from "components/TagList/TagList";
 const DATA_LOAD_MAX_LENGTH = 5;
 
 const Main = () => {
+  const isMobile = useMediaQuery({
+    query: "(min-width:960px)",
+  });
+
   const [serverTag, setServerTag] = useState("all");
   const [toggleActive, setToggleActive] = useState(true);
   const [btnsListSelect, setBtnsListSelect] = useState(0);
@@ -111,7 +116,6 @@ const Main = () => {
       data: frm,
     })
       .then((res) => {
-        console.log(res.data);
         // 받아온 데이터를 보여줄 전체 리스트에 concat으로 넣어준다
         setDataList((dataList) => dataList.concat(res.data));
         // 다음 요청할 데이터 offset 정보
@@ -173,6 +177,7 @@ const Main = () => {
               key={`${item.title}index`}
               filter={serverTag}
               idx={item.idx}
+              toggleActive={toggleActive}
             />
           ))}
         </div>

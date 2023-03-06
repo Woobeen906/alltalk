@@ -4,19 +4,22 @@ import "./StoryDetail.scss";
 import { useLocation, useNavigate } from "react-router";
 import axios from "axios";
 import { BASE_URL } from "config";
+import { useMediaQuery } from "react-responsive";
 
 import StoryDetailTitle from "components/StoryDetailTitle/StoryDetailTitle";
 import StoryDetailContent from "components/StoryDetailContent/StoryDetailContent";
 
-import image from "../../assets/imgs/cat.jpg";
-import image2 from "../../assets/imgs/cat.jpg";
-import image3 from "../../assets/imgs/midbtn.jpg";
+import heart from "../../assets/imgs/like.jpg";
+
 import { getDayMinuteCounter } from "assets/utils/getDayCouter";
 
-const StoryDetail = () => {
+const StoryDetail = (props) => {
   const { state } = useLocation();
-  const location = useLocation();
   const navigate = useNavigate();
+
+  const isMobile = useMediaQuery({
+    query: "(min-width:960px)",
+  });
 
   const [page, setPage] = useState({
     left: state.idx - 1 > 0,
@@ -97,6 +100,7 @@ const StoryDetail = () => {
       method: "POST",
       url: `${BASE_URL}/${state.root}/${state.idx}`,
     }).then((res) => {
+      console.log(res.data);
       if (!res.data.result) {
         if (res.data.nextContent) {
           setNextContent(res.data.nextContent);
@@ -149,20 +153,43 @@ const StoryDetail = () => {
     window.location.reload();
   };
 
+  const participation = () => {
+    let frm = new FormData();
+    frm.append("id", localStorage.getItem("id"));
+    frm.append("idx", state.idx);
+    axios({
+      method: "POST",
+      url: `${BASE_URL}/${state.root}/participation`,
+      data: frm,
+    }).then((res) => {
+      console.log(res);
+    });
+  };
+
   return (
     <div className="storyDetail">
       <div className="storyDetail-title">
         {state.root === "content" ? (
-          <StoryDetailTitle story={content} user={user} />
+          <StoryDetailTitle story={content} user={user} root={state.root} />
         ) : (
-          <StoryDetailTitle story={story} user={user} />
+          <StoryDetailTitle story={story} user={user} root={state.root} />
         )}
       </div>
       <div className="storyDetail-content">
         {state.root === "content" ? (
-          <StoryDetailContent story={content} user={user} imgs={imgs} />
+          <StoryDetailContent
+            story={content}
+            user={user}
+            imgs={imgs}
+            root={state.root}
+          />
         ) : (
-          <StoryDetailContent story={story} user={user} imgs={imgs} />
+          <StoryDetailContent
+            story={story}
+            user={user}
+            imgs={imgs}
+            root={state.root}
+          />
         )}
       </div>
       <div className="storyDetail-bottom">
@@ -180,12 +207,14 @@ const StoryDetail = () => {
           </button>
         )}
 
-        {page.mid && (
+        {isMobile && page.mid && (
           <button
             className="storyDetail-btn-mid"
             style={{
               borderRadius: `${
-                !page.left
+                !isMobile
+                  ? "0px"
+                  : !page.left
                   ? "10px 0px 0px 10px"
                   : !page.right && "0px 10px 10px 0px"
               }`,
@@ -219,6 +248,29 @@ const StoryDetail = () => {
           </button>
         )}
       </div>
+
+      {
+        <div className="storyDetail-bottombar">
+          <div className="storyDetail-bottombar-left">
+            <img src={heart} />
+            {state.like}
+          </div>
+          {state.root === "content" && (
+            <button
+              className="storyDetail-bottombar-right"
+              onClick={participation}
+              style={{
+                backgroundColor:
+                  content.member < content.maxMember && "#00CB8E",
+              }}
+            >
+              {content.member < content.maxMember
+                ? "신청하기"
+                : "이미 신청한 콘텐츠입니다"}
+            </button>
+          )}
+        </div>
+      }
     </div>
   );
 };

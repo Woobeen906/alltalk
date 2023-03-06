@@ -1,9 +1,15 @@
 import React from "react";
 import "./TagList.scss";
+import { useMediaQuery } from "react-responsive";
 
 import HashtagManager from "components/Hashtag/Hashtag";
 
 const TagList = (props) => {
+  const isMobile = useMediaQuery({
+    query: "(min-width:960px)",
+  });
+
+  const mobileTextInput = () => {};
   return (
     <div className="taglist">
       <ul>
@@ -42,11 +48,18 @@ const TagList = (props) => {
         >
           여행·맛집
         </li>
-        <HashtagManager
-          hashtags={props.hashtags}
-          setHashtags={props.setHashtags}
-          placeholder="원하는 태그 검색"
-        />
+        {isMobile ? (
+          <HashtagManager
+            hashtags={props.hashtags}
+            setHashtags={props.setHashtags}
+            placeholder="원하는 태그 검색"
+          />
+        ) : (
+          <img
+            src={require("../../assets/imgs/search-icon.png")}
+            alt="mobileSearchIcon"
+          />
+        )}
       </ul>
     </div>
   );

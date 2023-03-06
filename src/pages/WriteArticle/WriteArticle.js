@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 import axios from "axios";
 import { BASE_URL } from "config";
+import { useMediaQuery } from "react-responsive";
 
 import Save from "./Save";
 import Input from "components/Input/Input";
@@ -12,6 +13,10 @@ import Imageuploader from "components/ImageUploader/ImageUploader";
 import WriteHeader from "./WriteHeader";
 
 const WriteArticle = () => {
+  const isMobile = useMediaQuery({
+    query: "(min-width:960px)",
+  });
+
   const navigate = useNavigate();
   const [inputData, setInputData] = useState({
     title: "",
@@ -181,16 +186,29 @@ const WriteArticle = () => {
       }
     };
 
+    const onClickAddTag = (e) => {
+      e.preventDefault();
+      setHashtags([...hashtags, newTag]);
+      setNewTag("");
+    };
+
     return (
-      <input
-        type="text"
-        value={newTag}
-        onChange={(e) => setNewTag(e.target.value)}
-        onKeyPress={handleSubmit}
-        placeholder={placeholder}
-        className="writearticle-hashtag-input"
-        style={{ borderColor: error && "red" }}
-      />
+      <>
+        <input
+          type="text"
+          value={newTag}
+          onChange={(e) => setNewTag(e.target.value)}
+          onKeyPress={handleSubmit}
+          placeholder={placeholder}
+          className="writearticle-hashtag-input"
+          style={{ borderColor: error && "red" }}
+        />
+        {!isMobile && (
+          <button className="writearticle-hashBtn" onClick={onClickAddTag}>
+            +
+          </button>
+        )}
+      </>
     );
   };
 
@@ -277,8 +295,8 @@ const WriteArticle = () => {
 
       <form className="writearticle-box">
         <ul>
-          <li style={{ marginTop: "60px" }}>
-            <span className="writearticle-subtitle">제목*</span>
+          <li>
+            {isMobile && <span className="writearticle-subtitle">제목*</span>}
             <span className="writearticle-input">
               <Input
                 type={"text"}
@@ -286,6 +304,7 @@ const WriteArticle = () => {
                 value={inputData.title}
                 onChange={(e) => onChangeInputs("title", e)}
                 error={errorCheck.title}
+                writeArticle={true}
               />
               {errorCheck.title && (
                 <div className="error-message">제목을 입력해주세요.</div>
@@ -293,18 +312,19 @@ const WriteArticle = () => {
             </span>
           </li>
           <li>
-            <span className="writearticle-subtitle">부제목</span>
+            {isMobile && <span className="writearticle-subtitle">부제목</span>}
             <span className="writearticle-input">
               <Input
                 type={"text"}
                 placeholder="내용을 요약하는 부제목을 입력해주세요."
                 value={inputData.subTitle}
                 onChange={(e) => onChangeInputs("subTitle", e)}
+                writeArticle={true}
               />
             </span>
           </li>
           <li className="writearticle-subtitle-flexstart">
-            <span className="writearticle-subtitle ">내용*</span>
+            {isMobile && <span className="writearticle-subtitle ">내용*</span>}
             <span className="writearticle-input">
               <textarea
                 placeholder="내용을 입력해주세요. (10글자 이상)"
@@ -324,7 +344,7 @@ const WriteArticle = () => {
             className="writearticle-subtitle-flexstart"
             style={{ marginTop: "32px" }}
           >
-            <span className="writearticle-subtitle ">이미지</span>
+            {isMobile && <span className="writearticle-subtitle ">이미지</span>}
             <span className="writearticle-input">
               <Imageuploader
                 List={detailImages}
@@ -338,7 +358,7 @@ const WriteArticle = () => {
             className="writearticle-subtitle-flexstart"
             style={{ marginBottom: "112px", marginTop: "32px" }}
           >
-            <span className="writearticle-subtitle ">태그*</span>
+            {isMobile && <span className="writearticle-subtitle ">태그*</span>}
             <span className="writearticle-input">
               <HashtagInput
                 hashtags={hashtags}
@@ -376,6 +396,7 @@ const WriteArticle = () => {
                       placeholder="단위 없이 숫자만 입력해주세요."
                       onChange={(e) => onChangeInputs("member", e)}
                       error={errorCheck.member}
+                      writeArticle={true}
                     />
                     <span style={{ paddingLeft: "12px" }}>명</span>
                   </div>
@@ -419,26 +440,28 @@ const WriteArticle = () => {
                   >
                     1달 후
                   </button>
-                  <div className="writearticle-calendar-box">
-                    {/* {activeCalendar && ( */}
-                    <div
-                      className="writearticle-calendar"
-                      style={{
-                        visibility: activeCalendar ? "visible" : "hidden",
-                      }}
-                    >
-                      <Calendar onClick={onClickCalendar} />
+
+                  {isMobile && (
+                    <div className="writearticle-calendar-box">
+                      <div
+                        className="writearticle-calendar"
+                        style={{
+                          visibility: activeCalendar ? "visible" : "hidden",
+                        }}
+                      >
+                        <Calendar onClick={onClickCalendar} />
+                      </div>
+                      <button
+                        className="writearticle-calendarBtn"
+                        onClick={handleCalendar}
+                        value={selectDate}
+                      >
+                        {selectDate}
+                      </button>
                     </div>
-                    {/* )} */}
-                    <button
-                      className="writearticle-calendarBtn"
-                      onClick={handleCalendar}
-                      value={selectDate}
-                    >
-                      {selectDate}
-                    </button>
-                  </div>
+                  )}
                 </span>
+                {!isMobile && <Calendar onClick={onClickCalendar} />}
               </li>
             </ul>
           </div>

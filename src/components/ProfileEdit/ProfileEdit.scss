@@ -41,17 +41,27 @@
         width: 248px;
         height: 36px;
 
-        /* primary/main */
         background-color: #ffffff;
+
         border: 1px solid #00cb8e;
         border-radius: 10px;
 
         font-family: "SUIT";
         font-weight: 600;
         font-size: 14px;
-        color: #00cb8e;
+        // color: #00cb8e;
+        color: transparent;
 
         margin-bottom: 12px;
+      }
+      input::file-selector-button {
+        display: none;
+      }
+      input::placeholder {
+        font-family: "SUIT";
+        font-weight: 600;
+        font-size: 14px;
+        color: #00cb8e;
       }
     }
   }
@@ -92,6 +102,28 @@
       right: 0;
       bottom: 0;
       padding: 0 16px 12px 0;
+    }
+  }
+}
+
+@media screen and (max-width: 960px) {
+  .profileEdit {
+    padding: 30px 4.44vw;
+
+    .profileEdit-info {
+      flex-direction: column;
+
+      align-items: center;
+
+      img {
+        width: 86px;
+        height: 86px;
+      }
+
+      .profileEdit-info-btns {
+        margin-top: 21px;
+        align-items: center;
+      }
     }
   }
 }

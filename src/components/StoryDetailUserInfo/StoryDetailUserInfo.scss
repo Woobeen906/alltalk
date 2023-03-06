@@ -34,7 +34,6 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      // padding: 6px 12px;
       padding: 6px 0.625vw;
       height: 26px;
       border: 1px solid #e4e9ed;
@@ -61,5 +60,18 @@
     -webkit-box-orient: vertical;
 
     color: #616269;
+  }
+}
+
+@media screen and (max-width: 960px) {
+  .storyDetailUserInfo {
+    width: 100%;
+    border-radius: 0;
+    border: 0;
+
+    img {
+      width: 42px;
+      height: 42px;
+    }
   }
 }

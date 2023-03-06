@@ -3,6 +3,7 @@
     list-style: none;
     display: flex;
     align-items: center;
+    padding: 0;
     li {
       display: inline-block;
       font-family: "SUIT";
@@ -16,5 +17,25 @@
   .btnsListSelected {
     color: #191919;
     border-bottom: 2px solid #191919;
+  }
+}
+
+@media screen and (max-width: 960px) {
+  .taglist {
+    width: 100vw;
+    box-sizing: border-box;
+    padding: 0 4.44vw;
+    ul {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+
+      img {
+        width: 20px;
+        height: 20px;
+      }
+      li {
+      }
+    }
   }
 }

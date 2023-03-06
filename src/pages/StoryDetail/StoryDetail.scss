@@ -96,4 +96,83 @@
       border-radius: 0px 10px 10px 0px;
     }
   }
+  .storyDetail-bottombar {
+    position: fixed;
+    bottom: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    box-sizing: border-box;
+    width: 100vw;
+    height: 80px;
+    padding: 0 18.75vw;
+
+    background-color: #ffffff;
+    border-top: 1px solid #e4e9ed;
+
+    .storyDetail-bottombar-left {
+      font-family: "SUIT";
+      font-weight: 500;
+      font-size: 18px;
+
+      color: #191919;
+      img {
+        height: 100%;
+        margin-right: 0.521vw;
+      }
+    }
+
+    .storyDetail-bottombar-right {
+      width: 20vw; //384
+      height: 56px;
+      border-radius: 10px;
+      border: 0;
+
+      font-family: bold;
+      background-color: #b1b5be;
+      color: #ffffff;
+    }
+  }
+}
+
+@media screen and (max-width: 960px) {
+  .storyDetail {
+    .storyDetail-content {
+      padding: 0;
+    }
+
+    .storyDetail-bottom {
+      padding: 0;
+      border-radius: 0;
+
+      .storyDetail-btn-left {
+        border-radius: 0;
+        img {
+          border-radius: 0;
+        }
+      }
+
+      .storyDetail-btn-mid {
+        border-radius: 0;
+      }
+      .storyDetail-btn-right {
+        border-radius: 0;
+        img {
+          border-radius: 0;
+        }
+      }
+    }
+    .storyDetail-bottombar {
+      height: 65px;
+
+      padding: 0 4.44vw;
+      .storyDetail-bottombar-right {
+        width: 100%;
+        height: 48px;
+        margin-left: 17px;
+      }
+    }
+  }
 }

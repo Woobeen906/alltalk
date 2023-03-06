@@ -4,6 +4,7 @@
   column-gap: 9px;
   row-gap: 9px;
 
+  box-sizing: border-box;
   input {
     box-sizing: border-box;
 
@@ -91,5 +92,51 @@
     justify-content: center;
 
     color: #ffffff;
+  }
+}
+
+@media screen and (max-width: 960px) {
+  .imageuploader {
+    height: 81px;
+    display: flex;
+
+    overflow-x: scroll;
+    overflow-y: hidden;
+
+    float: left;
+
+    margin: 0;
+    padding: 0;
+    column-gap: 0;
+    row-gap: 0;
+    white-space: nowrap;
+
+    input {
+      width: 81px;
+      height: 81px;
+      margin-right: 8px;
+    }
+    input::before {
+      padding: 44px 15px 0 15px;
+
+      font-size: 0.6875rem;
+      color: #616269;
+    }
+    input::after {
+      width: 14px;
+      height: 17px;
+      background-size: contain;
+      margin: 17px 33px;
+    }
+    .imageuploader-box {
+      width: 81px;
+      height: 81px;
+
+      margin-right: 8px;
+
+      display: inline-block;
+      position: relative;
+      white-space: nowrap;
+    }
   }
 }

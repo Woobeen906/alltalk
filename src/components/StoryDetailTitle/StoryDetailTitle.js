@@ -5,7 +5,7 @@ import React, { useEffect, useState } from "react";
 import "./StoryDetailTitle.scss";
 
 const StoryDetailTitle = (props) => {
-  const { story, user } = props;
+  const { story, user, root } = props;
   const [profileImg, setProfileImg] = useState();
 
   const loadImg = async () => {
@@ -27,13 +27,16 @@ const StoryDetailTitle = (props) => {
 
   return (
     <div className="storyDetailTitle">
-      {localStorage.getItem("admin") && (
+      {/* {localStorage.getItem("admin") && ( */}
+      {root === "content" && (
         <div className="storyDetailTitle-cards">
           <span className="dday-card">
             {getDayMinuteCounter(story.deadline)}
           </span>
           <Space size={8} />
-          <span className="deadline-card">마감임박</span>
+          {story.maxMember - story.member <= 1 && (
+            <span className="deadline-card">마감임박</span>
+          )}
         </div>
       )}
 

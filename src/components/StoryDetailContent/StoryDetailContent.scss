@@ -1,6 +1,7 @@
 .storyDetailContent {
   width: 100%;
   display: flex;
+
   .storyDetailContent-contents {
     margin-right: 62px;
   }
@@ -23,7 +24,6 @@
 
   .storyDetailContent-taglist {
     width: 50%;
-    background-color: pink;
     .storyDetailContent-tag {
       box-sizing: border-box;
       float: left;
@@ -104,6 +104,81 @@
           font-size: 14px;
           color: #00cb8e;
         }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 960px) {
+  .storyDetailContent {
+    overflow: hidden;
+    .storyDetailContent-contents {
+      width: 100vw;
+      .storyDetailContent-manager-mobile {
+        margin: 38px 16px 0 16px;
+        padding: 14px;
+        background: #f8f9fb;
+        border-radius: 10px;
+
+        .storyDetailContent-managerInfo {
+          img {
+            width: 16px;
+          }
+          display: flex;
+          align-items: center;
+
+          font-family: "SUIT";
+          font-weight: 500;
+          font-size: 16px;
+          color: #191919;
+
+          line-height: 13px;
+          .storyDetailContent-managerInfo-text {
+            width: 70px;
+            text-align: left;
+          }
+          span {
+            font-weight: 600;
+            color: #616269;
+          }
+        }
+      }
+    }
+
+    .storyDetailContent-contents-textarea {
+      margin: 30px 0 80px 0;
+      padding: 0 16px;
+      font-size: 15px;
+    }
+    .storyDetailContent-taglist {
+      display: inline-block;
+      width: 100%;
+      height: auto;
+      box-sizing: border-box;
+      padding: 0 4.44vw;
+
+      .storyDetailContent-tag {
+        margin: 0 8px 8px 0;
+      }
+    }
+
+    .storyDetailContent-contentsinfo {
+      .storyDetailContent-tagbox {
+        width: 20vw; //384
+        min-height: 142px;
+        overflow-y: scroll;
+        background: #ffffff;
+        border: 1px solid #e4e9ed;
+        border-radius: 10px;
+
+        padding: 24px 1.0417vw 0 1.0417vw; //20
+
+        font-family: "SUIT";
+        font-weight: 500;
+
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
       }
     }
   }

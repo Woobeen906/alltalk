@@ -95,12 +95,18 @@
           }
         }
 
-        .save-item-text {
-          font-family: "SUIT";
-          font-weight: 600;
-          font-size: 16px;
-          color: #191919;
+        .save-item-text-box {
+          display: flex;
+          flex-direction: column;
           text-align: left;
+          margin-left: 16px;
+          .save-item-text {
+            font-family: "SUIT";
+            font-weight: 600;
+            font-size: 16px;
+            color: #191919;
+            text-align: left;
+          }
           .save-item-date {
             font-weight: 500;
             font-size: 14px;
@@ -124,6 +130,32 @@
       }
       .save-item:hover {
         background: #f8f9fb;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 960px) {
+  .save {
+    .save-box {
+      width: 100vw;
+
+      .save-box-bottom {
+        .save-item {
+          .save-item-text-box {
+            .save-item-text {
+              font-size: 0.875rem;
+              word-break: break-word;
+              display: -webkit-box;
+              -webkit-line-clamp: 1;
+              -webkit-box-orient: vertical;
+              overflow: hidden;
+            }
+            .save-item-date {
+              font-size: 0.8125rem;
+            }
+          }
+        }
       }
     }
   }

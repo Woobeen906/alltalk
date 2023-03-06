@@ -26,6 +26,7 @@
     ul {
       list-style: none;
       padding: 0;
+      margin: 0;
 
       .writearticle-hashtag-input {
         width: 100%;
@@ -86,12 +87,11 @@
 
         .writearticle-manager-input {
           display: flex;
+
           .writearticle-input-button {
-            // width: 128px;
             width: 6.66667vw;
             height: 48px;
             background: #ffffff;
-
             border: 1px solid #e4e9ed;
           }
 
@@ -169,8 +169,15 @@
 
           box-sizing: border-box;
         }
+
+        textarea::placeholder {
+          color: #b1b5be;
+        }
       }
 
+      li:nth-child(1) {
+        margin-top: 60px;
+      }
       .writearticle-subtitle-flexstart {
         align-items: flex-start;
         .writearticle-subtitle {
@@ -192,4 +199,89 @@
 
 .stop-scrolling {
   overflow: hidden;
+}
+
+@media screen and (max-width: 960px) {
+  .writearticle {
+    padding: 0;
+    .writearticle-box {
+      width: 100vw;
+
+      text-align: right;
+      ul {
+        box-sizing: border-box;
+
+        .writearticle-hashtag-input {
+          width: 100%;
+          background: #ffffff;
+          border: 0;
+          border-top: 1px solid #e4e9ed;
+          border-bottom: 1px solid #e4e9ed;
+          border-radius: 0;
+          padding: 0;
+          padding-bottom: 20px;
+
+          padding-top: 20px;
+          font-family: "SUIT";
+          font-weight: 500;
+          font-size: 0.9375rem;
+
+          position: relative;
+        }
+
+        .writearticle-hashBtn {
+          position: absolute;
+
+          left: 85%;
+          padding-top: 12px;
+
+          font-size: 30px;
+          font-weight: 800;
+          color: #616269;
+          background-color: transparent;
+        }
+
+        li {
+          display: flex;
+          flex-direction: column;
+          .writearticle-subtitle {
+            padding: 0 4.72vw;
+            font-size: 0.9375rem;
+          }
+          .writearticle-input {
+            width: 100%;
+            padding: 0 4.72vw;
+          }
+
+          textarea {
+            width: 100%;
+            height: 300px;
+            padding: 0;
+            border: 0;
+            border-bottom: 1px solid #e4e9ed;
+            border-radius: 0;
+            font-size: 0.9375rem;
+          }
+
+          .writearticle-manager-input {
+            padding: 0 4.72vw;
+
+            .writearticle-input-button {
+              width: 100%;
+              height: 44px;
+              margin-top: 20px;
+            }
+
+            .writearticle-calendar-box {
+              padding: 0 4.72vw;
+            }
+          }
+        }
+
+        li:nth-child(1) {
+          margin: 0;
+        }
+      }
+    }
+  }
 }

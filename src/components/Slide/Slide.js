@@ -78,7 +78,7 @@ const Slider = () => {
     () => {
       handleSlide(currentIndex + 1);
     },
-    !isSwiping && !prevSlideX ? 3000 : null
+    !isSwiping && !prevSlideX ? 5000 : null
   );
 
   function replaceSlide(index) {

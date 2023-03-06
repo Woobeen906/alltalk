@@ -8,6 +8,7 @@ const ProfileCard = (props) => {
   const [nickname, setNickname] = useState(null);
 
   const onClickLogout = () => {
+    window.location.reload();
     localStorage.clear();
     props.onHandleModal();
     navigate("/");

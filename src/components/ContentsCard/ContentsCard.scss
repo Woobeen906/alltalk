@@ -1,19 +1,20 @@
 .contentsCard {
-  max-width: 328px;
-  max-height: 350px;
+  // max-width: 38px;
+  // max-height: 350px;
   cursor: pointer;
   .contentsCard-image-dday {
     position: absolute;
     background: #000000;
     opacity: 0.6;
     border-radius: 4px;
-    padding: 0.3125vw 0.5208vw;
-    margin: 0.625vw;
+
+    padding: 9px 10px;
+    margin: 12px;
 
     color: #ffffff;
     font-family: "SUIT";
     font-weight: 600;
-    font-size: 0.73vw;
+    font-size: 0.875rem;
   }
 
   .contentsCard-deadline-message {
@@ -36,8 +37,6 @@
 
     img {
       width: 100%;
-      // width: 14.6875vw;
-      height: 10.833vw;
 
       transition: all 0.1s linear;
       border-radius: 10px;
@@ -51,7 +50,6 @@
     flex-direction: column;
     align-items: flex-start;
     .contentsCard-tag {
-      // display: inline-block;
       display: flex;
       margin-top: 10px;
     }
@@ -111,4 +109,7 @@
       }
     }
   }
+}
+
+@media screen and (max-width: 960px) {
 }

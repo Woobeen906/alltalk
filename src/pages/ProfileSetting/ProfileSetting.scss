@@ -28,3 +28,23 @@
     }
   }
 }
+
+@media screen and (max-width: 960px) {
+  .profileSetting {
+    padding: 0;
+    flex-direction: column;
+
+    .profileSetting-menu {
+      margin: 0;
+    }
+
+    .profileSetting-content {
+      box-sizing: border-box;
+
+      .profileSetting-save {
+        width: 100%;
+        padding: 0 4.44vw;
+      }
+    }
+  }
+}

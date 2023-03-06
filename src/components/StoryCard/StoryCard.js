@@ -25,14 +25,15 @@ const StoryCard = (props) => {
   } = props.item;
   const navigate = useNavigate();
 
-  const [liked, setLiked] = useState(false);
+  const [eventActive, setEventActive] = useState(true);
+  const [liked, setLiked] = useState(islike);
   const [likeCnt, setLikeCnt] = useState(like);
   const [image, setImage] = useState();
   const [profileImg, setProfile] = useState();
 
   const handleClick = async () => {
     const frm = new FormData();
-    frm.append("id", "siugan1");
+    frm.append("id", localStorage.getItem("id"));
     frm.append("idx", idx);
     await axios({
       method: "POST",
@@ -43,7 +44,7 @@ const StoryCard = (props) => {
         setLikeCnt((prev) => {
           return prev + 1;
         });
-        setLiked(true);
+        setLiked(!liked);
       }
     });
   };
@@ -75,8 +76,11 @@ const StoryCard = (props) => {
     });
   };
 
-  const onClickDetail = (idx) => {
-    navigate(`/StoryDetail/${idx}`, { state: { idx: idx, root: "story" } });
+  const onClickDetail = () => {
+    eventActive &&
+      navigate(`/StoryDetail/${idx}`, {
+        state: { idx: idx, root: "story", like: like },
+      });
   };
 
   useEffect(() => {
@@ -93,7 +97,7 @@ const StoryCard = (props) => {
           props.filter !== "all" &&
           "none",
       }}
-      onClick={() => onClickDetail(idx)}
+      onClick={() => onClickDetail()}
     >
       <div className="storycard-profile">
         <img src={profileImg} alt="profileImg" />
@@ -120,8 +124,15 @@ const StoryCard = (props) => {
           <div className="storycard-title">{title}</div>
           <div className="storycard-content">{subtitle}</div>
         </div>
-        <div className="storycard-like">
-          <button className={liked ? "liked" : ""} onClick={handleClick} />
+        <div
+          className="storycard-like"
+          onMouseEnter={() => setEventActive(false)}
+          onMouseLeave={() => setEventActive(true)}
+        >
+          <button
+            className={liked ? "liked" : ""}
+            onClick={() => handleClick()}
+          />
           <span className={liked ? "liked" : ""}>{likeCnt}</span>
         </div>
       </div>

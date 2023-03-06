@@ -10,9 +10,8 @@
       list-style: none;
       display: flex;
       justify-content: flex-start;
-      margin: 0 0 2.08vw 2.08vw;
+      margin: 0 0 2.08vw 0;
       padding: 0;
-
       li {
         font-family: "SUIT";
         font-weight: 600;
@@ -28,15 +27,86 @@
         border-bottom: 1px solid #191919;
       }
     }
+    margin-left: 1.25vw;
   }
   .mypage-itemlist {
     display: grid;
-    width: 100%;
+    // width: 100%;
 
     grid-template-columns: repeat(auto-fill, minmax(282px, auto));
+    column-gap: 24px;
     row-gap: 24px;
 
     margin-bottom: 180px;
-    margin-left: 1.25vw;
+
+    box-sizing: border-box;
+  }
+}
+
+@media screen and (max-width: 960px) {
+  .mypage {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    background-color: #f8f9fb;
+    .mypage-list {
+      margin: 0;
+
+      ul {
+        background-color: #ffffff;
+        li {
+          width: 100%;
+          margin: 0;
+          justify-content: center;
+        }
+      }
+
+      .mypage-mobileList {
+        padding: 0 4.44vw;
+        .mypage-mobileList-type {
+          height: 44px;
+
+          display: flex;
+          align-items: center;
+          justify-content: flex-end;
+
+          button {
+            border: 0;
+            background-color: transparent;
+            width: 20px;
+            height: 20px;
+          }
+
+          .mypage-mobileList-list1 {
+            background-position: center;
+            background-size: contain;
+          }
+          .mypage-mobileList-list2 {
+            background-position: center;
+            background-size: contain;
+
+            margin-left: 10px;
+          }
+        }
+      }
+      .mypage-itemlist {
+        margin-bottom: 60px;
+      }
+
+      .mypage-type2List {
+        grid-template-columns: repeat(auto-fill, minmax(119px, 1fr));
+        gap: 1px;
+        width: 100%;
+        margin-bottom: 100px;
+
+        box-sizing: border-box;
+
+        img {
+          width: 100%;
+          height: 100%;
+        }
+      }
+    }
   }
 }

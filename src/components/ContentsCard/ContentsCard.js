@@ -19,6 +19,7 @@ const ContentsCard = (props) => {
     filter,
     idx,
     subtitle,
+    toggleActive,
   } = props;
 
   const navigate = useNavigate();
@@ -26,6 +27,7 @@ const ContentsCard = (props) => {
   const memberDeadline = maxMember - member === 1;
 
   const [img, setImage] = useState();
+  const [complete, setComplete] = useState();
   const Image = () => {
     axios({
       method: "POST",
@@ -46,10 +48,22 @@ const ContentsCard = (props) => {
 
   useEffect(() => {
     Image();
+    setComplete(getDayMinuteCounter(new Date(deadline)).slice(1, 2) === "+");
   }, []);
 
   return (
-    <div className="contentsCard" onClick={() => onClickDetail(idx)}>
+    <div
+      className="contentsCard"
+      style={{
+        display:
+          (tags.find((item) => item === filter) === undefined &&
+            filter !== "all") ||
+          complete === toggleActive
+            ? "none"
+            : "",
+      }}
+      onClick={() => onClickDetail(idx)}
+    >
       <div
         className="contentsCard-image-dday"
         style={image ? {} : { margin: 0 }}
@@ -59,14 +73,14 @@ const ContentsCard = (props) => {
       {memberDeadline && (
         <div className="contentsCard-deadlie-message">마감임박</div>
       )}
-      {image && (
+      {image.length !== 0 && (
         <div className="contentsCard-image">
           <img src={img} alt={`${img}`} />
         </div>
       )}
       <div
         className="contentsCard-text"
-        style={!image ? { marginTop: "32px" } : {}}
+        style={image.length === 0 ? { marginTop: "45px" } : {}}
       >
         {tags && (
           <div className="contentsCard-tag">

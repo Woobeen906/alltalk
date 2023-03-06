@@ -229,3 +229,67 @@
 button {
   cursor: pointer;
 }
+
+@media screen and (max-width: 960px) {
+  .signUpInput {
+    padding-bottom: 0;
+
+    .signUpInput-container {
+      width: 100%;
+      max-width: 480px;
+      overflow-x: hidden;
+      .signUpInput-list {
+        width: 200%;
+
+        .signUpInputStep1 {
+          width: 100%;
+
+          .signUpInputStep1-title {
+            font-size: 1.25rem;
+            margin: 40px 0;
+          }
+          .signUpInputStep1-content {
+            width: 100vw;
+            max-width: 480px;
+            padding: 0;
+            padding: 0 4.4vw;
+            .signUpInputStep1-input {
+              width: 100%;
+              .signUpInputStep1-input-double-check {
+                input {
+                  width: 100%;
+                  font-size: 1rem;
+                }
+              }
+            }
+          }
+          .signUpInputStep1-btn {
+            margin-bottom: 120px;
+          }
+        }
+        .signUpInputStep2 {
+          width: 100%;
+          .signUpInputStep2-title {
+            font-size: 1.25rem;
+            margin: 40px 0;
+          }
+          .signUpInputStep2-content {
+            width: 100vw;
+            max-width: 480px;
+            padding: 0;
+            padding: 0 4.4vw;
+
+            .signUpInputStep2-input {
+              .signUpInputStep2-hashtag-input {
+                font-size: 0.9375rem;
+              }
+            }
+            .signUpInputStep2-btn-container {
+              margin-bottom: 120px;
+            }
+          }
+        }
+      }
+    }
+  }
+}

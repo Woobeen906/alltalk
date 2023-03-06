@@ -339,6 +339,33 @@ const SignUpInput = () => {
 
   const [step, setStep] = useState(0);
   const [nextBtnActive, setNextBtnActive] = useState(false);
+  const [pageWidth, setPageWidth] = useState();
+
+  const resizeWidth = () => {
+    const stepPage = document.getElementsByClassName(
+      "signUpInputStep1-content"
+    );
+
+    const str = window.getComputedStyle(stepPage[0], null).width;
+    let regex = /[^0-9]/g;
+    let result = str.replace(regex, "");
+    setPageWidth(result);
+  };
+  useEffect(() => {
+    const stepPage = document.getElementsByClassName(
+      "signUpInputStep1-content"
+    );
+    const str = window.getComputedStyle(stepPage[0], null).width;
+    let regex = /[^0-9]/g;
+    let result = str.replace(regex, "");
+    setPageWidth(result);
+
+    window.addEventListener("resize", resizeWidth);
+
+    return () => {
+      window.removeEventListener("resize", resizeWidth);
+    };
+  }, []);
 
   const [inputs, setInputs] = useState({
     id: "",
@@ -483,8 +510,6 @@ const SignUpInput = () => {
       tagsError: tagsError_check(tags),
     });
 
-    console.log(nicknameError, !birthError, !tagsError, inputs.signUpCehck);
-
     if (nicknameError && !birthError && !tagsError) {
       signUp();
     } else {
@@ -609,7 +634,7 @@ const SignUpInput = () => {
       <div className="signUpInput-container">
         <div
           className="signUpInput-list"
-          style={{ transform: `translate(${-step * 480}px)` }}
+          style={{ transform: `translate(${-step * pageWidth}px)` }}
         >
           <SignUpInputStep1
             inputs={inputs}

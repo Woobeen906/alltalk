@@ -75,8 +75,6 @@
 .slider-item {
   position: relative;
   width: 100vw;
-  // height: 550px;
-  // height: 500px;
   height: 600px;
 
   float: left;
@@ -85,4 +83,25 @@
 .current-slide {
   -webkit-filter: none;
   filter: none;
+}
+
+@media screen and (max-width: 960px) {
+  .slider-area {
+    .slider-btn {
+      width: 42px;
+      height: 26px;
+
+      font-size: 13px;
+
+      right: 43%;
+      bottom: 0;
+      margin: 0 16px 16px 0;
+      img {
+        display: none;
+      }
+    }
+  }
+  .slider-item {
+    height: 252px;
+  }
 }

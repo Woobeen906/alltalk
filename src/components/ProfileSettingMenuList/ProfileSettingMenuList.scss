@@ -36,3 +36,26 @@
     }
   }
 }
+
+@media screen and (max-width: 960px) {
+  .profileSettingMenuList {
+    width: 100vw;
+    height: auto;
+    padding: 16px 4.44vw 0 4.44vw;
+
+    border: 0;
+    background: #f8f9fb;
+    ul {
+      display: flex;
+      height: 30px;
+      li {
+        font-size: 15px;
+        white-space: pre;
+      }
+      .profilesettingCurrent {
+        border-bottom: 1px solid #191919;
+        color: #191919;
+      }
+    }
+  }
+}

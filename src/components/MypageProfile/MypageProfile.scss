@@ -3,7 +3,8 @@
 
   width: 14.6875vw;
   height: 100%;
-  padding: 40px 1.0417vw;
+  // padding: 40px 1.0417vw;
+  padding: 0 1.0417vw;
 
   background: #ffffff;
 
@@ -12,46 +13,104 @@
 
   font-family: "SUIT";
 
-  img {
-    width: 8.23vw;
-    height: 8.23vw;
-    border-radius: 50%;
+  .mypageProfile-info {
+    img {
+      width: 8.23vw;
+      height: 8.23vw;
+      border-radius: 50%;
 
-    margin-bottom: 32px;
-  }
+      margin-bottom: 32px;
+    }
 
-  .mypageProfile-nickname {
-    width: 100%;
+    .mypageProfile-nickname {
+      width: 100%;
 
-    color: #191919;
-    font-weight: 600;
-  }
+      color: #191919;
+      font-size: 20px;
+      font-weight: 600;
+    }
 
-  .mypageProfile-profilesetting {
-    width: 100%;
-    height: 36px;
-    background: #b1b5be;
-    border: 0;
-    border-radius: 10px;
+    .mypageProfile-profilesetting {
+      width: 100%;
+      height: 36px;
+      background: #b1b5be;
+      border: 0;
+      border-radius: 10px;
 
-    font-size: 14px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
 
-    color: #ffffff;
-    font-weight: 600;
+      color: #ffffff;
+      font-weight: 600;
 
-    margin-bottom: 24px;
+      margin: 24px 0;
+    }
   }
 
   .mypageProfile-description {
     width: 100%;
 
-    margin-top: 24px;
+    padding: 24px 0;
     font-size: 13px;
     font-weight: 400;
     text-align: left;
     color: #616269;
+  }
+}
+
+@media screen and (max-width: 960px) {
+  .mypageProfile {
+    width: 100vw;
+    border-radius: 0;
+    border: 0;
+
+    box-sizing: border-box;
+
+    .mypageProfile-info {
+      img {
+        width: 67px;
+        height: 67px;
+        float: left;
+
+        margin-right: 16px;
+      }
+
+      .mypageProfile-mobile {
+        display: flex;
+        flex-direction: column;
+        text-align: left;
+
+        .mypageProfile-nickname {
+          margin-top: 12px;
+        }
+
+        .mypageProfile-profilesetting {
+          width: auto;
+          height: auto;
+          border-radius: 0;
+          justify-content: flex-start;
+
+          font-size: 12px;
+          text-align: left;
+          color: #b1b5be;
+
+          margin: 0;
+          padding: 0;
+          background-color: transparent;
+        }
+      }
+    }
+
+    .mypageProfile-description {
+      box-sizing: border-box;
+
+      word-break: break-all;
+      text-align: left;
+
+      margin-top: 24px;
+      padding: 24px 4.44vw;
+    }
   }
 }

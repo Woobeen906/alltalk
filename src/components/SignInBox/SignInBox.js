@@ -5,12 +5,18 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Context } from "context/ContextProvider";
 import { BASE_URL } from "config";
+import { useMediaQuery } from "react-responsive";
 
 import Input from "components/Input/Input";
 import Space from "components/Space/Space";
 
 const SignInBox = () => {
   const navigate = useNavigate();
+
+  const isMobile = useMediaQuery({
+    query: "(min-width:960px)",
+  });
+
   const { state, setLoggedIn } = useContext(Context);
 
   const [signInData, setSignInData] = useState({ id: "", pw: "" });
@@ -82,7 +88,7 @@ const SignInBox = () => {
     <div className="signInBox">
       <div className="signInBox-container">
         <Input type="text" placeholder="아이디" onChange={onChangeId} />
-        <Space size={12} />
+        <Space size={isMobile ? 12 : 8} />
         <Input type="password" placeholder="비밀번호" onChange={onChangePw} />
         <Space size={32} />
         <button className="signInBox-signin-btn" onClick={signinBtn}>

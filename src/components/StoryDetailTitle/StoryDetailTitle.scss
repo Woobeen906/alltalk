@@ -112,3 +112,44 @@
     }
   }
 }
+
+@media screen and (max-width: 960px) {
+  .storyDetailTitle {
+    width: 100vw;
+    padding: 30px 14px;
+    .storyDetailTitle-texts {
+      margin-bottom: 24px;
+
+      .storyDetailTitle-title {
+        font-size: 1.375rem;
+        line-height: 32px;
+        margin-bottom: 16px;
+      }
+      .storyDetailTitle-subtitle {
+        font-size: 1rem;
+        line-height: 20px;
+      }
+    }
+
+    .storyDetailTitle-userInfo {
+      .storyDetailTitle-userInfo-left {
+        .storyDetailTitle-name {
+          font-size: 0.6875rem;
+        }
+        .storyDetailTitle-date {
+          font-size: 0.625rem;
+        }
+      }
+      .storyDetailTitle-userInfo-right {
+        .storyDetailTitle-btns {
+          .storyDetailTitle-btn {
+            width: 13.61vw; //49
+            height: 27px;
+
+            font-size: 0.75rem;
+          }
+        }
+      }
+    }
+  }
+}

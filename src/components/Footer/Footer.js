@@ -2,15 +2,19 @@ import React, { forwardRef, useState } from "react";
 import "./Footer.scss";
 
 import { useLocation } from "react-router-dom";
+import { useMediaQuery } from "react-responsive";
 
 const Footer = forwardRef((props, ref) => {
+  const isMobile = useMediaQuery({
+    query: "(min-width:960px)",
+  });
   const { landing } = props;
   const location = useLocation();
 
   return (
     <footer
       className={`footer ${landing ? "fixed" : ""}`}
-      style={{ display: `${location.pathname === "/" && "none"}` }}
+      style={{ display: location.pathname === "/" && "none" }}
       ref={ref}
     >
       <div className="footer-title">ALL TALK</div>

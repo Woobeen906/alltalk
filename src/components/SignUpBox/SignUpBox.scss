@@ -46,3 +46,31 @@
     }
   }
 }
+
+@media screen and (max-width: 960px) {
+  .signUpBox {
+    width: 100vw;
+    max-width: 480px;
+
+    padding: 0 4.72vw;
+
+    .signUpBox-title {
+      margin: 55px 0 21px 0;
+      font-size: 2rem;
+    }
+
+    .signUpBox-content {
+      .signUpBox-description {
+        width: 72.8vw;
+      }
+
+      .signUpBox-btn {
+        width: 100%;
+
+        button {
+          width: 100%;
+        }
+      }
+    }
+  }
+}

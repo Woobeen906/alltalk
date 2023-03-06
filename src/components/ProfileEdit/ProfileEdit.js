@@ -31,9 +31,12 @@ const ProfileEdit = (props) => {
       <div className="profileEdit-info">
         <img src={profileImg} alt={"profileImg"} />
         <div className="profileEdit-info-btns">
-          <button className="profileEdit-info-imgchange">
-            프로필사진 변경
-          </button>
+          <input
+            className="profileEdit-info-imgchange"
+            placeholder="프로필사진 변경"
+            type={"file"}
+          />
+
           <button className="profileEdit-info-delete">사진 삭제</button>
         </div>
       </div>
