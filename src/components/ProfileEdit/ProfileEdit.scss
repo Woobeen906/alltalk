@@ -37,6 +37,7 @@
       }
       .profileEdit-info-imgchange {
         box-sizing: border-box;
+        position: relative;
 
         width: 248px;
         height: 36px;
@@ -49,19 +50,21 @@
         font-family: "SUIT";
         font-weight: 600;
         font-size: 14px;
-        // color: #00cb8e;
         color: transparent;
 
         margin-bottom: 12px;
       }
+      .profileEdit-info-imgchange::before {
+        // position: absolute;
+        display: flex;
+        justify-content: center;
+        content: "프로필사진 변경";
+        padding: 10px 0;
+
+        color: #00cb8e;
+      }
       input::file-selector-button {
         display: none;
-      }
-      input::placeholder {
-        font-family: "SUIT";
-        font-weight: 600;
-        font-size: 14px;
-        color: #00cb8e;
       }
     }
   }
@@ -109,6 +112,8 @@
 @media screen and (max-width: 960px) {
   .profileEdit {
     padding: 30px 4.44vw;
+    border-radius: 0;
+    border: 0;
 
     .profileEdit-info {
       flex-direction: column;
@@ -121,8 +126,15 @@
       }
 
       .profileEdit-info-btns {
+        margin-left: 0;
         margin-top: 21px;
         align-items: center;
+
+        .profileEdit-info-imgchange {
+          width: 100%;
+          height: 36px;
+          max-width: 328px;
+        }
       }
     }
   }

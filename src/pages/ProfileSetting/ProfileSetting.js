@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import "./ProfileSetting.scss";
 
+import { useMediaQuery } from "react-responsive";
+
 import ProfileSettingMenuList from "components/ProfileSettingMenuList/ProfileSettingMenuList";
 import ProfileEdit from "components/ProfileEdit/ProfileEdit";
 import ProfileBasciEdit from "components/ProfileBasciEdit/ProfileBasciEdit";
@@ -9,6 +11,10 @@ import Space from "components/Space/Space";
 import ProfilePwEdit from "components/ProfilePwEdit/ProfilePwEdit";
 
 const ProfileSetting = () => {
+  const isMobile = useMediaQuery({
+    query: "(min-width:960px)",
+  });
+
   const [currentPage, setCurrentPage] = useState("정보 수정");
   const [tags, setTags] = useState([]);
 
@@ -81,12 +87,12 @@ const ProfileSetting = () => {
             />
             <Space size={40} />
             <button className="profileSetting-save">저장</button>
+            {!isMobile && <Space size={120} />}
           </>
         ) : (
           <ProfilePwEdit />
         )}
-
-        <Space size={200} />
+        {isMobile && <Space size={200} />}
       </div>
     </div>
   );

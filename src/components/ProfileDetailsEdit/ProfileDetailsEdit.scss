@@ -65,8 +65,17 @@
 
       .profileDetailsEdit-hashtag-list {
         width: 100%;
-        display: flex;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+        row-gap: 4px;
       }
     }
+  }
+}
+
+@media screen and (max-width: 960px) {
+  .profileDetailsEdit {
+    border-radius: 0;
+    border: 0;
   }
 }

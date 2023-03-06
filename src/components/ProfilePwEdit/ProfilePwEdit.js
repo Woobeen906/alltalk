@@ -1,10 +1,16 @@
 import React from "react";
 import "./ProfilePwEdit.scss";
 
+import { useMediaQuery } from "react-responsive";
+
 import Input from "components/Input/Input";
 import Space from "components/Space/Space";
 
 const ProfilePwEdit = () => {
+  const isMobile = useMediaQuery({
+    query: "(min-width:960px)",
+  });
+
   return (
     <div className="profilePwEdit">
       비밀번호 변경
@@ -22,7 +28,7 @@ const ProfilePwEdit = () => {
           <Space size={8} />
           <Input placeholder="비밀번호를 한 번 더 입력해주세요." />
         </div>
-        <Space size={60} />
+        <Space size={isMobile ? 60 : 40} />
         <div className="profilePwEdit-btn">
           <button>변경</button>
         </div>

@@ -13,6 +13,12 @@
   .profilePwEdit-inputs {
     margin-top: 50px;
 
+    .profilePwEdit-input-box {
+      font-weight: 600;
+      font-size: 15px;
+      color: #616269;
+    }
+
     .profilePwEdit-btn {
       text-align: center;
       button {
@@ -28,6 +34,23 @@
         font-size: 20px;
 
         color: #ffffff;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 960px) {
+  .profilePwEdit {
+    padding: 30px 4.44vw 150px 4.44vw;
+
+    .profilePwEdit-inputs {
+      margin-top: 40px;
+
+      .profilePwEdit-btn {
+        button {
+          width: 100%;
+          font-size: 1rem;
+        }
       }
     }
   }

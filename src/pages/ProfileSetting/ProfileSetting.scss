@@ -42,7 +42,8 @@
       box-sizing: border-box;
 
       .profileSetting-save {
-        width: 100%;
+        width: calc(100% - 4.44vw);
+        max-width: 384px;
         padding: 0 4.44vw;
       }
     }
