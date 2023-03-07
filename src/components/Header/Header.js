@@ -5,6 +5,8 @@ import { useMediaQuery } from "react-responsive";
 
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import ProfileCard from "components/ProfileCard/ProfileCard";
+import axios from "axios";
+import { BASE_URL } from "config";
 
 const Header = (props) => {
   const { landing, page, onTop } = props;
@@ -20,6 +22,7 @@ const Header = (props) => {
 
   const [headerCss, setHeaderCss] = useState(true);
   const [modal, setModal] = useState(false);
+  const [profileImg, setProfileImg] = useState(false);
 
   useEffect(() => {
     if (page === 0 || page === 2) setHeaderCss(true);
@@ -32,12 +35,26 @@ const Header = (props) => {
 
   useEffect(() => {
     setModal(false);
+
+    Image();
   }, []);
 
   const handleModal = () => {
     setModal(!modal);
   };
 
+  const Image = () => {
+    axios({
+      method: "POST",
+      url: `${BASE_URL}/util/${localStorage.getItem("id")}/profile`,
+      responseType: "blob",
+    }).then((res) => {
+      const url = window.URL.createObjectURL(
+        new Blob([res.data], { type: res.headers["content-type"] })
+      );
+      setProfileImg(url);
+    });
+  };
   return (
     <header
       className="Header"
@@ -57,7 +74,7 @@ const Header = (props) => {
             onClick={() => navigate("/")}
             style={{ cursor: "pointer", color: headerCss && "#ffffff" }}
           >
-            <img src={require("../../assets/imgs/defaultNoword.jpeg")} />
+            <img src={require("../../assets/imgs/default.png")} />
             ALL TALK
           </div>
           <div className="header-content">
@@ -158,7 +175,11 @@ const Header = (props) => {
                         }}
                         onClick={() => handleModal()}
                       >
-                        <img src={require("../../assets/imgs/default.png")} />
+                        {!profileImg ? (
+                          <img src={profileImg} />
+                        ) : (
+                          <img src={require("../../assets/imgs/default.png")} />
+                        )}
                       </button>
                       {modal && <ProfileCard onHandleModal={handleModal} />}
                     </>
