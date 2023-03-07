@@ -1,8 +1,6 @@
 .infoCard {
   position: relative;
-  // width: 384px;
   width: 20vw;
-  // height: 46.5726vh;
 
   background: #f8f9fb;
 
@@ -11,7 +9,6 @@
 
   font-family: "SUIT";
   font-weight: 800;
-  // font-size: 24px;
   font-size: 1.25vw;
   color: #191919;
 
@@ -21,7 +18,6 @@
   transition: all 0.1s;
 
   .infoCard-image {
-    // height: 280px;
     height: 28vh;
     display: flex;
     justify-content: center;
@@ -31,27 +27,24 @@
       border-radius: 10px 10px 0 0;
       width: 20vw;
       height: 28.63vh;
-      // height: 284px;
     }
   }
 
   .infoCard-small {
     img {
       width: 10.3125vw;
-      // height: 187px;
       height: 18.851vh;
     }
   }
   .infoCard-text {
-    // height: 182px;
-    height: 18.3468vh;
-    // padding: 40px 20px;
-    padding: 4.028vh 1.0416vw;
-    margin-bottom: 3.0211vh;
+    // height: 18.3468vh;
+    height: auto;
+
+    padding: 4.028vh 1.0416vw 3.02vh 1.0416vw;
+
     box-sizing: border-box;
     .infoCard-title {
       text-align: center;
-      // margin-bottom: 30px;
       margin-bottom: 3.0241vh;
     }
     .infoCard-content {
@@ -70,6 +63,52 @@
   .infoCard-text {
     .infoCard-title {
       color: #00cb8e;
+    }
+  }
+}
+
+@media screen and (max-width: 960px) {
+  .infoCard {
+    width: 100%;
+    max-width: 328px;
+
+    border: 0;
+
+    margin-bottom: 16px;
+    .infoCard-image {
+      img {
+        width: 100%;
+      }
+    }
+
+    .infoCard-small {
+      img {
+        max-width: 152px;
+        width: 100%;
+      }
+    }
+
+    .infoCard-text {
+      height: auto;
+      padding: 20px 4.44vw;
+      .infoCard-title {
+        font-size: 1.1875rem;
+      }
+      .infoCard-content {
+        font-weight: 400;
+        font-size: 0.8125rem;
+        line-height: 22px;
+      }
+    }
+  }
+  .infoCard:hover {
+    border: 0;
+    transform: translateY(0);
+
+    .infoCard-text {
+      .infoCard-title {
+        color: #191919;
+      }
     }
   }
 }

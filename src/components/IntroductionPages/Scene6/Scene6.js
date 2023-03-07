@@ -1,7 +1,12 @@
 import React, { forwardRef } from "react";
 import "./Scene6.scss";
 
+import { useMediaQuery } from "react-responsive";
+
 const Scene6 = forwardRef((props, ref) => {
+  const isMobile = useMediaQuery({
+    query: "(min-width:960px)",
+  });
   return (
     <div className="scene6" ref={ref}>
       <div className="scene6-title">
@@ -10,10 +15,17 @@ const Scene6 = forwardRef((props, ref) => {
         <br /> <span>핵심 키</span>가 되어드리겠습니다.
       </div>
       <div className="scene6-image">
-        <img
-          src={require("../../../assets/imgs/Scene6/Scene6Img.jpg")}
-          alt="scene6img"
-        />
+        {isMobile ? (
+          <img
+            src={require("../../../assets/imgs/Scene6/Scene6Img.jpg")}
+            alt="scene6img"
+          />
+        ) : (
+          <img
+            src={require("../../../assets/imgs/Scene6/Scene6MobileImg.png")}
+            alt="scene6MobileImg"
+          />
+        )}
       </div>
       <button
         className="scene6-btn"

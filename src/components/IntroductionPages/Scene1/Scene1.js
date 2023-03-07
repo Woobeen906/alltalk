@@ -1,12 +1,19 @@
 import React, { useState, forwardRef } from "react";
 import "./Scene1.scss";
 
+import { useMediaQuery } from "react-responsive";
+
 import image1 from "assets/imgs/Scene1/Scene1_1.jpeg";
 import image2 from "assets/imgs/Scene1/Scene1_2.jpeg";
 import image3 from "assets/imgs/Scene1/Scene1_3.jpeg";
 
 const Scene1 = forwardRef((props, ref) => {
   const { animation } = props;
+
+  const isMobile = useMediaQuery({
+    query: "(min-width:960px)",
+  });
+
   const [page, setPage] = useState([image1, image2, image3]);
 
   const [currentPage, setCurrentPage] = useState(0);
@@ -29,6 +36,7 @@ const Scene1 = forwardRef((props, ref) => {
           style={{
             backgroundImage: `url(${page[0]})`,
             backgroundSize: "cover",
+            backgroundPosition: "center",
             backgroundRepeat: "no-repeat",
           }}
         ></div>
@@ -36,6 +44,7 @@ const Scene1 = forwardRef((props, ref) => {
           style={{
             backgroundImage: `url(${page[1]})`,
             backgroundSize: "cover",
+            backgroundPosition: "center",
             backgroundRepeat: "no-repeat",
           }}
         ></div>
@@ -43,6 +52,7 @@ const Scene1 = forwardRef((props, ref) => {
           style={{
             backgroundImage: `url(${page[2]})`,
             backgroundSize: "cover",
+            backgroundPosition: "center",
             backgroundRepeat: "no-repeat",
           }}
         ></div>
@@ -55,7 +65,7 @@ const Scene1 = forwardRef((props, ref) => {
         <div className="scene1-progressbar-box">
           <button onClick={prevBtn}>
             <img
-              src={require("../../../assets/imgs/arrowLeft.jpg")}
+              src={require("../../../assets/imgs/arrowLeft.png")}
               alt={"arrowLeft"}
             />
           </button>
@@ -79,14 +89,16 @@ const Scene1 = forwardRef((props, ref) => {
 
           <button onClick={nextBtn}>
             <img
-              src={require("../../../assets/imgs/arrowRight.jpg")}
+              src={require("../../../assets/imgs/arrowRight.png")}
               alt={"arrowLeft"}
             />
           </button>
         </div>
       </div>
-      <div className="scene1-scrollani">Scroll Down</div>
-      <div className="scene1-scrollimg"></div>
+      <div className="scene1-scroll-box">
+        <div className="scene1-scrollani">Scroll Down</div>
+        <div className="scene1-scrollimg"></div>
+      </div>
     </div>
   );
 });
