@@ -1,10 +1,12 @@
 .gallery {
   display: flex;
+  width: 100%;
   height: 456px;
   .gallery-view {
     position: relative;
     img {
-      width: 702px;
+      // width: 702px;
+      width: 36.5625vw;
       height: 456px;
       border-radius: 10px;
     }

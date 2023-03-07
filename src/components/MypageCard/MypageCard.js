@@ -9,13 +9,14 @@ import { BASE_URL } from "config";
 const COLOR = ["#191919", "#616269", "#00CB8E"];
 
 const MypageCard = (props) => {
-  const { img, title, day, listType, idx } = props;
+  const { img, title, day, listType, idx, selectMenu } = props;
 
   const isMobile = useMediaQuery({
     query: "(min-width:960px)",
   });
 
   const [image, setImage] = useState();
+  const [storyImg, setStoryImg] = useState();
   const [date, setDate] = useState();
   const [data, setData] = useState();
 
@@ -32,13 +33,32 @@ const MypageCard = (props) => {
     });
   };
 
+  const loadStoryImg = (img) => {
+    axios({
+      method: "POST",
+      url: img,
+      responseType: "blob",
+    }).then((res) => {
+      const url = window.URL.createObjectURL(
+        new Blob([res.data], { type: res.headers["content-type"] })
+      );
+      setStoryImg(url);
+    });
+  };
+
   const loadData = async () => {
+    let root;
+
+    if (selectMenu === "스토리") root = "story";
+    if (selectMenu === "신청") root = "content";
+
     await axios({
       method: "POST",
-      url: `${BASE_URL}/story/${idx}`,
+      url: `${BASE_URL}/${root}/${idx}`,
     }).then((res) => {
       if (res.data !== "error") {
         setData(res.data);
+        loadStoryImg(res.data.img[0]);
       } else console.log(res.data);
     });
   };
@@ -64,12 +84,17 @@ const MypageCard = (props) => {
     <div
       className="mypageCard"
       style={{
-        backgroundColor: img ? "" : COLOR[Math.floor(Math.random() * 3)],
+        backgroundColor:
+          img || storyImg ? "" : COLOR[Math.floor(Math.random() * 3)],
       }}
     >
-      {img ? (
+      {img || storyImg ? (
         <>
-          <img src={image} alt={img} />
+          {img ? (
+            <img src={image} alt={img} />
+          ) : (
+            <img src={storyImg} alt={img} />
+          )}
           <div className="mypageCard-description">
             <div className="mypageCard-description-title">{title}</div>
             <div className="mypageCard-description-date">

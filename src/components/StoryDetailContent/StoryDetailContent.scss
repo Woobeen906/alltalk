@@ -10,6 +10,7 @@
     margin: 60px 0 80px 0;
     text-align: left;
 
+    width: 36.5625vw;
     font-family: "SUIT";
     font-weight: 500;
     font-size: 17px;
@@ -114,6 +115,8 @@
     overflow: hidden;
     .storyDetailContent-contents {
       width: 100vw;
+      margin: 0;
+
       .storyDetailContent-manager-mobile {
         margin: 38px 16px 0 16px;
         padding: 14px;
@@ -149,6 +152,8 @@
       margin: 30px 0 80px 0;
       padding: 0 16px;
       font-size: 15px;
+
+      width: 100%;
     }
     .storyDetailContent-taglist {
       display: inline-block;

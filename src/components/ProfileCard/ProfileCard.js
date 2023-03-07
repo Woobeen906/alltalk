@@ -2,10 +2,27 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./ProfileCard.scss";
 
+import axios from "axios";
+import { BASE_URL } from "config";
+
 const ProfileCard = (props) => {
   const navigate = useNavigate();
 
   const [nickname, setNickname] = useState(null);
+  const [profileImg, setProfileImg] = useState();
+
+  const Image = () => {
+    axios({
+      method: "POST",
+      url: `${BASE_URL}/util/${localStorage.getItem("id")}/profile`,
+      responseType: "blob",
+    }).then((res) => {
+      const url = window.URL.createObjectURL(
+        new Blob([res.data], { type: res.headers["content-type"] })
+      );
+      setProfileImg(url);
+    });
+  };
 
   const onClickLogout = () => {
     window.location.reload();
@@ -20,6 +37,7 @@ const ProfileCard = (props) => {
   };
 
   useEffect(() => {
+    Image();
     if (JSON.parse(localStorage.getItem("userdata")))
       setNickname(JSON.parse(localStorage.getItem("userdata")).nickname);
   }, []);
@@ -27,7 +45,7 @@ const ProfileCard = (props) => {
     <div className="profileCard">
       <div className="profileCard-top">
         <div className="profileCard-profile">
-          <img src={require("../../assets/imgs/cat.jpg")} />
+          <img src={profileImg} />
         </div>
         <div className="profileCard-text">
           {nickname}

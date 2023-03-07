@@ -22,47 +22,64 @@
 
 .historyList {
   display: flex;
-  .historyList-left {
-    font-family: "SUIT";
-    .historyList-dot {
-      position: relative;
-      width: 16px;
-      height: 16px;
-      border-radius: 50%;
 
-      background-color: #deffef;
-    }
-    .historyList-dot::before {
-      content: "";
-      position: absolute;
-      left: -25%;
-      top: -25%;
-      width: 24px;
-      height: 24px;
-      border-radius: 50%;
-
-      background-color: #deffef;
-      opacity: 0.4;
-    }
-    .historyList-line {
-      width: 0px;
-      margin-left: 7px;
-      border: 1px solid #e4e9ed;
-    }
-  }
-  .historyList-right {
+  .historyList-box {
     margin-left: 16px;
 
     font-family: "SUIT";
-    .historyList-right-title {
-      font-weight: bold;
-      font-size: 32px;
-      color: #ffffff;
-      line-height: 20px;
 
-      margin-bottom: 24px;
+    .historyList-text-box {
+      display: flex;
+
+      .historyList-text-left {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        margin-right: 20px;
+
+        .historyList-line {
+          height: 100%;
+          width: 0.1px;
+          border: 1px solid #e4e9ed;
+        }
+        .historyList-dot {
+          position: relative;
+          width: 16px;
+          height: 16px;
+          border-radius: 50%;
+
+          background-color: #deffef;
+        }
+        .historyList-dot::before {
+          content: "";
+          position: absolute;
+          left: -25%;
+          top: -25%;
+          width: 24px;
+          height: 24px;
+          border-radius: 50%;
+
+          background-color: #deffef;
+          opacity: 0.4;
+        }
+      }
+
+      .historyList-text-right {
+        .historyList-box-title {
+          font-weight: bold;
+          font-size: 32px;
+          color: #ffffff;
+          line-height: 20px;
+
+          margin-bottom: 24px;
+
+          display: flex;
+        }
+      }
     }
-    .historyList-right-content {
+
+    .historyList-box-content {
       font-weight: 600;
       font-size: 18px;
       color: #f8f9fb;
@@ -72,15 +89,34 @@
 }
 
 .historyList-animate {
-  .historyList-right {
-    .historyList-right-title {
+  .historyList-box {
+    .historyList-box-title {
       opacity: 0;
       animation: titleAni 0.5s forwards;
       animation-delay: 0.5s;
     }
-    .historyList-right-content {
+    .historyList-box-content {
       opacity: 0;
       animation: contentAni 0.9s forwards;
+    }
+  }
+}
+
+@media screen and (max-width: 960px) {
+  .historyList {
+    .historyList-box {
+      .historyList-text-box {
+        .historyList-text-right {
+          .historyList-box-title {
+            font-size: 1.25rem;
+            margin-bottom: 12px;
+          }
+        }
+        .historyList-box-content {
+          font-size: 0.875rem;
+          line-height: 21px;
+        }
+      }
     }
   }
 }

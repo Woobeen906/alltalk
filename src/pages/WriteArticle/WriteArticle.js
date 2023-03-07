@@ -158,7 +158,6 @@ const WriteArticle = () => {
         data: frm,
       })
         .then((res) => {
-          console.log(res.data);
           if (res.data.result === true) {
             // navigate("/");
             alert("임시저장 성공!");
@@ -384,7 +383,7 @@ const WriteArticle = () => {
         <>
           <div
             className="writearticle-box"
-            style={{ paddingTop: "60px", paddingBottom: "60px" }}
+            style={{ paddingTop: "0px", paddingBottom: "60px" }}
           >
             <ul>
               <li>

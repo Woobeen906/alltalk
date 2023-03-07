@@ -20,6 +20,9 @@ const SignInBox = () => {
   const { state, setLoggedIn } = useContext(Context);
 
   const [signInData, setSignInData] = useState({ id: "", pw: "" });
+  const [error, setError] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
+
   const onChangeId = (e) => {
     setSignInData({ ...signInData, id: e.target.value });
   };
@@ -66,7 +69,8 @@ const SignInBox = () => {
         url: `${BASE_URL}/signin`,
         data: frm,
       }).then((res) => {
-        if (res.data.result) {
+        console.log(res.data.result === true);
+        if (res.data.result === true) {
           navigate("/");
           setLoggedIn();
 
@@ -75,10 +79,16 @@ const SignInBox = () => {
           adminCheck();
           userDataSave();
         } else {
-          alert("아이디와 비밀번호를 확인해주세요.");
+          setError(true);
+          // alert("아이디와 비밀번호를 확인해주세요.");
+
+          if (res.data.result === "error") {
+            if (signInData.id === "") setErrorMsg("아이디를 입력해주세요");
+            else setErrorMsg("비밀번호를 입력해주세요.");
+          } else if (!res.data.result)
+            setErrorMsg("아이디 또는 비밀번호를 잘못 입력했습니다.");
         }
       });
-      // .catch((e) => alert("아이디와 비밀번호를 확인해주세요."));
     } catch (e) {
       console.log(e);
     }
@@ -87,9 +97,26 @@ const SignInBox = () => {
   return (
     <div className="signInBox">
       <div className="signInBox-container">
-        <Input type="text" placeholder="아이디" onChange={onChangeId} />
+        <Input
+          type="text"
+          placeholder="아이디"
+          onChange={onChangeId}
+          // error={error}
+        />
         <Space size={isMobile ? 12 : 8} />
-        <Input type="password" placeholder="비밀번호" onChange={onChangePw} />
+        <Input
+          type="password"
+          placeholder="비밀번호"
+          onChange={onChangePw}
+          // error={error}
+        />
+
+        {error && (
+          <>
+            <Space size={8} />
+            <div className="signInBox-errorMsg">{errorMsg}</div>
+          </>
+        )}
         <Space size={32} />
         <button className="signInBox-signin-btn" onClick={signinBtn}>
           로그인

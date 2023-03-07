@@ -11,6 +11,13 @@
   padding: 47px;
 
   .signInBox-container {
+    .signInBox-errorMsg {
+      font-size: 12px;
+      line-height: 16px;
+      color: #ff003e;
+
+      text-align: left;
+    }
     .signInBox-signin-btn {
       width: 100%;
       height: 48px;

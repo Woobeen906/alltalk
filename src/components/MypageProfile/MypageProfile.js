@@ -37,7 +37,8 @@ const MypageProfile = (props) => {
   return (
     <div className="mypageProfile">
       <div className="mypageProfile-info">
-        <img src={profileImg} alt="userImg" />
+        {/* <img src={profileImg} alt="userImg" /> */}
+        <img src={require("../../assets/imgs/defaultNoword.jpeg")} />
 
         {isMobile ? (
           <>

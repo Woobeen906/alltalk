@@ -261,10 +261,10 @@ const StoryDetail = (props) => {
               onClick={participation}
               style={{
                 backgroundColor:
-                  content.member < content.maxMember && "#00CB8E",
+                  content.member > content.maxMember && "#00CB8E",
               }}
             >
-              {content.member < content.maxMember
+              {content.member > content.maxMember
                 ? "신청하기"
                 : "이미 신청한 콘텐츠입니다"}
             </button>

@@ -254,8 +254,8 @@ const SignUpInputStep2 = memo((props) => {
           />
           {!nicknameError && signUpCehck && (
             <div className="signUpInputStep2-input-error">
-              -이미 사용중인 닉네임입니다 (이름 중복 가능하면 X) -2~8글자의
-              한글,영문,숫자를 사용해주세요. -닉네임을 입력해주세요.
+              -2~8글자의 한글,영문,숫자를 사용해주세요.
+              {/* -닉네임을 입력해주세요. */}
             </div>
           )}
         </div>

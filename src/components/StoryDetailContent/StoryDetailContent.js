@@ -13,6 +13,7 @@ import { getDayMinuteCounter } from "assets/utils/getDayCouter";
 
 const StoryDetailContent = (props) => {
   const { story, imgs, user, root } = props;
+
   const isMobile = useMediaQuery({
     query: "(min-width:960px)",
   });
@@ -44,7 +45,6 @@ const StoryDetailContent = (props) => {
   return (
     <div className="storyDetailContent">
       <div className="storyDetailContent-contents">
-        {/* {imgs.length !== 0 && <Gallery imgs={imgs} />} */}
         {<Gallery imgs={imgs} />}
 
         {!isMobile && root === "content" && (

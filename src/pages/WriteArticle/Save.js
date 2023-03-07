@@ -24,6 +24,8 @@ const Save = (props) => {
       data: frm,
     })
       .then((res) => {
+        console.log(res.data);
+
         if (res.data) setSaveDataList(res.data);
       })
       .catch((e) => console.log(e));
@@ -77,6 +79,7 @@ const Save = (props) => {
       <div className="save-item" onClick={() => loadSaveData(idx)}>
         <div className="save-item-img">
           <img src={saveData} />
+          {/* <img src={require("../../assets/imgs/defaultNoword.jpeg")} /> */}
         </div>
         <div className="save-item-text-box">
           <div className="save-item-text">{title}</div>

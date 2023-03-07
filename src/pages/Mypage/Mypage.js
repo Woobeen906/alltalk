@@ -30,6 +30,7 @@ const Mypage = () => {
     participation: [],
   });
   const [curList, setCurList] = useState(userData.story);
+  const [participationList, setParticipationList] = useState([]);
   const [mobileListType, setMobileListType] = useState(0);
 
   const onClickMenu = (e) => setSelectMenu(e.currentTarget.id);
@@ -48,6 +49,7 @@ const Mypage = () => {
       url: `${BASE_URL}/my/${url}`,
       data: frm,
     }).then((res) => {
+      console.log(res.data);
       if (res.data !== "error") {
         setUserData({
           ...userData,
@@ -59,8 +61,21 @@ const Mypage = () => {
           contentLike: [...res.data.contentLike],
           participation: [...res.data.participation],
         });
+
+        res.data.participation &&
+          res.data.participation.map((item) => loadParticipation(item.idx));
+
         setCurList(res.data.story);
       }
+    });
+  };
+
+  const loadParticipation = async (idx) => {
+    await axios({
+      method: "POST",
+      url: `${BASE_URL}/content/${idx}`,
+    }).then((res) => {
+      setParticipationList([...participationList, res.data]);
     });
   };
 
@@ -78,13 +93,14 @@ const Mypage = () => {
         setCurList(userData.storyLike);
         break;
       case "신청":
-        setCurList(userData.contentLike);
+        setCurList(participationList);
         break;
 
       default:
         break;
     }
   }, [selectMenu]);
+
   return (
     <div className="mypage">
       <MypageProfile item={userData} />
@@ -122,6 +138,8 @@ const Mypage = () => {
                 title={item.title}
                 day={item.day}
                 key={`${item}${index}`}
+                idx={item.idx}
+                selectMenu={selectMenu}
               />
             ))}
           </div>
@@ -162,6 +180,7 @@ const Mypage = () => {
                   key={`${item}${index}`}
                   listType={mobileListType}
                   idx={item.idx}
+                  selectMenu={selectMenu}
                 />
               ))}
             </div>
