@@ -39,6 +39,10 @@ const Header = (props) => {
     Image();
   }, []);
 
+  useEffect(() => {
+    setModal(false);
+  }, [location.pathname]);
+
   const handleModal = () => {
     setModal(!modal);
   };

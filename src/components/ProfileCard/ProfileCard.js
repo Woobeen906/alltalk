@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import "./ProfileCard.scss";
 
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { BASE_URL } from "config";
 
@@ -41,6 +41,7 @@ const ProfileCard = (props) => {
     if (JSON.parse(localStorage.getItem("userdata")))
       setNickname(JSON.parse(localStorage.getItem("userdata")).nickname);
   }, []);
+
   return (
     <div className="profileCard">
       <div className="profileCard-top">

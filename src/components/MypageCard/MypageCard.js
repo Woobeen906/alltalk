@@ -64,7 +64,7 @@ const MypageCard = (props) => {
       setNonImg(true);
     }, 500);
 
-    console.log(props.item.img);
+    // console.log(props.item.img);
   }, [image]);
 
   const Tag = (tag) => {

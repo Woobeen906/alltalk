@@ -32,7 +32,6 @@
         color: #ff4c4c;
         border: 0;
         background-color: #ffffff;
-        width: 65px;
         text-align: left;
       }
       .profileEdit-info-imgchange {
@@ -62,6 +61,8 @@
         padding: 10px 0;
 
         color: #00cb8e;
+
+        cursor: pointer;
       }
       input::file-selector-button {
         display: none;
