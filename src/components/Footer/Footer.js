@@ -14,7 +14,7 @@ const Footer = forwardRef((props, ref) => {
   return (
     <footer
       className={`footer ${landing ? "fixed" : ""}`}
-      style={{ display: location.pathname === "/" && "none" }}
+      // style={{ display: location.pathname === "/" && "none" }}
       ref={ref}
     >
       <div className="footer-title">ALL TALK</div>

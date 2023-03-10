@@ -67,7 +67,7 @@ const StoryList = () => {
   // isLoaded가 변할 때 실행
   useEffect(() => {
     // isLoaded가 true일 때 + 마지막 페이지가 아닌 경우 = 요청보내기
-    if (isLoaded) {
+    if ((isLoaded, !stop)) {
       loadContents(contentsCnt, contentsCnt + DATA_LOAD_MAX_LENGTH);
     }
   }, [isLoaded]);
@@ -103,15 +103,18 @@ const StoryList = () => {
       data: frm,
     })
       .then((res) => {
-        console.log(res.data);
-        // 받아온 데이터를 보여줄 전체 리스트에 concat으로 넣어준다
-        setBeerList((beerList) => beerList.concat(res.data));
-        // 다음 요청할 데이터 offset 정보
-        setOffset((offset) => offset + res.data.length);
-        // 다음 요청 전까지 요청 그만 보내도록 false로 변경
-        setIsLoaded(false);
+        if (res.data.length === 0) setStop(true);
+        else {
+          setStop(false);
+          // 받아온 데이터를 보여줄 전체 리스트에 concat으로 넣어준다
+          setBeerList((beerList) => beerList.concat(res.data));
+          // 다음 요청할 데이터 offset 정보
+          setOffset((offset) => offset + res.data.length);
+          // 다음 요청 전까지 요청 그만 보내도록 false로 변경
+          setIsLoaded(false);
 
-        setContentsCnt((prev) => prev + DATA_LOAD_MAX_LENGTH);
+          setContentsCnt((prev) => prev + DATA_LOAD_MAX_LENGTH);
+        }
       })
       .catch((e) => console.log(e));
   }, 1500);

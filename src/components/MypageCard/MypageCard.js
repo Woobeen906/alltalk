@@ -9,16 +9,16 @@ import { BASE_URL } from "config";
 const COLOR = ["#191919", "#616269", "#00CB8E"];
 
 const MypageCard = (props) => {
-  const { img, title, day, listType, idx, selectMenu } = props;
-
+  const { img, listType, selectMenu } = props;
   const isMobile = useMediaQuery({
     query: "(min-width:960px)",
   });
 
   const [image, setImage] = useState();
-  const [storyImg, setStoryImg] = useState();
+
+  const [nonImg, setNonImg] = useState(false);
+
   const [date, setDate] = useState();
-  const [data, setData] = useState();
 
   const Image = () => {
     axios({
@@ -42,31 +42,14 @@ const MypageCard = (props) => {
       const url = window.URL.createObjectURL(
         new Blob([res.data], { type: res.headers["content-type"] })
       );
-      setStoryImg(url);
-    });
-  };
-
-  const loadData = async () => {
-    let root;
-
-    if (selectMenu === "스토리") root = "story";
-    if (selectMenu === "신청") root = "content";
-
-    await axios({
-      method: "POST",
-      url: `${BASE_URL}/${root}/${idx}`,
-    }).then((res) => {
-      if (res.data !== "error") {
-        setData(res.data);
-        loadStoryImg(res.data.img[0]);
-      } else console.log(res.data);
+      setImage(url);
     });
   };
 
   useEffect(() => {
-    Image();
-    loadData();
-    const temp = new Date(day);
+    selectMenu === "스토리" ? Image() : loadStoryImg(props.img[0]);
+
+    const temp = new Date(props.item.day);
     let year = temp.getFullYear();
     let month = temp.getMonth() + 1;
     let dday = temp.getDate();
@@ -76,6 +59,14 @@ const MypageCard = (props) => {
     setDate(`${year}.${month}.${dday}`);
   }, []);
 
+  useEffect(() => {
+    setTimeout(() => {
+      setNonImg(true);
+    }, 500);
+
+    console.log(props.item.img);
+  }, [image]);
+
   const Tag = (tag) => {
     return <div className="mypage-tag">{tag}</div>;
   };
@@ -84,28 +75,29 @@ const MypageCard = (props) => {
     <div
       className="mypageCard"
       style={{
-        backgroundColor:
-          img || storyImg ? "" : COLOR[Math.floor(Math.random() * 3)],
+        backgroundColor: props.item.img
+          ? ""
+          : COLOR[Math.floor(Math.random() * 3)],
       }}
     >
-      {img || storyImg ? (
+      {props.item.img ? (
         <>
-          {img ? (
-            <img src={image} alt={img} />
-          ) : (
-            <img src={storyImg} alt={img} />
-          )}
+          <img src={image} alt={img} />
           <div className="mypageCard-description">
-            <div className="mypageCard-description-title">{title}</div>
+            <div className="mypageCard-description-title">
+              {props.item && props.item.title}
+            </div>
             <div className="mypageCard-description-date">
-              {getDayMinuteCounter(day)}
+              {props.item && getDayMinuteCounter(props.item.day)}
             </div>
           </div>
         </>
       ) : (
         <>
           <div className="mypageCard-noneImg">
-            <div className="mypageCard-description-title">{title}</div>
+            <div className="mypageCard-description-title">
+              {props.item && props.item.title}
+            </div>
           </div>
         </>
       )}
@@ -113,34 +105,38 @@ const MypageCard = (props) => {
   ) : listType == 0 ? (
     <div className="mypageCard-mobile-card">
       <div className="mypageCard-mobile-card-date">{date}</div>
-      {img && (
+      {image && (
         <div className="mypageCard-mobile-card-img">
           <img src={image} alt={img} />
         </div>
       )}
       <div className="mypageCard-mobile-card-tags">
-        {data && data.story.tag.split(",").map((tag, index) => Tag(tag))}
+        {selectMenu === "좋아요" &&
+          props.item &&
+          props.item.tag.split(",").map((tag, index) => Tag(tag))}
       </div>
       <div className="mypageCard-mobile-card-textBox">
-        <div className="mypageCard-mobile-card-title">{title}</div>
+        <div className="mypageCard-mobile-card-title">
+          {props.item && props.item.title}
+        </div>
         <div className="mypageCard-mobile-card-content">
-          {data && data.story.content}
+          {props.item && props.item.content}
         </div>
       </div>
     </div>
   ) : (
     <div className="mypageCard-mobile-type2">
-      {img ? (
+      {image ? (
         <img src={image} />
       ) : (
         <div
           className="mypageCard-none"
           style={{
-            backgroundColor: img ? "" : COLOR[Math.floor(Math.random() * 3)],
+            backgroundColor: image ? "" : COLOR[Math.floor(Math.random() * 3)],
           }}
         >
           <div className="mypageCard-noneImg">
-            asdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdf
+            {props.item && props.item.content}
           </div>
         </div>
       )}

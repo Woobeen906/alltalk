@@ -71,7 +71,7 @@ const ContentsCard = (props) => {
         {getDayMinuteCounter(new Date(deadline).valueOf())}
       </div>
       {memberDeadline && (
-        <div className="contentsCard-deadlie-message">마감임박</div>
+        <div className="contentsCard-deadline-message">마감임박</div>
       )}
       {image.length !== 0 && (
         <div className="contentsCard-image">

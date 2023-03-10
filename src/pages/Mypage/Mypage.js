@@ -31,6 +31,7 @@ const Mypage = () => {
   });
   const [curList, setCurList] = useState(userData.story);
   const [participationList, setParticipationList] = useState([]);
+  const [storyLikeList, setStoryLike] = useState([]);
   const [mobileListType, setMobileListType] = useState(0);
 
   const onClickMenu = (e) => setSelectMenu(e.currentTarget.id);
@@ -49,7 +50,6 @@ const Mypage = () => {
       url: `${BASE_URL}/my/${url}`,
       data: frm,
     }).then((res) => {
-      console.log(res.data);
       if (res.data !== "error") {
         setUserData({
           ...userData,
@@ -62,9 +62,6 @@ const Mypage = () => {
           participation: [...res.data.participation],
         });
 
-        res.data.participation &&
-          res.data.participation.map((item) => loadParticipation(item.idx));
-
         setCurList(res.data.story);
       }
     });
@@ -75,14 +72,37 @@ const Mypage = () => {
       method: "POST",
       url: `${BASE_URL}/content/${idx}`,
     }).then((res) => {
-      setParticipationList([...participationList, res.data]);
+      setParticipationList((prev) => {
+        return [...prev, res.data];
+      });
+    });
+  };
+
+  const loadStoryLikeData = async (idx) => {
+    await axios({
+      method: "POST",
+      url: `${BASE_URL}/story/${idx}`,
+    }).then((res) => {
+      setStoryLike((prev) => {
+        return [...prev, res.data];
+      });
     });
   };
 
   useEffect(() => {
+    setSelectMenu("스토리");
     loadData();
     setCurList(userData.story);
   }, []);
+  useEffect(() => {
+    userData.participation &&
+      userData.participation.map((item) => loadParticipation(item.idx));
+  }, [userData.participation]);
+
+  useEffect(() => {
+    userData.storyLike &&
+      userData.storyLike.map((item) => loadStoryLikeData(item.idx));
+  }, [userData.storyLike]);
 
   useEffect(() => {
     switch (selectMenu) {
@@ -90,12 +110,11 @@ const Mypage = () => {
         setCurList(userData.story);
         break;
       case "좋아요":
-        setCurList(userData.storyLike);
+        setCurList(storyLikeList);
         break;
       case "신청":
         setCurList(participationList);
         break;
-
       default:
         break;
     }
@@ -132,16 +151,30 @@ const Mypage = () => {
 
         {isMobile ? (
           <div className="mypage-itemlist">
-            {curList.map((item, index) => (
-              <MypageCard
-                img={item.img}
-                title={item.title}
-                day={item.day}
-                key={`${item}${index}`}
-                idx={item.idx}
-                selectMenu={selectMenu}
-              />
-            ))}
+            {curList.map((item, index) =>
+              selectMenu === "스토리" ? (
+                <MypageCard
+                  item={item}
+                  img={item.img}
+                  key={`${item}${index}`}
+                  selectMenu={selectMenu}
+                />
+              ) : selectMenu === "좋아요" ? (
+                <MypageCard
+                  item={item.story}
+                  img={item.img}
+                  key={`${item}${index}`}
+                  selectMenu={selectMenu}
+                />
+              ) : (
+                <MypageCard
+                  item={item.content}
+                  img={item.img}
+                  key={`${item}${index}`}
+                  selectMenu={selectMenu}
+                />
+              )
+            )}
           </div>
         ) : (
           <div className="mypage-mobileList">
@@ -172,17 +205,51 @@ const Mypage = () => {
                 mobileListType == 1 && !isMobile && "mypage-type2List"
               }`}
             >
-              {curList.map((item, index) => (
+              {curList.map((item, index) =>
+                selectMenu === "스토리" ? (
+                  <MypageCard
+                    item={item}
+                    img={item.img}
+                    title={item.title}
+                    day={item.day}
+                    key={`${item}${index}`}
+                    selectMenu={selectMenu}
+                    listType={mobileListType}
+                  />
+                ) : selectMenu === "좋아요" ? (
+                  <MypageCard
+                    item={item.story}
+                    img={item.img}
+                    // title={item.story.title}
+                    // day={item.story.day}
+                    key={`${item}${index}`}
+                    selectMenu={selectMenu}
+                    listType={mobileListType}
+                  />
+                ) : (
+                  <></>
+                  // <MypageCard
+                  //   item={item}
+                  //   img={item.img}
+                  //   title={item.content.title}
+                  //   day={item.content.day}
+                  //   key={`${item}${index}`}
+                  //
+                  //   selectMenu={selectMenu}
+                  // />
+                )
+              )}
+              {/* {curList.map((item, index) => (
                 <MypageCard
                   img={item.img}
                   title={item.title}
                   day={item.day}
                   key={`${item}${index}`}
                   listType={mobileListType}
-                  idx={item.idx}
+                  
                   selectMenu={selectMenu}
                 />
-              ))}
+              ))} */}
             </div>
           </div>
         )}

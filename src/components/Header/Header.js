@@ -175,7 +175,7 @@ const Header = (props) => {
                         }}
                         onClick={() => handleModal()}
                       >
-                        {!profileImg ? (
+                        {profileImg ? (
                           <img src={profileImg} />
                         ) : (
                           <img src={require("../../assets/imgs/default.png")} />

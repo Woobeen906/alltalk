@@ -79,7 +79,6 @@ const ProfileSetting = () => {
     }
   };
 
-  console.log(detailImages);
   const onSave = async () => {
     const { introduce, name, phoneNumber, email, nickname, sex, birth } =
       inputs;
