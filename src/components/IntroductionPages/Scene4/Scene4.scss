@@ -4,7 +4,8 @@
 
   box-sizing: border-box;
   // padding: 12.76042vw 18.75vw 0 18.75vw;
-  padding: 24.8vh 18.75vw 0 18.75vw;
+  // padding: 24.8vh 18.75vw 0 18.75vw;
+  padding: 24.8vh 0 0 18.75vw;
 
   display: flex;
   .scene4-textbox {
@@ -16,6 +17,8 @@
     text-align: left;
 
     margin-right: 2.3437vw; //45
+
+    display: inline-block;
     .scene4-title {
       position: relative;
       line-height: 42px;

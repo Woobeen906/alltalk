@@ -76,26 +76,26 @@
   .scene5-contents {
     box-sizing: border-box;
     height: 647px;
-    padding: 48px 18.75vw 0 18.75vw;
+    // padding: 48px 18.75vw 0 18.75vw;
+    padding: 48px 0 0 18.75vw;
     display: flex;
 
     .scene5-content-img {
-      width: 20vw; //384
+      width: 384px;
+      // width: 20vw; //384
       height: 27.3185vh; //271
       position: relative;
-
       img {
-        // width: 100%;
         width: 384px;
         height: 100%;
         border-radius: 10px;
       }
       .scene5-content-img-text {
         position: absolute;
-        // width: 254px;
-        width: 13.23vw;
-        // height: 104px;
-        height: 10.4838vh;
+        width: 254px;
+        // width: 13.23vw;
+        height: 104px;
+        // height: 10.4838vh;
 
         right: -102px;
         bottom: -22px;
@@ -103,8 +103,8 @@
         border-radius: 10px;
         border: 0;
         box-sizing: border-box;
-        // padding: 24px;
-        padding: 1.25vw;
+        padding: 24px;
+        // padding: 1.25vw;
         text-align: left;
         font-family: "SUIT";
         color: #ffffff;
@@ -136,7 +136,7 @@
       font-family: "SUIT";
       font-weight: 600;
       // font-size: 22px;
-      font-size: 1.1458333333vw;
+      font-size: 1.1458vw;
       line-height: 34px;
       color: #000000;
 
