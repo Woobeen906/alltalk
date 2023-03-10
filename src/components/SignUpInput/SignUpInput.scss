@@ -184,6 +184,8 @@
               row-gap: 8px;
               grid-template-columns: repeat(auto-fill, minmax(66px, 1fr));
               overflow: scroll;
+              -ms-overflow-style: none; /* IE and Edge */
+              scrollbar-width: none; /* Firefox */
             }
 
             .signUpInputStep2-input-error {

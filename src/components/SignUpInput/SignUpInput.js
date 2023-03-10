@@ -290,9 +290,9 @@ const SignUpInputStep2 = memo((props) => {
             onChange={onChangeInput}
             name={"birth"}
             value={birth}
-            error={!birthError && signUpCehck}
+            error={birthError && signUpCehck}
           />
-          {!birthError && signUpCehck && (
+          {birthError && signUpCehck && (
             <div className="signUpInputStep2-input-error">
               -생년월일을 8자리로 입력해주세요. -생년월일을 정확히 입력해주세요.
             </div>
@@ -458,7 +458,7 @@ const SignUpInput = () => {
           .then((res) => {
             if (res.data.result) {
               alert("회원가입에 성공했습니다.");
-              // navigate("/");
+              navigate("/");
             }
           })
           .catch((e) => console.log(e));
@@ -510,8 +510,9 @@ const SignUpInput = () => {
       tagsError: tagsError_check(tags),
     });
 
-    if (nicknameError && !birthError && !tagsError) {
-      signUp();
+    if (nicknameError && !birthError_check(birth) && !tagsError_check(tags)) {
+      // signUp();
+      console.log("aa");
     } else {
       setInputs({ ...inputs, signUpCehck: true });
       alert("다시 입력해주세요");
@@ -571,7 +572,6 @@ const SignUpInput = () => {
         data: frm,
       })
         .then((res) => {
-          console.log(res.data.result);
           if (res.data.result) {
             alert("사용 가능한 아이디 입니다.");
             setInputs({ ...inputs, idCheckError: true });
@@ -618,7 +618,9 @@ const SignUpInput = () => {
     return regExp.test(phoneNumber);
   };
   const nicknameError_check = (nickname) => {
-    const regExp = /^[a-zA-Z][0-9가-힣]{2,8}/;
+    // const regExp = /^[a-zA-Z][0-9가-힣]{2,8}/;
+    const regExp = /^(?=.*[a-z0-9가-힣])[a-z0-9가-힣]{2,8}$/;
+
     return regExp.test(nickname);
   };
 
