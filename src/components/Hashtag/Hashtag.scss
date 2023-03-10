@@ -33,20 +33,26 @@
   cursor: text;
 }
 .hashtagDefault {
-  box-sizing: border-box;
+  position: relative;
+
+  // box-sizing: border-box;
   min-width: 66px;
+  width: 100%;
+  width: auto;
   height: 25px;
   padding: 4px 8px;
 
-  display: flex;
+  // display: flex;
+  display: inline-block;
   justify-content: space-between;
   align-items: center;
 
   background: #eef1f4;
   border-radius: 3px;
+
   margin-right: 8px;
-  position: relative;
   border: 0;
+
   span {
     margin-left: 0.573vw;
   }
