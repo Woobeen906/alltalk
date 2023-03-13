@@ -30,6 +30,7 @@ const StoryCard = (props) => {
   const [likeCnt, setLikeCnt] = useState(like);
   const [image, setImage] = useState();
   const [profileImg, setProfile] = useState();
+  const [tagFilter, setTagFilter] = useState(false);
 
   const handleClick = async () => {
     const frm = new FormData();
@@ -72,6 +73,7 @@ const StoryCard = (props) => {
       const url = window.URL.createObjectURL(
         new Blob([res.data], { type: res.headers["content-type"] })
       );
+
       setProfile(url);
     });
   };
@@ -83,24 +85,42 @@ const StoryCard = (props) => {
       });
   };
 
+  const filterTags = () => {
+    for (let hashtag = 0; hashtag < props.hashtags.length; hashtag++) {
+      tag.split(",").find((item) => {
+        return item === props.hashtags[hashtag] && setTagFilter(true);
+      });
+    }
+  };
+
   useEffect(() => {
     Image();
     ProfileImg();
   }, []);
+
+  useEffect(() => {
+    filterTags();
+  }, [props.hashtags]);
 
   return (
     <div
       className="storycard"
       style={{
         display:
-          tag.split(",").find((item) => item === props.filter) === undefined &&
-          props.filter !== "all" &&
-          "none",
+          (tag.split(",").find((item) => item === props.filter) === undefined &&
+            props.filter !== "all") ||
+          (props.hashtags.length > 0 && !tagFilter)
+            ? "none"
+            : "",
       }}
       onClick={() => onClickDetail()}
     >
       <div className="storycard-profile">
-        <img src={profileImg} alt="profileImg" />
+        {profileImg ? (
+          <img src={profileImg} alt="profileImg" />
+        ) : (
+          <img src={require("../../assets/imgs/default.png")} />
+        )}
 
         <div className="storycard-info">
           {nickname} <br />

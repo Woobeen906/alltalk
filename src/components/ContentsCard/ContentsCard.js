@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./ContentsCard.scss";
+
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
@@ -20,6 +21,9 @@ const ContentsCard = (props) => {
     idx,
     subtitle,
     toggleActive,
+    participation,
+    like,
+    hashtags,
   } = props;
 
   const navigate = useNavigate();
@@ -28,6 +32,8 @@ const ContentsCard = (props) => {
 
   const [img, setImage] = useState();
   const [complete, setComplete] = useState();
+  const [tagFilter, setTagFilter] = useState(false);
+
   const Image = () => {
     axios({
       method: "POST",
@@ -43,13 +49,32 @@ const ContentsCard = (props) => {
   };
 
   const onClickDetail = (idx) => {
-    navigate(`/StoryDetail/${idx}`, { state: { idx: idx, root: "content" } });
+    navigate(`/StoryDetail/${idx}`, {
+      state: {
+        idx: idx,
+        root: "content",
+        participation: participation,
+        like: like,
+      },
+    });
+  };
+
+  const filterTags = () => {
+    for (let hashtag = 0; hashtag < hashtags.length; hashtag++) {
+      tags.find((item) => {
+        return item === hashtags[hashtag] && setTagFilter(true);
+      });
+    }
   };
 
   useEffect(() => {
     Image();
     setComplete(getDayMinuteCounter(new Date(deadline)).slice(1, 2) === "+");
   }, []);
+
+  useEffect(() => {
+    filterTags();
+  }, [hashtags]);
 
   return (
     <div
@@ -58,7 +83,8 @@ const ContentsCard = (props) => {
         display:
           (tags.find((item) => item === filter) === undefined &&
             filter !== "all") ||
-          complete === toggleActive
+          complete === toggleActive ||
+          (hashtags.length > 0 && !tagFilter)
             ? "none"
             : "",
       }}

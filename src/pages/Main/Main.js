@@ -24,7 +24,6 @@ const Main = () => {
   const [btnsListSelect, setBtnsListSelect] = useState(0);
   const [hashtags, setHashtags] = useState([]);
 
-  const [recruitList, setRecruitList] = useState([]); // 보여줄 전체 리스트 모집중
   const [dataList, setDataList] = useState([]); // 보여줄 전체 리스트 마감
 
   const [offset, setOffset] = useState(0); // back에 요청할 페이지 데이터 순서 정보
@@ -182,6 +181,9 @@ const Main = () => {
               filter={serverTag}
               idx={item.idx}
               toggleActive={toggleActive}
+              participation={item.participation}
+              like={item.like}
+              hashtags={hashtags}
             />
           ))}
         </div>

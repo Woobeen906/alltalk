@@ -136,16 +136,14 @@ const StoryList = () => {
           </div>
         )}
         <div className="storylist-grid">
-          {beerList.map(
-            (item, index) =>
-              index < 5 && (
-                <StoryCard
-                  item={item}
-                  filter={serverTag}
-                  key={`${index}${item}`}
-                />
-              )
-          )}
+          {beerList.map((item, index) => (
+            <StoryCard
+              item={item}
+              filter={serverTag}
+              key={`${index}${item}`}
+              hashtags={hashtags}
+            />
+          ))}
         </div>
       </div>
       <div ref={setTarget} style={{ color: "transparent" }}>
