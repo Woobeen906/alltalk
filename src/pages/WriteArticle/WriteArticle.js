@@ -31,7 +31,7 @@ const WriteArticle = () => {
     hashtags: false,
   });
   const [hashtags, setHashtags] = useState([]);
-  const [duedate, setDuedate] = useState("7일 후");
+  const [duedate, setDuedate] = useState(7);
   const [selectDate, setSelectDate] = useState(" ");
   const [activeCalendar, setActiveCalendar] = useState(false);
   const [saveModal, setSaveModal] = useState(false);
@@ -56,7 +56,7 @@ const WriteArticle = () => {
   };
 
   const onClickDuedate = (e) => {
-    setDuedate(e.currentTarget.value);
+    setDuedate(Number(e.currentTarget.value));
   };
 
   const handleCalendar = () => {
@@ -92,6 +92,22 @@ const WriteArticle = () => {
     if (!errorCheck.contents && !errorCheck.hashtags && !errorCheck.title) {
       try {
         const frm = new FormData();
+
+        if (selectDate !== "") {
+          if (duedate === 1) {
+            setSelectDate(
+              `${new Date().getFullYear()}.${
+                new Date().getMonth() + 2
+              }.${new Date().getDate()}`
+            );
+          } else {
+            setSelectDate(
+              `${new Date().getFullYear()}.${new Date().getMonth() + 1}.${
+                new Date().getDate() + duedate
+              }`
+            );
+          }
+        }
 
         Object.values(postImages).forEach((file) => frm.append("file[]", file));
 
@@ -139,7 +155,26 @@ const WriteArticle = () => {
       const { title, subTitle, contents, member } = inputData;
 
       const frm = new FormData();
-      detailImages.map((item) => frm.append("file[]", item));
+      Object.values(postImages).forEach((file) => frm.append("file[]", file));
+      console.log(selectDate === " ");
+
+      if (selectDate === " ") {
+        console.log(selectDate);
+        if (duedate === 1) {
+          setSelectDate(
+            `${new Date().getFullYear()}.${
+              new Date().getMonth() + 2
+            }.${new Date().getDate()}`
+          );
+        } else {
+          setSelectDate(
+            `${new Date().getFullYear()}.${new Date().getMonth() + 1}.${
+              new Date().getDate() + duedate
+            }`
+          );
+        }
+      }
+
       frm.append("id", localStorage.getItem("id"));
       frm.append("title", title);
       frm.append("name", "admin");
@@ -147,7 +182,7 @@ const WriteArticle = () => {
       frm.append("content", contents);
       frm.append("maxMember", member.toString());
       frm.append("tag", hashtags);
-      frm.append("deadline", new Date(selectDate).valueOf() % 1000);
+      frm.append("deadline", new Date(selectDate).valueOf() / 1000);
 
       const url = localStorage.getItem("admin")
         ? `${BASE_URL}/write/content/temp`
@@ -242,9 +277,10 @@ const WriteArticle = () => {
     e.preventDefault();
     // let fileList = e.target.files; //  사용자가 선택한 파일들
     let fileArr = e.target.files; //  사용자가 선택한 파일들
-    setPostImages(fileArr);
+    // setPostImages(fileArr);
     for (let i = 0; i < fileArr.length; i++) {
       let reader = new FileReader();
+
       reader.readAsDataURL(fileArr[i]);
 
       reader.onloadend = () => {
@@ -256,6 +292,22 @@ const WriteArticle = () => {
       };
     }
   };
+
+  const dataURLtoFile = (dataurl, fileName) => {
+    let arr = dataurl.split(","),
+      mime = arr[0].match(/:(.*?);/)[1],
+      bstr = atob(arr[1]),
+      n = bstr.length,
+      u8arr = new Uint8Array(n);
+
+    while (n--) {
+      u8arr[n] = bstr.charCodeAt(n);
+    }
+
+    return new File([u8arr], fileName, { type: mime });
+  };
+
+  // let file = dataURLtoFile('data:text/plain;base64,aGVsbG8gd29ybGQ=','hello.txt');
 
   const Modal = () => {
     setSaveModal(!saveModal);
@@ -287,6 +339,9 @@ const WriteArticle = () => {
           setHashtags={setHashtags}
           inputData={inputData}
           setInputData={setInputData}
+          detailImages={detailImages}
+          setDetailImages={setDetailImages}
+          setSelectDate={setSelectDate}
         />
       )}
 
@@ -348,8 +403,10 @@ const WriteArticle = () => {
               <Imageuploader
                 List={detailImages}
                 setlist={setDetailImages}
+                // List={postImages}
+                // setlist={setPostImages}
                 onChange={uploadFile}
-                setPostImages={setPostImages}
+                dataURLtoFile={dataURLtoFile}
               />
             </span>
           </li>
@@ -394,6 +451,7 @@ const WriteArticle = () => {
                       type={"text"}
                       placeholder="단위 없이 숫자만 입력해주세요."
                       onChange={(e) => onChangeInputs("member", e)}
+                      value={inputData.member}
                       error={errorCheck.member}
                       writeArticle={true}
                     />
@@ -411,30 +469,30 @@ const WriteArticle = () => {
                 <span className="writearticle-manager-input">
                   <button
                     onClick={onClickDuedate}
-                    value={"7일 후"}
+                    value={7}
                     id="writearticle-input-button"
                     className={`${
-                      duedate === "7일 후" && "writearticle-duedate"
+                      duedate === 7 && "writearticle-duedate"
                     } writearticle-input-button`}
                   >
                     7일 후
                   </button>
                   <button
                     onClick={onClickDuedate}
-                    value={"14일 후"}
+                    value={14}
                     id="writearticle-input-button"
                     className={`${
-                      duedate === "14일 후" && "writearticle-duedate"
+                      duedate === 14 && "writearticle-duedate"
                     } writearticle-input-button`}
                   >
                     14일 후
                   </button>
                   <button
                     onClick={onClickDuedate}
-                    value={"1달 후"}
+                    value={1}
                     id="writearticle-input-button"
                     className={`${
-                      duedate === "1달 후" && "writearticle-duedate"
+                      duedate === 1 && "writearticle-duedate"
                     } writearticle-input-button`}
                   >
                     1달 후
