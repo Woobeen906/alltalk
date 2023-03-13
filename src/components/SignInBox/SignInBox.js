@@ -58,6 +58,19 @@ const SignInBox = () => {
     });
   };
 
+  const userProfileImg = () => {
+    axios({
+      method: "POST",
+      url: `${BASE_URL}/util/${signInData.id}/profile`,
+      responseType: "blob",
+    }).then((res) => {
+      const url = window.URL.createObjectURL(
+        new Blob([res.data], { type: res.headers["content-type"] })
+      );
+      localStorage.setItem("userProfile", url);
+    });
+  };
+
   const signinBtn = async () => {
     try {
       const frm = new FormData();
@@ -69,15 +82,20 @@ const SignInBox = () => {
         url: `${BASE_URL}/signin`,
         data: frm,
       }).then((res) => {
-        console.log(res.data.result === true);
         if (res.data.result === true) {
           navigate("/");
           setLoggedIn();
 
           localStorage.setItem("login", res.data.result);
           localStorage.setItem("id", signInData.id);
+
           adminCheck();
           userDataSave();
+          userProfileImg();
+
+          setTimeout(() => {
+            window.location.reload();
+          }, 500);
         } else {
           setError(true);
           // alert("아이디와 비밀번호를 확인해주세요.");
