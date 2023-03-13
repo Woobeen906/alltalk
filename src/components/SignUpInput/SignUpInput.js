@@ -3,10 +3,10 @@ import "./SignUpInput.scss";
 
 import axios from "axios";
 import { BASE_URL } from "config";
+import { useNavigate } from "react-router-dom";
 
 import Input from "components/Input/Input";
 import Space from "components/Space/Space";
-import { useNavigate } from "react-router-dom";
 
 const SignUpInputStep1 = memo((props) => {
   const {

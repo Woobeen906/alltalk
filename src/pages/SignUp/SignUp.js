@@ -17,7 +17,7 @@ const SignUp = () => {
   });
   return (
     <div className="signUp">
-      <Space size={isMobile ? 99 : 79} />
+      {/* <Space size={isMobile ? 99 : 79} /> */}
       <SignUpBox />
       {/* <div className="signUp-sns">SNS로 간편하게 회원가입</div>
       <div className="signUp-socialBtns">
