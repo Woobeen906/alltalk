@@ -5,7 +5,7 @@ import { throttle } from "lodash";
 import { useMediaQuery } from "react-responsive";
 
 const ImageUploader = (props) => {
-  const { onChange, List, setlist, setPostImages } = props;
+  const { onChange, List, setlist, dataURLtoFile } = props;
 
   const isMobile = useMediaQuery({
     query: "(min-width:960px)",
@@ -33,6 +33,10 @@ const ImageUploader = (props) => {
 
     List.splice(e.target.id, 1);
     List.splice(id, 0, e.target.src);
+
+    List.map((item, index) => dataURLtoFile(item, `${item}${index}`));
+
+    console.log(List);
   };
 
   const onTouchStart = (e) => {
