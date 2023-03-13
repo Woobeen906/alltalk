@@ -22,33 +22,24 @@ const Header = (props) => {
 
   const [headerCss, setHeaderCss] = useState(true);
   const [modal, setModal] = useState(false);
-  const [profileImg, setProfileImg] = useState(false);
+  const [profileImg, setProfileImg] = useState();
+  const [mount, setMount] = useState(false);
 
   useEffect(() => {
     if (page === 0 || page === 2) setHeaderCss(true);
     else setHeaderCss(false);
   }, [page]);
 
-  const onTopBtn = (e) => {
+  const onTopBtn = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
-
-  useEffect(() => {
-    setModal(false);
-
-    Image();
-  }, []);
-
-  useEffect(() => {
-    setModal(false);
-  }, [location.pathname]);
 
   const handleModal = () => {
     setModal(!modal);
   };
 
-  const Image = () => {
-    axios({
+  const Image = async () => {
+    await axios({
       method: "POST",
       url: `${BASE_URL}/util/${localStorage.getItem("id")}/profile`,
       responseType: "blob",
@@ -59,6 +50,22 @@ const Header = (props) => {
       setProfileImg(url);
     });
   };
+
+  useEffect(() => {
+    setModal(false);
+    setTimeout(() => {
+      setMount(true);
+    }, 500);
+  }, []);
+
+  useEffect(() => {
+    Image();
+  }, [mount]);
+
+  useEffect(() => {
+    setModal(false);
+  }, [location.pathname]);
+
   return (
     <header
       className="Header"
@@ -180,9 +187,16 @@ const Header = (props) => {
                         onClick={() => handleModal()}
                       >
                         {profileImg ? (
-                          <img src={profileImg} />
+                          <>
+                            <img src={profileImg} alt="userProfile" />
+                            {/* {localStorage.getItem("userProfile")} */}
+                          </>
                         ) : (
-                          <img src={require("../../assets/imgs/default.png")} />
+                          <>
+                            <img
+                              src={require("../../assets/imgs/default.png")}
+                            />
+                          </>
                         )}
                       </button>
                       {modal && <ProfileCard onHandleModal={handleModal} />}
@@ -272,7 +286,14 @@ const Header = (props) => {
                           }}
                           onClick={() => handleModal()}
                         >
-                          <img src={require("../../assets/imgs/default.png")} />
+                          {profileImg ? (
+                            <img src={profileImg} alt="userProfile" />
+                          ) : (
+                            <img
+                              src={require("../../assets/imgs/default.png")}
+                              alt="noProfileImg"
+                            />
+                          )}
                         </button>
                         {modal && <ProfileCard onHandleModal={handleModal} />}
                       </>

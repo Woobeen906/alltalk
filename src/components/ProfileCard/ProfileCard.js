@@ -46,7 +46,7 @@ const ProfileCard = (props) => {
     <div className="profileCard">
       <div className="profileCard-top">
         <div className="profileCard-profile">
-          <img src={profileImg} />
+          {profileImg && <img src={profileImg} />}
         </div>
         <div className="profileCard-text">
           {nickname}
